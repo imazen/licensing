@@ -2,7 +2,10 @@
   "name": "imazen-licensing",
   "version": "0.0.1",
   "description": "Licensing for Commercial Versions of Imazen Tools",
-  "main": "index.js",
+  "main": "handler.js",
+  "dependencies": {
+    "chargebee": ">=2 <3"
+  },
   "scripts": {
     "test": "mocha"
   },
@@ -15,8 +18,5 @@
   "bugs": {
     "url": "https://github.com/imazen/imazen-licensing/issues"
   },
-  "homepage": "https://github.com/imazen/imazen-licensing#readme",
-  "dependencies": {
-    "chargebee": ">=2 <3"
-  }
+  "homepage": "https://github.com/imazen/imazen-licensing#readme"
 }
