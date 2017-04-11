@@ -4,7 +4,7 @@
   "description": "Licensing for Commercial Versions of Imazen Tools",
   "main": "handler.js",
   "dependencies": {
-    "chargebee": ">=2 <3"
+    "request": "^2.81.0"
   },
   "scripts": {
     "test": "mocha"
