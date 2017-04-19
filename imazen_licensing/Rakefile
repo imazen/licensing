@@ -1,2 +1,51 @@
 require "bundler/gem_tasks"
 
+require 'rake/testtask'
+
+Rake::TestTask.new do |t|
+  t.pattern = "test/**/*.rb"
+end
+
+
+
+task :show_public_info do |t, args|
+  rsa = OpenSSL::PKey::RSA.new(ENV['LICENSE_SIGNING_KEY_BLOB'].gsub(/\\n/,"\n"), "if-the-attacker-can-access-both-source-and-env-vars-then-we-lose")
+  puts "Public exponent #{rsa.params['e'].to_s} and modulus #{rsa.params['n'].to_s}\n"
+end
+
+
+task :make_private_key, [:pass_phrase] do |t, args|
+  rsa = OpenSSL::PKey::RSA.new 2048
+  key = rsa.export(OpenSSL::Cipher::AES256.new(:CBC), args[:pass_phrase])
+  File.open('imazen_private_signing_key.pem', 'w') {|f| f.write(key) }
+end
+
+task :license, [:pass_phrase, :domain, :owner, :features] do |t, args|
+  rsa = OpenSSL::PKey::RSA.new(File.read('imazen_private_signing_key.pem'),args[:pass_phrase])
+  g = ImazenLicensing::LicenseGenerator.new
+  text = "Domain: #{args[:domain]}\nOwner: #{args[:owner]}\nIssued: #{Time.now.utc.iso8601}\nFeatures: #{args[:features]}\n"
+  license = g.produce_full_license(args[:domain], text, rsa)
+
+  worked = true
+  `mono -V`
+  if !$?.success?
+
+    puts("Mono not installed, skipping license C# parse test\n")
+  else
+    cs =  ImazenLicensing::LicenseVerifierCs.new
+    worked = cs.verify(license, g.get_modulus(rsa), g.get_exponent(rsa),true,false)
+    g.print_debug_info(text, rsa) unless worked
+  end
+
+
+
+
+
+  puts "Using exponent #{rsa.params['e'].to_s} and modulus #{rsa.params['n'].to_s}\n"
+  puts "Encoding license:\n#{text}\n"
+  puts "Result:\n#{license}"
+
+end
+
+
+task :default => ['test']
