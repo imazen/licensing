@@ -1,6 +1,7 @@
 require "bundler/gem_tasks"
 
 require 'rake/testtask'
+require 'openssl'
 
 Rake::TestTask.new do |t|
   t.pattern = "test/**/*.rb"
