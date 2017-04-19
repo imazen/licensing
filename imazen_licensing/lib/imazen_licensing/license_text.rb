@@ -19,7 +19,7 @@ module ImazenLicensing
              :restrictions]
 
 
-    attr_accessor *FIELDS
+    attr_accessor(*FIELDS)
  
     
     def stringify(v)
@@ -56,7 +56,7 @@ module ImazenLicensing
     def sign(signing_key, key_passphrase)
       g = ::ImazenLicensing::LicenseGenerator.new
       rsa = OpenSSL::PKey::RSA.new(signing_key, key_passphrase)
-      self.full = g.produce_full_license(summary, text, self.body)
+      self.full = g.produce_full_license(summary, self.body, rsa)
     end 
 
     #def decoded

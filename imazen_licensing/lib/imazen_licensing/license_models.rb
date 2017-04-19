@@ -53,7 +53,7 @@ module ImazenLicensing
       l.features = ["R4Elite", "R4Creative", "R4Performance"]
       l.restrictions = []
       l
-    end 
+    end
     def site_license_1yr_v4
       l = LicenseText.new 
       l.sku = "R4Performance"

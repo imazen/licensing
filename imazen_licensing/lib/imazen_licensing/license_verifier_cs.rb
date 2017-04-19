@@ -12,7 +12,7 @@ module ImazenLicensing
       abort "Failed to compile #{@path}: #{output}" unless $?.success?
     end 
 
-    def verify (data, modulus, exponent, debug, verbose)
+    def verify(data, modulus, exponent, debug, verbose)
 
       ensure_compiled
 
