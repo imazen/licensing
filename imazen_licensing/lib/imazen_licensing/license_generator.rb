@@ -5,7 +5,7 @@ module ImazenLicensing
       new.generate(options, key, passphrase)
     end
 
-    def generate(options, key, passsphrase)
+    def generate(options, key, passphrase)
       sanitized = sanitize(options)
       text = license_text(sanitized)
       "#{summary(sanitized)}\n#{sign(text, key, passphrase)}"
@@ -17,21 +17,20 @@ module ImazenLicensing
     end
 
     def license_text(options)
-      licenser(options).body(options)
+      licenser(options).new(options).body
+    end
+
+    def summary(options)
+      licenser(options).new(options).summary
     end
 
     def sign(license_text, key, passphrase)
       LicenseSigner.sign(license_text, key, passphrase)
     end
 
-    def summary(options)
-      licenser(options).summary(options)
-    end
-
     def licenser(options)
       case options[:kind]
-        when 'subscription'
-        when 'version'
+        when 'subscription', 'version'
           V2LicenseText
         when 'domain'
           V1LicenseText
