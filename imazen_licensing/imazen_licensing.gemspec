@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = ImazenLicensing::VERSION
   spec.authors       = ["Nathanael Jones"]
   spec.email         = ["nathanael.jones@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Licensing module for Imazen products}
+  spec.description   = %q{Licensing module for Imazen products}
   spec.homepage      = ""
   spec.license       = "MIT"
 
