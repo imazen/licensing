@@ -10,16 +10,16 @@ module ImazenLicensing
 REQUIRED=[:domain, :owner, :issued, :features, :sku]
 MUST_BE_DATES=[:issued, :expires, :no_releases_after]
     def validate
-      unless (@data.keys - REQUIRED).empty?
+      unless (REQUIRED - @data.keys).empty?
         raise "#{self.class.name} requires fields #{REQUIRED}"
       end
-      unless @data.select{ |k,v| MUST_BE_DATES.include? (k)}.all?{|k,v| v.responds_to?(:iso8601)}
+      unless @data.select{ |k,v| MUST_BE_DATES.include? (k)}.all?{|k,v| v.respond_to?(:iso8601)}
         raise "#{self.class.name} requires fields #{MUST_BE_DATES} to be valid dates and respond to .iso8601"
       end
     end 
 
     def summary
-      "#{data.domain}(#{data.sku || 'SKU missing'} includes #{stringify(data.features)})"
+      "#{data[:domain]}(#{data[:sku] || 'SKU missing'} includes #{stringify(data[:features])})"
     end 
 
     def stringify(v)
@@ -34,8 +34,8 @@ MUST_BE_DATES=[:issued, :expires, :no_releases_after]
     
     def body
       data.map do |k,v|
-        key_str = k.is_a(Symbol) ? key.to_s.split('_').map(&:capitalize).join("") : k
-        "#{key_str}: #{stringify(value)}"
+        key_str = k.is_a?(Symbol) ? k.to_s.split('_').map(&:capitalize).join("") : k
+        "#{key_str}: #{stringify(v)}"
       end.compact.join("\n")
     end 
   end
