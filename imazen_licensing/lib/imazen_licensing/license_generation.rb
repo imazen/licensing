@@ -1,7 +1,7 @@
 require 'base64'
 
 module ImazenLicensing
-  class LicenseGenerator
+  class LicenseGeneration
 
     
     def sign_text(text, rsa)
