@@ -3,10 +3,18 @@ module ImazenLicensing
     attr_reader :data
 
     REQUIRED = [
+      :kind,
       :owner,
       :issued,
       :features,
       :product
+    ]
+
+    REQUIRE_FOR_ID = [
+      :kind,
+      :id,
+      :secret,
+      :is_public
     ]
     MUST_BE_DATES=[:issued, :expires, :no_releases_after]
 
@@ -16,11 +24,17 @@ module ImazenLicensing
     end
 
     def validate
-      unless (REQUIRED - @data.keys).empty?
-        raise "#{self.class.name} requires fields #{REQUIRED}"
-      end
-      unless @data.select{ |k,v| MUST_BE_DATES.include? (k)}.all?{|k,v| v.respond_to?(:iso8601)}
-        raise "#{self.class.name} requires fields #{MUST_BE_DATES} to be valid dates and respond to .iso8601"
+      if data[:kind] == 'id' then
+          unless (REQUIRE_FOR_ID - @data.keys).empty?
+          raise "#{self.class.name} requires fields #{REQUIRED}"
+        end
+      else
+        unless (REQUIRED - @data.keys).empty?
+          raise "#{self.class.name} requires fields #{REQUIRED}"
+        end
+        unless @data.select{ |k,v| MUST_BE_DATES.include? (k)}.all?{|k,v| v.respond_to?(:iso8601)}
+          raise "#{self.class.name} requires fields #{MUST_BE_DATES} to be valid dates and respond to .iso8601"
+        end
       end
     end
 

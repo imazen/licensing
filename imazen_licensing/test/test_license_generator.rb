@@ -21,6 +21,16 @@ module ImazenLicensing
       }
     end
 
+    def id_license
+      {
+        kind: 'id',
+        id: '115153162',
+        secret: '1qggq12t2qwgwg4c2d2dqwfweqfw',
+        is_public: false,
+        max_uncached_grace_minutes: 8 * 60
+      }
+    end
+
     def domain_license
       {
         kind: 'domain',
@@ -59,6 +69,15 @@ Product: #{license[:product]}
 Features: #{license[:features].join(' ')}"
     end
 
+    def formatted_v2_id(license)
+      "Kind: id
+Id: #{license[:id]}
+Secret: #{license[:secret]}
+IsPublic: false
+MaxUncachedGraceMinutes: #{license[:max_uncached_grace_minutes]}"
+    end
+
+
     def key
       @key ||= File.read("#{File.dirname(__FILE__)}/support/test_private_key.pem")
     end
@@ -74,6 +93,17 @@ Features: #{license[:features].join(' ')}"
 
       assert_equal "imageresizer", summary
       assert_equal formatted_v2(subscription_license), Base64.strict_decode64(body)
+      assert verify_rsa(signed, decoded_body, key, passphrase)
+    end
+
+
+    def test_id_license
+      generated = LicenseGenerator.generate(id_license, key, passphrase)
+      summary, body, signed = generated.split(':').map(&:strip)
+      decoded_body = Base64.strict_decode64(body).force_encoding('UTF-8')
+
+      assert_equal "", summary
+      assert_equal formatted_v2_id(id_license), Base64.strict_decode64(body)
       assert verify_rsa(signed, decoded_body, key, passphrase)
     end
 

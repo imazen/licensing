@@ -35,7 +35,7 @@ module ImazenLicensing
 
     def licenser(options)
       case options[:kind]
-        when 'subscription', 'version'
+        when 'subscription', 'id', 'version'
           V2LicenseText
         when 'domain'
           V1LicenseText
