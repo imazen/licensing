@@ -2,37 +2,37 @@
 
 require "minitest/autorun"
 require "openssl"
+require "date"
+require "base64"
 require "imazen_licensing"
+require "#{File.dirname(__FILE__)}/support/license_verifier_cs"
 
 module ImazenLicensing
 
   class TestLicenses <  Minitest::Test
-    ORG_SIZE_RESTRICTIONS = ["< 25", "< 100", "< 500", "< 2000"].map{|v| "For orgs with #{v} employees."}
-    USAGE_RESTRICTIONS = ["NON-PROFIT USE ONLY", 
-                          "EDUCATIONAL USE ONLY", 
-                          "PERSONAL USE ONLY", 
-                          "NON-COMMERCIAL USE ONLY",
-                          "STAGING/TESTING USE ONLY",
-                          "SMALL BUSINESS USE ONLY (< 100k yearly revenue)",
-                          "No SAAS resale", "No OEM distribution"]
-    FEATURES = ["imageflow_tool", "imageflow_server std", "imageflow_server datacenter", "libimageflow", "IR_Creative", "IR_Performance", "IR_Elite"]                 
+
+    def issued
+      @issued ||= DateTime.now
+    end
 
     def domain_license
-      l = LicenseText.new 
-      l.sku = "IF_Domain"
-      l.product = "Imageflow Domain license"
-      l.owner = "Acme Corp"
-      l.kind = "domain"
-      l.status = "OK"
-      l.domain = "acme.com"
-      l.is_public = true
-      l.locator = 1,
-      l.issued = Time.now.utc - (24*60*60)
-      l.expires = Time.now.utc + (24*60*60*30)
-      l.features = FEATURES
-      l.restrictions = USAGE_RESTRICTIONS
-      l
-    end 
+      {
+        kind: 'domain',
+        sku: 'R4Performance',
+        domain: 'acme.com',
+        owner: 'Acme',
+        issued: issued,
+        features: ['R4Performance']
+      }
+    end
+
+    def key
+      @key ||= File.read("#{File.dirname(__FILE__)}/support/test_private_key.pem")
+    end
+
+    def passphrase
+      'testpass'
+    end
 
     def mono_works
       begin 
@@ -42,22 +42,32 @@ module ImazenLicensing
       $?.success?
     end 
 
-    def roundtrip(verifier, summary, text )
-      g = ImazenLicensing::LicenseGeneration.new
-      rsa = OpenSSL::PKey::RSA.new 2048
-      license = g.produce_full_license(summary, text, rsa)
-      worked = verifier.verify(license, g.get_modulus(rsa), g.get_exponent(rsa),true,false)
+    def roundtrip(verifier)
+      license = LicenseGenerator.generate(domain_license, key, passphrase)
 
-      g.print_debug_info(text, rsa) unless worked
+      modulus, exponent = get_crypto_data(key, passphrase)
+
+      worked = verifier.verify(license, modulus, exponent, true, false)
 
       assert_equal true, worked
-    end 
+    end
+
+    def get_crypto_data(key, passphrase)
+      rsa = LicenseSigner.new.rsa(key, passphrase)
+      [
+        Base64.strict_encode64(rsa.params['n'].to_s),
+        Base64.strict_encode64(rsa.params['e'].to_s)
+      ]
+    end
+
     def test_roundtrip
       assert mono_works
       #skip("Mono not installed, skipping licenses roundtrip test") unless $?.success?
-      cs =  ImazenLicensing::LicenseVerifierCs.new
-      10.times do 
-        roundtrip(cs, domain_license.summary, domain_license.body)
+      cs = ImazenLicensing::LicenseVerifierCs.new
+      license = LicenseGenerator.new
+
+      10.times do
+        roundtrip(cs)
       end 
     end 
   end 

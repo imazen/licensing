@@ -1,5 +1,7 @@
 require "minitest/autorun"
 require "openssl"
+require "date"
+require "base64"
 require "imazen_licensing"
 
 module ImazenLicensing
