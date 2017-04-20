@@ -20,7 +20,7 @@ MUST_BE_DATES=[:issued, :expires, :no_releases_after]
 
     def summary
       "#{data[:domain]}(#{data[:sku] || 'SKU missing'} includes #{stringify(data[:features])})"
-    end 
+    end
 
     def stringify(v)
       if v.is_a?(Array) then 

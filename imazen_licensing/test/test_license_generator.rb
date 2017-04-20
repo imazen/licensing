@@ -12,8 +12,9 @@ module ImazenLicensing
     def subscription_license
       {
         kind: 'subscription',
-        sku: 'subscription_test',
+        owner: 'Acme',
         issued: issued,
+        product: 'imageresizer',
         features: ['R4Elite']
       }
     end
@@ -39,12 +40,20 @@ module ImazenLicensing
       }
     end
 
-    def formatted(license)
+    def formatted_v1(license)
       "Kind: #{license[:kind]}
 Sku: #{license[:sku]}
 Domain: #{license[:domain]}
 Owner: #{license[:owner]}
 Issued: #{license[:issued].iso8601}
+Features: #{license[:features].join(' ')}"
+    end
+
+    def formatted_v2(license)
+      "Kind: #{license[:kind]}
+Owner: #{license[:owner]}
+Issued: #{license[:issued].iso8601}
+Product: #{license[:product]}
 Features: #{license[:features].join(' ')}"
     end
 
@@ -59,9 +68,11 @@ Features: #{license[:features].join(' ')}"
     def test_subscription_license
       generated = LicenseGenerator.generate(subscription_license, key, passphrase)
       summary, body, signed = generated.split(':').map(&:strip)
-      assert_equal summary, ""
-      assert_equal formatted(subscription_license), Base64.strict_decode64(body)
-      assert verify_rsa(signed, body, key, passphrase)
+      decoded_body = Base64.strict_decode64(body).force_encoding('UTF-8')
+
+      assert_equal "imageresizer", summary
+      assert_equal formatted_v2(subscription_license), Base64.strict_decode64(body)
+      assert verify_rsa(signed, decoded_body, key, passphrase)
     end
 
     def test_domain_license
@@ -69,8 +80,8 @@ Features: #{license[:features].join(' ')}"
       summary, body, signature = generated.split(':').map(&:strip)
       decoded_body = Base64.strict_decode64(body).force_encoding('UTF-8')
 
-      assert_equal summary, "acme.com(R4Performance includes R4Performance)"
-      assert_equal formatted(domain_license), decoded_body
+      assert_equal "acme.com(R4Performance includes R4Performance)", summary
+      assert_equal formatted_v1(domain_license), decoded_body
       assert verify_rsa(signature, decoded_body, key, passphrase)
     end
 
