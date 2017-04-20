@@ -14,10 +14,12 @@ module ImazenLicensing
     def subscription_license
       {
         kind: 'subscription',
+        id: '115153162',
         owner: 'Acme',
         issued: issued,
         product: 'imageresizer',
-        features: ['R4Elite']
+        features: ['R4Elite'],
+        is_public: true,
       }
     end
 
@@ -63,10 +65,12 @@ Features: #{license[:features].join(' ')}"
 
     def formatted_v2(license)
       "Kind: #{license[:kind]}
+Id: #{license[:id]}
 Owner: #{license[:owner]}
 Issued: #{license[:issued].iso8601}
 Product: #{license[:product]}
-Features: #{license[:features].join(' ')}"
+Features: #{license[:features].join(' ')}
+IsPublic: #{license[:is_public]}"
     end
 
     def formatted_v2_id(license)

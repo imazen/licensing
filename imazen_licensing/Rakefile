@@ -2,6 +2,7 @@ require "bundler/gem_tasks"
 
 require 'rake/testtask'
 require 'openssl'
+require 'imazen_licensing'
 
 Rake::TestTask.new do |t|
   t.pattern = "test/**/*.rb"
@@ -38,15 +39,42 @@ task :license, [:pass_phrase, :domain, :owner, :features] do |t, args|
     g.print_debug_info(text, rsa) unless worked
   end
 
-
-
-
-
   puts "Using exponent #{rsa.params['e'].to_s} and modulus #{rsa.params['n'].to_s}\n"
   puts "Encoding license:\n#{text}\n"
   puts "Result:\n#{license}"
-
 end
+
+
+task :generate_examples do 
+  key = File.read("#{File.dirname(__FILE__)}/test/support/test_private_key.pem")
+  passphrase =  'testpass'
+  rsa = OpenSSL::PKey::RSA.new(key,passphrase)
+  puts "Generating licenses\n"
+  puts "Using exponent #{rsa.params['e'].to_s} and modulus #{rsa.params['n'].to_s}\n"
+  id_license = {
+      kind: 'id',
+      id: '115153162',
+      secret: '1qggq12t2qwgwg4c2d2dqwfweqfw',
+      is_public: false,
+      max_uncached_grace_minutes: 8 * 60
+    }
+
+
+  subscription_license =  {
+        id: id_license[:id],
+        kind: 'subscription',
+        owner: 'Acme Corp',
+        issued: Time.now.utc - (24*60*60),
+        expires: Time.now.utc + (24*60*60 * 180),
+        is_public: true,
+        product: 'ImageResizer Elite Subscription',
+        features: ['R4Elite', 'R4Creative', 'R4Performance'],
+        restrictions: 'Only for testing; not legal for production use.'
+      }
+    IO.write("license_id.txt", ImazenLicensing::LicenseGenerator.generate(id_license, key, passphrase))
+    IO.write("license_remote.txt", ImazenLicensing::LicenseGenerator.generate(subscription_license, key, passphrase))
+     
+end 
 
 
 task :default => ['test']

@@ -3,6 +3,8 @@ module ImazenLicensing
     attr_reader :data
 
     REQUIRED = [
+      :id, 
+      :is_public,
       :kind,
       :owner,
       :issued,
