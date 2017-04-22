@@ -18,4 +18,20 @@ describe ("license generation", function(){
     var expected = "summary:S2V5OiB2YWx1ZQpLZXkgMjogdmFsdWU=:auhob+qPOOwdIz2KhwPXF8rtSnh1EkCDz+0cca8yx2C+pWVEauCseFOHtQxgXgJG2TnViQsLyaB+ocktjR8JFIn6D7j9Z2SmA10vEALpEMPyWHsAmqAtaJNfrWkwpfE3ft6cl2NAb85BRFLeTkXFTHvpQm05X2fDlmLz74P4Mwjm2nDIcLz0t2wM0Syfn3gkGU/5PaoTMNcOhp8BGNd9mB/QDlFfsuWanOmtrxcEeloMtb6zgj8YCSPOxVLqhiRg8PqFe6IglSbIYI4IxZWhXbwHhN3nn6nMRKoRpn6xAo6edqmMUFTaxECMiLRd3sn3qiXFjlMNF/3vsYMmLc3/fg==";
     assert.equal(actual, expected);
   });
+
+  it ("should generate an ID license", function() {
+    var test_private_key = fs.readFileSync(__dirname + "/test.pem");
+    var actual = generate.fullLicenseFor({
+      summary: "license secret",
+      fields: {
+        Kind: "Id",
+        Id: 1503950351,
+        Secret: "gsgt224wgae092gjalggxt99tgss",
+        IsPublic: false,
+        "Max Uncached Grace Minutes": (60 * 8)
+      }
+    }, test_private_key, "test");
+    var expected = "summary:S2V5OiB2YWx1ZQpLZXkgMjogdmFsdWU=:auhob+qPOOwdIz2KhwPXF8rtSnh1EkCDz+0cca8yx2C+pWVEauCseFOHtQxgXgJG2TnViQsLyaB+ocktjR8JFIn6D7j9Z2SmA10vEALpEMPyWHsAmqAtaJNfrWkwpfE3ft6cl2NAb85BRFLeTkXFTHvpQm05X2fDlmLz74P4Mwjm2nDIcLz0t2wM0Syfn3gkGU/5PaoTMNcOhp8BGNd9mB/QDlFfsuWanOmtrxcEeloMtb6zgj8YCSPOxVLqhiRg8PqFe6IglSbIYI4IxZWhXbwHhN3nn6nMRKoRpn6xAo6edqmMUFTaxECMiLRd3sn3qiXFjlMNF/3vsYMmLc3/fg==";
+    assert.equal(actual, expected);
+  });
 });
