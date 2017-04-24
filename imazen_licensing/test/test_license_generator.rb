@@ -29,7 +29,8 @@ module ImazenLicensing
         id: '115153162',
         secret: '1qggq12t2qwgwg4c2d2dqwfweqfw',
         is_public: false,
-        max_uncached_grace_minutes: 8 * 60
+        max_uncached_grace_minutes: 8 * 60,
+        owner: 'Acme Corp'
       }
     end
 
@@ -78,7 +79,8 @@ IsPublic: #{license[:is_public]}"
 Id: #{license[:id]}
 Secret: #{license[:secret]}
 IsPublic: false
-MaxUncachedGraceMinutes: #{license[:max_uncached_grace_minutes]}"
+MaxUncachedGraceMinutes: #{license[:max_uncached_grace_minutes]}
+Owner: #{license[:owner]}"
     end
 
 
@@ -106,7 +108,7 @@ MaxUncachedGraceMinutes: #{license[:max_uncached_grace_minutes]}"
       summary, body, signed = generated.split(':').map(&:strip)
       decoded_body = Base64.strict_decode64(body).force_encoding('UTF-8')
 
-      assert_equal "", summary
+      assert_equal "License 115153162 for Acme Corp", summary
       assert_equal formatted_v2_id(id_license), Base64.strict_decode64(body)
       assert verify_rsa(signed, decoded_body, key, passphrase)
     end

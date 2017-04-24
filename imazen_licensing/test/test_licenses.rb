@@ -64,8 +64,6 @@ module ImazenLicensing
       assert mono_works
       #skip("Mono not installed, skipping licenses roundtrip test") unless $?.success?
       cs = ImazenLicensing::LicenseVerifierCs.new
-      license = LicenseGenerator.new
-
       10.times do
         roundtrip(cs)
       end 

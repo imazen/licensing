@@ -27,7 +27,7 @@ module ImazenLicensing
 
     def validate
       if data[:kind] == 'id' then
-          unless (REQUIRE_FOR_ID - @data.keys).empty?
+        unless (REQUIRE_FOR_ID - @data.keys).empty?
           raise "#{self.class.name} requires fields #{REQUIRED}"
         end
       else
@@ -48,7 +48,15 @@ module ImazenLicensing
     end
 
     def summary
-      data[:product]
+      if data[:kind] == 'id' then
+        if data[:owner]
+          "License #{data[:id]} for #{data[:owner]}"
+        else
+          "License #{data[:id]}"
+        end
+      else
+        data[:product]
+      end
     end
 
     def stringify(v)

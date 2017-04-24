@@ -2,14 +2,17 @@ require 'open3'
 
 module ImazenLicensing
   class LicenseVerifierCs
-
+    def initialize
+      @path = nil
+    end 
     def ensure_compiled
-      return if @path
-      @path = File.expand_path(File.join(File.dirname(__FILE__),"signature_verify"))
+      if @path.nil?
+        @path = File.expand_path(File.join(File.dirname(__FILE__),"signature_verify"))
 
-      output = `mcs #{@path}.cs -g -out:#{@path}.exe  -r:System.Numerics.dll`
+        output = `mcs #{@path}.cs -g -out:#{@path}.exe  -r:System.Numerics.dll`
 
-      abort "Failed to compile #{@path}: #{output}" unless $?.success?
+        abort "Failed to compile #{@path}: #{output}" unless $?.success?
+      end
     end 
 
     def verify(data, modulus, exponent, debug, verbose)
