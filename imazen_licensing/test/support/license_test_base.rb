@@ -29,7 +29,7 @@ module ImazenLicensing
         Dir.mkdir(dirname)
       end
 
-      license = LicenseGenerator.generate(hash, key, passphrase)
+      license = generate_for(hash)
       File.write(license_path(name, hash), license)
       _, plain, _ = license_parse(license)
       File.write(license_path("#{name}_plain" , hash), plain)
@@ -49,15 +49,16 @@ module ImazenLicensing
       [summary, decoded_body, signed]
     end 
 
+    def generate_for(hash)
+      LicenseGenerator.generate(hash, key, passphrase)
+    end
     def plaintext_for(hash)
-      generated = LicenseGenerator.generate(hash, key, passphrase)
-      summary, decoded_body, _ = license_parse(generated)
+      summary, decoded_body, _ = license_parse(generate_for(hash))
       "#{summary}:...\n\n#{decoded_body}"
     end 
 
     def license_compare(name, hash)
-      generated = LicenseGenerator.generate(hash, key, passphrase)
-      summary, decoded_body, signed = license_parse(generated)
+      summary, decoded_body, signed = license_parse(generate_for(hash))
       assert verify_rsa(signed, decoded_body, key, passphrase)
       
       expected = File.read(license_path(name, hash))

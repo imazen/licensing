@@ -4,6 +4,8 @@ require 'rake/testtask'
 require 'openssl'
 require 'imazen_licensing'
 
+require_relative 'test/test_remote_licenses'
+
 Rake::TestTask.new do |t|
   t.pattern = "test/**/*.rb"
 end
@@ -45,68 +47,17 @@ task :license, [:pass_phrase, :domain, :owner, :features] do |t, args|
 end
 
 
-def example_license_id
-  '115153162'
-end
-
-def example_license_secret
-  '1qggq12t2qwgwg4c2d2dqwfweqfw'
-end
-
-def example_subscription_license
-  {
-    id: example_license_id,
-    kind: 'subscription',
-    owner: 'Acme Corp',
-    issued: Time.now.utc - (24*60*60),
-    expires: Time.now.utc + (24*60*60 * 180),
-    is_public: true,
-    product: 'ImageResizer Elite Subscription',
-    features: ['R4Elite', 'R4Creative', 'R4Performance'],
-    restrictions: 'Only for testing; not legal for production use.'
-  }
-end 
-
-def example_id_license
-  {
-    kind: 'id',
-    id: example_license_id,
-    secret: example_license_secret,
-    is_public: false,
-    max_uncached_grace_minutes: 8 * 60
-  }
-end 
-
-def test_key(verbose: true)
-  key = File.read("#{File.dirname(__FILE__)}/test/support/test_private_key.pem")
-  passphrase =  'testpass'
-  if verbose
-    rsa = OpenSSL::PKey::RSA.new(key,passphrase)
-    puts "Generating licenses\n"
-    puts "Using exponent #{rsa.params['e'].to_s} and modulus #{rsa.params['n'].to_s}\n"
-  end
-  [key, passphrase]
-end 
-
 task :upload_examples do
   uploader = ImazenLicensing::S3::S3LicenseUploader.new()
-
-  key, passphrase = test_key()
-  placeholder = ImazenLicensing::LicenseGenerator.generate(example_id_license, key, passphrase)
-  remote = ImazenLicensing::LicenseGenerator.generate(example_subscription_license, key, passphrase)
-
-  url = uploader.upload_license(
-    license_id: example_license_id, 
-    license_secret: example_license_secret, 
-    full_body: remote)
-
-  puts "Uploaded to #{url}\nUse placeholder key:\n#{placeholder}" 
-end 
-
-task :generate_examples do 
-  key, passphrase = test_key()
-  IO.write("license_id.txt", ImazenLicensing::LicenseGenerator.generate(example_id_license, key, passphrase))
-  IO.write("license_remote.txt", ImazenLicensing::LicenseGenerator.generate(example_subscription_license, key, passphrase))
+  placeholders = []
+  ImazenLicensing::TestLicenseForms.new(nil).get_all_licenses.each do |set|
+    url = uploader.upload_license(license_id: set[:id], 
+    license_secret: set[:secret], 
+    full_body: set[:remote_license])
+    puts "Uploaded to #{url}\nUse placeholder key:\n#{set[:id_license]}\n"
+    placeholders << set[:id_license] 
+  end 
+  File.write("placeholder_licenses.txt", placeholders.join("\n\n\n"))
 end 
 
 task :default => ['test']

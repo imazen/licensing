@@ -137,7 +137,7 @@ module ImazenLicensing
       {
         kind: 'id',
         id: remote[:id],
-        secret: sha256_hex(name),
+        secret: "test#{sha256_hex(name)}",
         owner: remote[:owner],
         issued: issued,
         network_grace_minutes: 60 * 8,
@@ -152,10 +152,28 @@ module ImazenLicensing
       [id_license, remote]
     end 
 
+    def get_all_licenses
+      REMOTE_LICENSES.keys.map do |name|
+        id, remote = create_by_name(name)
+        {id_license: generate_for(id), 
+          id: id[:id],
+          secret: id[:secret], 
+          remote_license: generate_for(remote),
+          id_hash: id,
+          id_plaintext: plaintext_for(id),
+          remote_hash: remote,
+          remote_plaintext: plaintext_for(remote)
+        }
+      end
+    end
+
+    def get_all_plaintext
+      REMOTE_LICENSES.keys.map{|name| create_by_name(name) }
+        .flatten.map{|h| plaintext_for(h)}.join("\n\n\n")
+    end
+
     def test_print_all 
-        File.write("#{licenses_dir}/plain.txt", 
-          REMOTE_LICENSES.keys.map{|name| create_by_name(name) }
-          .flatten.map{|h| plaintext_for(h)}.join("\n\n\n"))
+        File.write("#{licenses_dir}/plain.txt", get_all_plaintext)
     end
 
     ## Generate test methods

@@ -31,7 +31,6 @@ module ImazenLicensing
         key = "v1/licenses/latest/#{license_secret}.txt"
         url = bucket_url + key
 
-        # TODO: Add content type, UTF-8 encoding. 
         directory = connection.directories.new(key: bucket_name)
         directory.files.create(
           :key => key,
