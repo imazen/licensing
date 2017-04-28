@@ -7,9 +7,9 @@ module ImazenLicensing
     end 
     def ensure_compiled
       if @path.nil?
-        @path = File.expand_path(File.join(File.dirname(__FILE__),"signature_verify"))
+        @path = File.expand_path(File.join(File.dirname(__FILE__),"license_verifier"))
 
-        output = `mcs #{@path}.cs -g -out:#{@path}.exe  -r:System.Numerics.dll`
+        output = `mcs #{@path}.cs #{@path}_interfaces.cs -g -out:#{@path}.exe  -r:System.Numerics.dll`
 
         abort "Failed to compile #{@path}: #{output}" unless $?.success?
       end
