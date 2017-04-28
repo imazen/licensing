@@ -15,11 +15,11 @@ module ImazenLicensing
 
 
       def bucket_name
-        "imazen-licenses"
+        "licenses.imazen.net"
       end
 
       def bucket_url
-        "https://s3-us-west-2.amazonaws.com/imazen-licenses/"
+        "https://s3-us-west-2.amazonaws.com/licenses.imazen.net/"
       end
 
       # def do_generate(bucket_name, object_key)

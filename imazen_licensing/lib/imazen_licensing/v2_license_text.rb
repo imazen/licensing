@@ -1,65 +1,33 @@
 module ImazenLicensing
-  class V2LicenseText
-    attr_reader :data
-
-    REQUIRED = [
-      :id, 
-      :is_public,
-      :kind,
-      :owner,
-      :issued,
-      :features,
-      :product
-    ]
-
-    REQUIRE_FOR_ID = [
-      :kind,
-      :id,
-      :secret,
-      :is_public
-    ]
-    MUST_BE_DATES=[:issued, :expires, :no_releases_after]
-
-    def initialize(data)
-      @data = data
-      validate
-    end
+  class V2LicenseText < ValidatingHash
 
     def validate
-      if data[:kind] == 'id' then
-        unless (REQUIRE_FOR_ID - @data.keys).empty?
-          raise "#{self.class.name} requires fields #{REQUIRED}"
-        end
-      else
-        unless (REQUIRED - @data.keys).empty?
-          raise "#{self.class.name} requires fields #{REQUIRED}"
-        end
-        unless @data.select{ |k,v| MUST_BE_DATES.include? (k)}.all?{|k,v| v.respond_to?(:iso8601)}
-          raise "#{self.class.name} requires fields #{MUST_BE_DATES} to be valid dates and respond to .iso8601"
-        end
-      end
+      prohibit_characters("\r\n\\<>")
+      prohibit_characters_in_fields(":")
+      prohibit_duplicate_fields {|k| stringify_key(k).downcase }
+      require_dates_be_valid [:issued, :expires, :subscription_expiration_date]
+      require_lowercase_alphanumeric(:id, 8)
+      require_min_length(:owner, 2)
+      
+      raise "Summary cannot contain colons (found #{summary})" if summary.include?(':')
+      raise "License body exceeds 30,000 character limit" if body.length > 30000
+    end
+
+    def summary
+      "License #{data[:id]} for #{data[:owner]}"
     end
 
     def body
       data.map do |k,v|
-        key_str = k.is_a?(Symbol) ? k.to_s.split('_').map(&:capitalize).join("") : k
-        "#{key_str}: #{stringify(v)}"
+        "#{stringify_key(k)}: #{stringify_value(v)}"
       end.compact.join("\n")
     end
 
-    def summary
-      if data[:kind] == 'id' then
-        if data[:owner]
-          "License #{data[:id]} for #{data[:owner]}"
-        else
-          "License #{data[:id]}"
-        end
-      else
-        data[:product]
-      end
-    end
+    def stringify_key(k)
+      k.is_a?(Symbol) ? k.to_s.split('_').map(&:capitalize).join("") : k
+    end 
 
-    def stringify(v)
+    def stringify_value(v)
       if v.is_a?(Array) then
         v.join(" ")
       elsif v.is_a?(Time) then

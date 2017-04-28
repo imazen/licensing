@@ -17,7 +17,7 @@ module ImazenLicensing
 
     def domain_license
       {
-        kind: 'domain',
+        kind: 'v4-domain-offline',
         sku: 'R4Performance',
         domain: 'acme.com',
         owner: 'Acme',

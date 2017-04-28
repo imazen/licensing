@@ -36,13 +36,13 @@ module ImazenLicensing
     end
 
     def licenser(options)
-      case options[:kind]
-        when 'subscription', 'id', 'version'
-          V2LicenseText
-        when 'domain'
-          V1LicenseText
-        else
-          raise "failsauce"
+      klass = [V2IdLicenseText, V2RemoteLicenseText, V1LicenseText]
+              .select{|c| c.supported_kinds.include?(options[:kind])}.first
+
+      if klass
+        klass
+      else
+          raise "Kind not recognized: #{options[:kind]}"
       end
     end
   end
