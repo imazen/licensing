@@ -12,7 +12,7 @@ module ImazenLicensing
     end
 
 REQUIRED=[:domain, :owner, :issued, :features, :sku]
-ALLOWED=[:expires, :kind]
+ALLOWED=[:expires, :kind, :restrictions]
 
 MUST_BE_DATES=[:issued, :expires]
     def validate
