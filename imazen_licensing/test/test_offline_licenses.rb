@@ -8,7 +8,7 @@ module ImazenLicensing
   class TestOfflineLicenses <  ImazenLicensing::LicenseTestBase
 
     def issued
-      @issued ||= DateTime.parse('2017-04-21')
+      DateTime.parse('2017-04-21')
     end
 
     def test_v4_domain_offline

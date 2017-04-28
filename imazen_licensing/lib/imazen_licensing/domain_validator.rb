@@ -15,10 +15,10 @@ module ImazenLicensing
       
       return "The * (wildcard) character is not allowed" if domain =~ /\*/ 
 
-      return "Domain can only consist of characters [.-0-9a-zA-Z] Expand unicode domain names via Punycode" unless domain =~ /\A[\.\-a-zA-Z0-9]*\Z/ 
+      return "Domain format invalid; domains can only consist of characters [.-0-9a-zA-Z] Expand unicode domain names via Punycode" unless domain =~ /\A[\.\-a-zA-Z0-9]*\Z/ 
       
       
-      return "This domain (#{domain}) is listed as a hosting provider. You may only register licenses for domains you control." if @@additional.include?(domain)
+      return "This domain (#{domain}) is not a valid domain; it is listed as a hosting provider. You may only register licenses for domains you control." if @@additional.include?(domain)
       #if true, they are not trying to register a TLD
 
 
