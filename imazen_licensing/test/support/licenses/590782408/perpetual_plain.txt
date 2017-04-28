@@ -1,0 +1,10 @@
+Id: 590782408
+Owner: Acme Corp
+Features: R_Elite R_Creative R_Performance
+Product: site-wide
+Kind: site-wide
+Issued: 2017-04-21T00:00:00+00:00
+IsPublic: true
+MustBeFetched: true
+SubscriptionExpirationDate: 2017-04-21T00:00:00+00:00
+Message: Your subscription has expired; please renew to access newer product releases.

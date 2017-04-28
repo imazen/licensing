@@ -1,0 +1,224 @@
+License 4271246357 for Acme Corp:...
+
+Kind: id
+Id: 4271246357
+Secret: test150c96fee33ba1cc659e9d6170801ed127bd114f5694e78c31483b374a036542
+Owner: Acme Corp
+Issued: 2017-04-21T00:00:00+00:00
+NetworkGraceMinutes: 480
+IsPublic: false
+
+
+License 4271246357 for Acme Corp:...
+
+Id: 4271246357
+Owner: Acme Corp
+Features: R4Elite R4Creative R4Performance
+Kind: v4-elite
+Issued: 2017-04-21T00:00:00+00:00
+IsPublic: true
+MustBeFetched: true
+
+
+License 3168226392 for Acme Corp:...
+
+Kind: id
+Id: 3168226392
+Secret: test584cd7bcd3980539d2ef8c43960aacf906733ce66d44896852b0f813e52e5353
+Owner: Acme Corp
+Issued: 2017-04-21T00:00:00+00:00
+NetworkGraceMinutes: 480
+IsPublic: false
+
+
+License 3168226392 for Acme Corp:...
+
+Id: 3168226392
+Owner: Acme Corp
+Domains: box.com stamps.com
+Features: R4Performance
+Kind: v4-domain
+Issued: 2017-04-21T00:00:00+00:00
+Expires: 2017-06-05T00:00:00+00:00
+IsPublic: true
+MustBeFetched: true
+
+
+License 1812344071 for Acme Corp:...
+
+Kind: id
+Id: 1812344071
+Secret: test072d066cb21a8f3a732a274af7ad525acf845f24d8bad1c6c3bc83659ea1a219
+Owner: Acme Corp
+Issued: 2017-04-21T00:00:00+00:00
+NetworkGraceMinutes: 480
+IsPublic: false
+
+
+License 1812344071 for Acme Corp (Enterprise-wide license):...
+
+Id: 1812344071
+Owner: Acme Corp
+Features: R_Elite R_Creative R_Performance
+Product: Enterprise-wide license
+Kind: site-wide
+Issued: 2017-04-21T00:00:00+00:00
+IsPublic: true
+Valid: false
+Message: Please contact support; the license was shared with an unauthorized party and has been revoked.
+
+
+License 2037987837 for Acme Corp:...
+
+Kind: id
+Id: 2037987837
+Secret: testfd397979e7652bd334a729947c3b651d0ef079535b7100dc866085ed93c7c766
+Owner: Acme Corp
+Issued: 2017-04-21T00:00:00+00:00
+NetworkGraceMinutes: 480
+IsPublic: false
+
+
+License 2037987837 for Acme Corp (OEM redistribtuion license):...
+
+Id: 2037987837
+Owner: Acme Corp
+Features: R_Elite R_Creative R_Performance
+Product: OEM redistribtuion license
+Kind: oem
+Issued: 2017-04-21T00:00:00+00:00
+Expires: 2017-06-05T00:00:00+00:00
+IsPublic: true
+MustBeFetched: true
+SubscriptionExpirationDate: 2017-04-21T00:00:00+00:00
+Message: This license has been compromised; please contact Vendor Gamma for an updated license
+Restrictions: Only for use within Vendor Gamma Prduct
+
+
+License 590782408 for Acme Corp:...
+
+Kind: id
+Id: 590782408
+Secret: testc89f3623c7a2359a643c985bfde219b9bed09d48afc54931143331955b98315f
+Owner: Acme Corp
+Issued: 2017-04-21T00:00:00+00:00
+NetworkGraceMinutes: 480
+IsPublic: false
+
+
+License 590782408 for Acme Corp (site-wide):...
+
+Id: 590782408
+Owner: Acme Corp
+Features: R_Elite R_Creative R_Performance
+Product: site-wide
+Kind: site-wide
+Issued: 2017-04-21T00:00:00+00:00
+IsPublic: true
+MustBeFetched: true
+SubscriptionExpirationDate: 2017-04-21T00:00:00+00:00
+Message: Your subscription has expired; please renew to access newer product releases.
+
+
+License 1577338763 for Acme Corp:...
+
+Kind: id
+Id: 1577338763
+Secret: test8b47045eb7b8ca42aa967f33ee1d014ba89f8d1ac207426b482d34b5c0d90935
+Owner: Acme Corp
+Issued: 2017-04-21T00:00:00+00:00
+NetworkGraceMinutes: 480
+IsPublic: false
+
+
+License 1577338763 for Acme Corp (site-wide):...
+
+Id: 1577338763
+Owner: Acme Corp
+Features: R_Elite R_Creative R_Performance
+Product: site-wide
+Kind: site-wide
+Issued: 2017-04-21T00:00:00+00:00
+IsPublic: true
+MustBeFetched: true
+Valid: false
+Message: Your subscription has lapsed; please renew to continue using product.
+
+
+License 2766684890 for Acme Corp:...
+
+Kind: id
+Id: 2766684890
+Secret: testda42e8a40db14c091dea84efd572933fdfe31ba9620e5fee79edb823a448b6e8
+Owner: Acme Corp
+Issued: 2017-04-21T00:00:00+00:00
+NetworkGraceMinutes: 480
+IsPublic: false
+
+
+License 2766684890 for Acme Corp (Enterprise-wide license):...
+
+Id: 2766684890
+Owner: Acme Corp
+Features: R_Elite R_Creative R_Performance
+Product: Enterprise-wide license
+Kind: site-wide
+Issued: 2017-04-21T00:00:00+00:00
+Expires: 2017-06-05T00:00:00+00:00
+IsPublic: true
+MustBeFetched: true
+ManageYourSubscription: https://account.imazen.io
+Restrictions: No resale of usage. Only for organizations with less than 500 employees.
+
+
+License 2613256515 for Acme Corp:...
+
+Kind: id
+Id: 2613256515
+Secret: test4321c39bec40289e14ab42503a533efb43dbe0e355be787bb3c89f4519f503b7
+Owner: Acme Corp
+Issued: 2017-04-21T00:00:00+00:00
+NetworkGraceMinutes: 480
+IsPublic: false
+
+
+License 2613256515 for Acme Corp (OEM redistribtuion license):...
+
+Id: 2613256515
+Owner: Acme Corp
+Features: R_Elite R_Creative R_Performance
+Product: OEM redistribtuion license
+Kind: oem
+Issued: 2017-04-21T00:00:00+00:00
+Expires: 2017-06-10T00:00:00+00:00
+IsPublic: true
+MustBeFetched: true
+ManageYourSubscription: https://account.imazen.io
+Restrictions: Only for use within Vendor Gamma Prduct
+
+
+License 3550635254 for Acme Corp:...
+
+Kind: id
+Id: 3550635254
+Secret: testf664a2d346d8cfef90e3f4819a5c2454f03a68993f28f2bb4773039f6f08762e
+Owner: Acme Corp
+Issued: 2017-04-21T00:00:00+00:00
+NetworkGraceMinutes: 480
+IsPublic: false
+
+
+License 3550635254 for Acme Corp (Per-core license):...
+
+Id: 3550635254
+Owner: Acme Corp
+Features: R_Elite R_Creative R_Performance
+Product: Per-core license
+Kind: per-core
+Issued: 2017-04-21T00:00:00+00:00
+Expires: 2017-06-10T00:00:00+00:00
+IsPublic: true
+MustBeFetched: true
+MaxServers: 4
+TotalCores: 16
+ManageYourSubscription: https://account.imazen.io

@@ -1,0 +1,12 @@
+Id: 2037987837
+Owner: Acme Corp
+Features: R_Elite R_Creative R_Performance
+Product: OEM redistribtuion license
+Kind: oem
+Issued: 2017-04-21T00:00:00+00:00
+Expires: 2017-06-05T00:00:00+00:00
+IsPublic: true
+MustBeFetched: true
+SubscriptionExpirationDate: 2017-04-21T00:00:00+00:00
+Message: This license has been compromised; please contact Vendor Gamma for an updated license
+Restrictions: Only for use within Vendor Gamma Prduct

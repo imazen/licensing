@@ -1,0 +1,10 @@
+Id: 1577338763
+Owner: Acme Corp
+Features: R_Elite R_Creative R_Performance
+Product: site-wide
+Kind: site-wide
+Issued: 2017-04-21T00:00:00+00:00
+IsPublic: true
+MustBeFetched: true
+Valid: false
+Message: Your subscription has lapsed; please renew to continue using product.

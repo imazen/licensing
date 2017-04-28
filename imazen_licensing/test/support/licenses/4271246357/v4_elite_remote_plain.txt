@@ -1,0 +1,7 @@
+Id: 4271246357
+Owner: Acme Corp
+Features: R4Elite R4Creative R4Performance
+Kind: v4-elite
+Issued: 2017-04-21T00:00:00+00:00
+IsPublic: true
+MustBeFetched: true

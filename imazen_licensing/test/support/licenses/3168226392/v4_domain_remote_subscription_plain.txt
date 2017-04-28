@@ -1,0 +1,9 @@
+Id: 3168226392
+Owner: Acme Corp
+Domains: box.com stamps.com
+Features: R4Performance
+Kind: v4-domain
+Issued: 2017-04-21T00:00:00+00:00
+Expires: 2017-06-05T00:00:00+00:00
+IsPublic: true
+MustBeFetched: true

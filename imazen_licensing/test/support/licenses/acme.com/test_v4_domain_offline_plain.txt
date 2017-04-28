@@ -1,0 +1,6 @@
+Kind: v4-domain-offline
+Sku: R4Performance
+Domain: acme.com
+Owner: Acme Corp
+Issued: 2017-04-21T00:00:00+00:00
+Features: R4Performance
