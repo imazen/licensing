@@ -161,7 +161,7 @@ module ImazenLicensing
     ## Generate test methods
     REMOTE_LICENSES.keys.each do |name|
       define_method(:"test_#{name}") do 
-        id, remote = create_by_name(name)
+        _, remote = create_by_name(name)
         license_compare_or_export(name, remote)
       end
     end 

@@ -9,6 +9,7 @@ require "imazen_licensing/v2_license_text"
 require "imazen_licensing/v2_id_license_text"
 require "imazen_licensing/v2_remote_license_text"
 require "imazen_licensing/s3"
+require "imazen_licensing/chargebee"
 
 module ImazenLicensing
   # Your code goes here...
