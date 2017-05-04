@@ -3,8 +3,8 @@ require 'chargebee'
 module ImazenLicensing
   class Chargebee
 
-    def configure
-      ChargeBee.configure({:api_key => ENV["CHARGEBEE_TEST_KEY"], :site => "imazen-test"})
+    def configure (site: , api_key: ENV["CHARGEBEE_API_KEY"])
+      ChargeBee.configure({:api_key => api_key, :site => site})
     end
 
     # def fetch_plan

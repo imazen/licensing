@@ -11,7 +11,7 @@ module ImazenLicensing
       sanitized = sanitize(options)
       text = license_text(sanitized)
       encoded_body = encode(text)
-      "#{summary(sanitized)}:#{encoded_body}:#{sign(text, key, passphrase)}"
+      "#{summary(sanitized)} :#{encoded_body}:#{sign(text, key, passphrase)}"
     end
 
     private
