@@ -7,12 +7,26 @@ module ImazenLicensing
       new.generate(options, key, passphrase)
     end
 
+    def self.generate_with_info(options = {}, key, passphrase)
+      new.generate_with_info(options, key, passphrase)
+    end
+
     def generate(options, key, passphrase)
+      generate_with_info(options, key, passphrase)[:license]
+    end
+
+    def generate_with_info(options, key, passphrase)
       sanitized = sanitize(options)
       text = license_text(sanitized)
+      summary_text = summary(sanitized)
       encoded_body = encode(text)
-      "#{summary(sanitized)}:#{encoded_body}:#{sign(text, key, passphrase)}"
+      { 
+        license: "#{summary_text} :#{encoded_body}:#{sign(text, key, passphrase)}",
+        summary_text: summary_text,
+        body_text: text,
+      } 
     end
+
 
     private
     def sanitize(options)
