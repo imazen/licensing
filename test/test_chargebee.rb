@@ -4,11 +4,12 @@ require "imazen_licensing"
 module ImazenLicensing
   class ChargbeeTesting < Minitest::Test
     def test_create_license_from_plan
+      
       Chargebee.new.configure site: "imazen-test"
 
       plan_id =  ChargeBee::Subscription.retrieve("HtZEwKYQCgKZqsR1C").subscription.plan_id
       plan_meta = ChargeBee::Plan.retrieve(plan_id).plan
-      puts plan_meta
+      #puts plan_meta
 
       # Owner from subscription
 
