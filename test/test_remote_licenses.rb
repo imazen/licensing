@@ -199,5 +199,12 @@ module ImazenLicensing
       end
     end 
 
+    def test_write_placeholder_licenses
+      File.write("#{licenses_dir}/placeholder_licenses.txt", 
+        REMOTE_LICENSES.keys.map do |name| 
+          generate_for(create_by_name(name)[0])
+        end.join("\n\n\n")
+      )
+    end 
   end
 end
