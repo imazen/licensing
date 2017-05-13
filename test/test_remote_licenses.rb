@@ -130,6 +130,21 @@ module ImazenLicensing
         max_servers: 4,
         total_cores: 16,
         manage_your_subscription: 'https://account.imazen.io',
+      },
+      per_core_2_domains: {
+        id: nil,
+        owner: 'Acme Corp',
+        domains: ['acme.com', 'acmestaging.com'],
+        features: ['R_Performance'],
+        product: "Per Server | 2 Domains | Performance",
+        kind: 'per-core-domain',
+        issued: issued,
+        expires: issued +  50, # add 50 days
+        is_public: true,
+        must_be_fetched: true,
+        max_servers: 4,
+        total_cores: 16,
+        manage_your_subscription: 'https://account.imazen.io',
       }
     }
 

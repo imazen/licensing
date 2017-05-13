@@ -222,3 +222,31 @@ MustBeFetched: true
 MaxServers: 4
 TotalCores: 16
 ManageYourSubscription: https://account.imazen.io
+
+
+License 3140539178 for Acme Corp:...
+
+Kind: id
+Id: 3140539178
+Secret: test2ad330bb24212a764310654319b42e2658774a87e4da58dc5eca01ac193577f1
+Owner: Acme Corp
+Issued: 2017-04-21T00:00:00+00:00
+NetworkGraceMinutes: 480
+IsPublic: false
+
+
+License 3140539178 for Acme Corp (Per Server | 2 Domains | Performance):...
+
+Id: 3140539178
+Owner: Acme Corp
+Domains: acme.com acmestaging.com
+Features: R_Performance
+Product: Per Server | 2 Domains | Performance
+Kind: per-core-domain
+Issued: 2017-04-21T00:00:00+00:00
+Expires: 2017-06-10T00:00:00+00:00
+IsPublic: true
+MustBeFetched: true
+MaxServers: 4
+TotalCores: 16
+ManageYourSubscription: https://account.imazen.io

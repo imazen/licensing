@@ -2,7 +2,7 @@ module ImazenLicensing
   class V2RemoteLicenseText < V2LicenseText
 
     def self.supported_kinds
-      ['v4-domain', 'v4-elite', 'per-core', 'site-wide', 'oem', 'remote']
+      ['v4-domain', 'v4-elite', 'per-core', 'per-core-domain', 'site-wide', 'oem', 'remote']
     end
 
     def validate
