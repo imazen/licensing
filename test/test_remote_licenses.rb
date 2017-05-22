@@ -16,10 +16,10 @@ module ImazenLicensing
 
     def sha256_hex(v)
       Digest::SHA256.hexdigest v.to_s
-    end 
+    end
     def sha32_dec(v)
       Digest::SHA256.digest(v.to_s)[0..4].unpack("L")[0].to_s
-    end 
+    end
 
     REMOTE_LICENSES = {
       v4_elite_remote: {
@@ -66,7 +66,7 @@ module ImazenLicensing
         subscription_expiration_date: issued,
         message: 'This license has been compromised; please contact Vendor Gamma for an updated license',
         restrictions: "Only for use within Vendor Gamma Prduct"
-      }, 
+      },
       perpetual: {
         id: nil,
         owner: 'Acme Corp',
@@ -78,7 +78,7 @@ module ImazenLicensing
         must_be_fetched: true,
         subscription_expiration_date: issued,
         message: 'Your subscription has expired; please renew to access newer product releases.'
-      }, 
+      },
       cancelled: {
         id: nil,
         owner: 'Acme Corp',
@@ -90,7 +90,7 @@ module ImazenLicensing
         must_be_fetched: true,
         valid: false,
         message: 'Your subscription has lapsed; please renew to continue using product.'
-      }, 
+      },
       site_wide: {
         id: nil,
         owner: 'Acme Corp',
@@ -103,7 +103,7 @@ module ImazenLicensing
         must_be_fetched: true,
         manage_your_subscription: 'https://account.imazen.io',
         restrictions: "No resale of usage. Only for organizations with less than 500 employees."
-      }, 
+      },
       oem: {
         id: nil,
         owner: 'Acme Corp',
@@ -116,7 +116,7 @@ module ImazenLicensing
         must_be_fetched: true,
         manage_your_subscription: 'https://account.imazen.io',
         restrictions: "Only for use within Vendor Gamma Prduct"
-      }, 
+      },
       cores: {
         id: nil,
         owner: 'Acme Corp',
@@ -173,21 +173,21 @@ module ImazenLicensing
         network_grace_minutes: 60 * 8,
         is_public: false,
       }
-    end 
+    end
 
     def create_by_name(name)
       remote = REMOTE_LICENSES[name]
       remote[:id] = sha32_dec(name)
       id_license = id_license_for(name, remote)
       [id_license, remote]
-    end 
+    end
 
     def get_all_licenses
       REMOTE_LICENSES.keys.map do |name|
         id, remote = create_by_name(name)
-        {id_license: generate_for(id), 
+        {id_license: generate_for(id),
           id: id[:id],
-          secret: id[:secret], 
+          secret: id[:secret],
           remote_license: generate_for(remote),
           id_hash: id,
           id_plaintext: plaintext_for(id),
@@ -202,24 +202,24 @@ module ImazenLicensing
         .flatten.map{|h| plaintext_for(h)}.join("\n\n\n")
     end
 
-    def test_print_all 
+    def test_print_all
         File.write("#{licenses_dir}/plain.txt", get_all_plaintext)
     end
 
     ## Generate test methods
     REMOTE_LICENSES.keys.each do |name|
-      define_method(:"test_#{name}") do 
+      define_method(:"test_#{name}") do
         _, remote = create_by_name(name)
         license_compare_or_export(name, remote)
       end
-    end 
+    end
 
     def test_write_placeholder_licenses
-      File.write("#{licenses_dir}/placeholder_licenses.txt", 
-        REMOTE_LICENSES.keys.map do |name| 
+      File.write("#{licenses_dir}/placeholder_licenses.txt",
+        REMOTE_LICENSES.keys.map do |name|
           generate_for(create_by_name(name)[0])
         end.join("\n\n\n")
       )
-    end 
+    end
   end
 end

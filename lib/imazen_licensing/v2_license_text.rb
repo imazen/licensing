@@ -7,16 +7,17 @@ module ImazenLicensing
         v = v.encode(xml: :text) if [:owner].include?(k)
         [k, v]
       }]
-    end 
+    end
 
     def validate
       prohibit_characters("\r\n\\<>")
       prohibit_characters_in_fields(":")
       prohibit_duplicate_fields {|k| stringify_key(k).downcase }
       require_dates_be_valid [:issued, :expires, :subscription_expiration_date]
+      require_maximum_date [:expires, :subscription_expiration_date], DateTime.now + (100*365)
       require_lowercase_alphanumeric(:id, 8)
       require_min_length(:owner, 2)
-      
+
       #recoded_summary = summary.decode(xml: :attr).encode(xml: :attr)
       #raise "Summary must be xml safe, but (#{summary}) != (#{recoded_summary})" if recoded_summary != summary
       raise "Summary cannot contain ':', '<', or '>' (found #{summary})" if /[:<>]/ =~ summary

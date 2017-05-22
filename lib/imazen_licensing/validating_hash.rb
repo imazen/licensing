@@ -19,25 +19,31 @@ module ImazenLicensing
       if (field_names - @data.keys).empty?
         raise "#{self.class.name} prohibits fields #{field_names}"
       end
-    end 
+    end
 
     def require_fields(field_names)
       unless (field_names - @data.keys).empty?
         raise "#{self.class.name} requires fields #{field_names}"
       end
-    end 
+    end
 
     def require_values(key, values)
       unless values.include?(@data[key]) || values.include?(@data[key].to_s)
         raise "#{self.class.name} requires field #{key} to exist and have one of these values: '#{values.inspect}' (found #{@data[key]})"
       end
-    end 
+    end
+
+    def require_maximum_date(field_names, maximum)
+      unless @data.select{ |k,v| field_names.include?(k)}.all?{|k,v| v <= maximum }
+        raise "#{self.class.name} requires fields #{field_names} to be no greater than #{maximum}"
+      end
+    end
 
     def require_dates_be_valid(field_names)
-      unless @data.select{ |k,v| field_names.include? (k)}.all?{|k,v| v.respond_to?(:iso8601)}
+      unless @data.select{ |k,v| field_names.include?(k)}.all?{|k,v| v.respond_to?(:iso8601)}
         raise "#{self.class.name} requires fields #{field_names} to be valid dates and respond to .iso8601"
       end
-    end 
+    end
 
     def require_lowercase_alphanumeric(key, min_length = 1)
       unless @data[key] && @data[key].length >= min_length
