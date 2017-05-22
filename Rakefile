@@ -1,4 +1,8 @@
-require "bundler/gem_tasks"
+# hack because of chargebee gem fork
+require "bundler/setup"
+Bundler.setup(:default)
+# put this back if we fix the chargebee issues
+#require "bundler/gem_tasks"
 
 require 'rake/testtask'
 require 'openssl'
@@ -51,13 +55,13 @@ task :upload_examples do
   uploader = ImazenLicensing::S3::S3LicenseUploader.new()
   placeholders = []
   ImazenLicensing::TestLicenseForms.new(nil).get_all_licenses.each do |set|
-    url = uploader.upload_license(license_id: set[:id], 
-    license_secret: set[:secret], 
+    url = uploader.upload_license(license_id: set[:id],
+    license_secret: set[:secret],
     full_body: set[:remote_license])
     puts "Uploaded to #{url}\nUse placeholder key:\n#{set[:id_license]}\n"
-    placeholders << set[:id_license] 
-  end 
+    placeholders << set[:id_license]
+  end
   File.write("placeholder_licenses.txt", placeholders.join("\n\n\n"))
-end 
+end
 
 task :default => ['test']
