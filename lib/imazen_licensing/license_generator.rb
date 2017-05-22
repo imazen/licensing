@@ -16,9 +16,9 @@ module ImazenLicensing
     end
 
     def generate_with_info(options, key, passphrase)
-      sanitized = sanitize(options)
-      text = license_text(sanitized)
-      summary_text = summary(sanitized)
+      sanitized = licenser(options).new(options)
+      text = sanitized.body
+      summary_text = sanitized.summary
       encoded_body = encode(text)
       { 
         encoded: "#{summary_text} :#{encoded_body}:#{sign(text, key, passphrase)}",
@@ -28,20 +28,8 @@ module ImazenLicensing
     end
 
     private
-    def sanitize(options)
-      options.select { |k,v| !v.nil? && !v.to_s.empty? }
-    end
-
-    def license_text(options)
-      licenser(options).new(options).body
-    end
-
     def encode(string)
       Base64.strict_encode64(string)
-    end
-
-    def summary(options)
-      licenser(options).new(options).summary
     end
 
     def sign(license_text, key, passphrase)

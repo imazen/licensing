@@ -33,6 +33,10 @@ MUST_BE_DATES=[:issued, :expires]
       
     end 
 
+    def self.sanitize(hash)
+      hash.select { |k,v| !v.nil? && !v.to_s.empty? }
+    end
+
     def summary
       "#{data[:domain]}(#{data[:sku] || 'SKU missing'} includes #{stringify(data[:features])})"
     end
