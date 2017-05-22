@@ -3,12 +3,16 @@ module ImazenLicensing
     attr_reader :data
 
     def initialize(data)
-      @data = data
+      @data = sanitize(data)
       validate
     end
 
     def validate
       raise "You must override the validate method and call the appropriate fields"
+    end
+
+    def sanitize(hash)
+      hash.select { |k,v| !v.nil? && !v.to_s.empty? }
     end
 
     def prohibit_fields(field_names)

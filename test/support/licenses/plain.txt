@@ -250,3 +250,32 @@ MustBeFetched: true
 MaxServers: 4
 TotalCores: 16
 ManageYourSubscription: https://account.imazen.io
+
+
+License 1319146175 for Acme Corp &lt;&gt;:...
+
+Kind: id
+Id: 1319146175
+Secret: testbf92a04e60b4b2362d45490e5142e47b687c2ebb5898da6bc71b697602016e6e
+Owner: Acme Corp &lt;&gt;
+Issued: 2017-04-21T00:00:00+00:00
+NetworkGraceMinutes: 480
+IsPublic: false
+
+
+License 1319146175 for Acme Corp &lt;&gt; (Per Server | 2 Domains | Performance):...
+
+Id: 1319146175
+Owner: Acme Corp &lt;&gt;
+Domains: acme.com acmestaging.com
+Features: R_Performance
+Product: Per Server | 2 Domains | Performance
+Kind: per-core-domain
+Issued: 2017-04-21T00:00:00+00:00
+Expires: 2017-06-10T00:00:00+00:00
+IsPublic: true
+MustBeFetched: true
+MaxServers: 4
+TotalCores: 16
+=======
+ManageYourSubscription: https://account.imazen.io
