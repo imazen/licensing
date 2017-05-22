@@ -1,6 +1,14 @@
 module ImazenLicensing
   class V2LicenseText < ValidatingHash
 
+    def sanitize(h)
+      Hash[super(h).map{ |k,v|
+        v = v.gsub(/[\r\n]+/," ") if [:owner, :licensed_for_use_within].include?(k)
+        v = v.encode(xml: :text) if [:owner].include?(k)
+        [k, v]
+      }]
+    end 
+
     def validate
       prohibit_characters("\r\n\\<>")
       prohibit_characters_in_fields(":")
@@ -9,7 +17,10 @@ module ImazenLicensing
       require_lowercase_alphanumeric(:id, 8)
       require_min_length(:owner, 2)
       
-      raise "Summary cannot contain colons (found #{summary})" if summary.include?(':')
+      #recoded_summary = summary.decode(xml: :attr).encode(xml: :attr)
+      #raise "Summary must be xml safe, but (#{summary}) != (#{recoded_summary})" if recoded_summary != summary
+      raise "Summary cannot contain ':', '<', or '>' (found #{summary})" if /[:<>]/ =~ summary
+      raise "Summary must entity encode ampersands (found #{summary})" if /&[^;\s][\s]/ =~ summary
       raise "License body exceeds 30,000 character limit" if body.length > 30000
     end
 
