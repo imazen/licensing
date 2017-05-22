@@ -160,7 +160,7 @@ module ImazenLicensing
         max_servers: 4,
         total_cores: 16,
         manage_your_subscription: 'https://account.imazen.io',
-      },
+      }
     }
 
     def id_license_for(name, remote)
