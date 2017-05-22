@@ -160,7 +160,7 @@ module ImazenLicensing
         max_servers: 4,
         total_cores: 16,
         manage_your_subscription: 'https://account.imazen.io',
-      },
+      }
     }
 
     def id_license_for(name, remote)
@@ -212,6 +212,27 @@ module ImazenLicensing
         _, remote = create_by_name(name)
         license_compare_or_export(name, remote)
       end
+    end
+
+    def test_too_far_future_expires
+      name = 'moo'
+      remote = {
+        id: nil,
+        owner: 'Acme Corp <>',
+        domains: ['acme.com', 'acmestaging.com'],
+        features: ['R_Performance'],
+        product: "Per Server | 2 Domains | Performance",
+        kind: 'per-core-domain',
+        issued: issued,
+        expires: DateTime.now +  100*365+1, # add 100 years and then some to be over max expiration
+        is_public: true,
+        must_be_fetched: true,
+        max_servers: 4,
+        total_cores: 16,
+        manage_your_subscription: 'https://account.imazen.io'
+      }
+      remote[:id] = sha32_dec(name)
+      license_should_fail(name, remote)
     end
 
     def test_write_placeholder_licenses

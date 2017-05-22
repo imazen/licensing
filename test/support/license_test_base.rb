@@ -55,19 +55,26 @@ module ImazenLicensing
     def plaintext_for(hash)
       summary, decoded_body, _ = license_parse(generate_for(hash))
       "#{summary}:...\n\n#{decoded_body}"
-    end 
+    end
 
     def license_compare(name, hash)
       summary, decoded_body, signed = license_parse(generate_for(hash))
       assert verify_rsa(signed, decoded_body, key, passphrase)
-      
+
       expected = File.read(license_path(name, hash))
       expected_summary, expected_decoded_body, expected_signed = license_parse(expected)
-      
+
       assert_equal expected_summary, summary
       assert_equal expected_decoded_body, decoded_body
       assert_equal expected_signed, signed
-    end 
+    end
+
+    def license_should_fail(name, hash)
+      assert_raises StandardError do
+        summary, decoded_body, signed = license_parse(generate_for(hash))
+        verify_rsa(signed, decoded_body, key, passphrase)
+      end
+    end
 
     def verify_rsa(signature, decoded_body, key, passphrase)
       signature_bytes = Base64.strict_decode64(signature)
