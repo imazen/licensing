@@ -221,5 +221,29 @@ module ImazenLicensing
         end.join("\n\n\n")
       )
     end 
+
+
+    def test_generate_code
+      strings = REMOTE_LICENSES.keys.map do |name| 
+        id, remote = create_by_name(name)
+
+        id = LicenseGenerator.generate_with_info(id, key, passphrase)
+        remote = LicenseGenerator.generate_with_info(remote, key, passphrase)
+
+        pascalName = name.to_s.split('_').collect(&:capitalize).join 
+
+        [{name: "#{pascalName}Placeholder", value: id[:encoded], text: id[:text]},
+        {name: "#{pascalName}Remote", value: remote[:encoded], text: remote[:text]}]
+      end.flatten
+
+      dict_rows = strings.map{|h| "    { \"#{h[:name]}\", #{h[:name]}}"}
+
+      fieldLines = strings.map{ |h| h[:text].lines.map{|l| "/// #{l.strip}"} + ["public const string #{h[:name]} = \"#{h[:value]}\";", ""]}
+
+      lines = ["public static IReadOnlyDictionary<string, string> Licenses { get; } = new Dictionary<string,string>", "{"] + dict_rows + ["};",""] + fieldLines
+
+      csharp = "        " + lines.join("\n        ")
+      File.write("#{licenses_dir}/license_strings.cs", csharp)
+    end 
   end
 end
