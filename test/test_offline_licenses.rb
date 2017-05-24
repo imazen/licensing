@@ -17,6 +17,7 @@ module ImazenLicensing
         domain: 'acme.com',
         owner: 'Acme Corp',
         issued: issued,
+        expires: nil,
         features: ['R4Performance']
       }
       license_compare_or_export(__method__.to_s, h)
@@ -29,6 +30,7 @@ module ImazenLicensing
         domain: 'acme.com',
         owner: 'Acme Corp',
         issued: issued,
+        expires: nil,
         features: ['R4Creative', 'R4Performance']
       }
       license_compare_or_export(__method__.to_s, h)

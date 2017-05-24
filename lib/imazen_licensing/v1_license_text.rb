@@ -7,14 +7,13 @@ module ImazenLicensing
     end 
     
     def initialize(data)
-      @data = data
+      @data = sanitize(data)
       validate
     end
 
 REQUIRED=[:domain, :owner, :issued, :features, :sku]
 ALLOWED=[:expires, :kind, :restrictions]
 
-MUST_BE_DATES=[:issued, :expires]
     def validate
       unless (REQUIRED - @data.keys).empty?
         raise "#{self.class.name} requires fields #{REQUIRED}"
@@ -24,16 +23,22 @@ MUST_BE_DATES=[:issued, :expires]
         raise "#{self.class.name} does not allow fields #{not_allowed}"
       end
 
-      unless @data.select{ |k,v| MUST_BE_DATES.include? (k)}.all?{|k,v| v.respond_to?(:iso8601)}
-        raise "#{self.class.name} requires fields #{MUST_BE_DATES} to be valid dates and respond to .iso8601"
-      end
+      require_dates_be_valid( [:issued] )
+      require_dates_be_valid( [:expires] )
 
       domain_error =  DomainValidator.new.domain_error(data[:domain])
       raise domain_error if domain_error
       
     end 
 
-    def self.sanitize(hash)
+    def require_dates_be_valid(field_names)
+      pairs = @data.select{ |k,v| field_names.include? (k)}
+      unless pairs.all?{|k,v| v.respond_to?(:iso8601)}
+        raise "#{self.class.name} requires fields #{field_names} to be valid dates and respond to .iso8601, found #{pairs.inspect}"
+      end
+    end 
+
+    def sanitize(hash)
       hash.select { |k,v| !v.nil? && !v.to_s.empty? }
     end
 
