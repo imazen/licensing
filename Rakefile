@@ -21,6 +21,11 @@ task :show_public_info do |t, args|
   puts "Public exponent #{rsa.params['e'].to_s} and modulus #{rsa.params['n'].to_s}\n"
 end
 
+task :show_public_key_info do |t, args|
+  puts "Enter passphrase:"
+  rsa = OpenSSL::PKey::RSA.new(IO.read('imazen_private_signing_key.pem'), STDIN.gets.rstrip)
+  puts "Public exponent #{rsa.params['e'].to_s} and modulus #{rsa.params['n'].to_s}\n"
+end
 
 task :make_private_key, [:pass_phrase] do |t, args|
   rsa = OpenSSL::PKey::RSA.new 2048
