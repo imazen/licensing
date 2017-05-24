@@ -1,5 +1,4 @@
 require "minitest/autorun"
-require "date"
 require "imazen_licensing"
 require_relative "support/license_test_base"
 require "digest"

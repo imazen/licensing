@@ -2,7 +2,6 @@
 
 require "minitest/autorun"
 require "openssl"
-require "date"
 require "base64"
 require "imazen_licensing"
 require "#{File.dirname(__FILE__)}/support/license_verifier_cs"
