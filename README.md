@@ -1,11 +1,36 @@
-# ImazenLicensing
+# Imazen Licensing
 
-Gem and endpoint for license generation
+Gem and endpoint for asymmetric license key pair generation with S3 hosted license files. 
 
 
 [![Build Status](https://travis-ci.org/imazen/licensing.svg?branch=master)](https://travis-ci.org/imazen/licensing)
 
 
+## Secrets used by rails app
+
+```
+    :user_name      => ENV['SMTP_USER'] || 'store@store.imazen.io',
+  :password       => ENV['SMTP_PASSWORD'] || 'redacted',
+  :domain         => ENV['SMTP_DOMAIN'] || 'store.imazen.io',
+  :address =>     ENV['SMTP_SERVER'] || 'smtp.mailgun.org',
+   
+- AWS, for uploading license files
+- CHARGEBEE_DOMAIN
+- chargebee_secret
+- secret to validate webook 
+- 
+ config.license_signing_key_passphrase = ENV['LICENSE_SIGNING_KEY_PASSPHRASE']
+ config.license_signing_key = ENV['LICENSE_SIGNING_KEY_BLOB'].gsub(/\\n/,"\n")
+TEST_LICENSE_SIGNING_KEY_PASSPHRASE
+TEST_LICENSE_SIGNING_KEY_BLOB'] || "").gsub(/\\n/,"\n") 
+
+
+  if config.license_signing_key.blank? 
+    config.license_signing_key = OpenSSL::PKey::RSA.new(2048).export(OpenSSL::Cipher::AES256.new(:CBC), config.license_signing_key_passphrase)
+  end 
+
+
+```
 TODO: Write a gem description
 
 
