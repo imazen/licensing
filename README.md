@@ -1,5 +1,11 @@
 # ImazenLicensing
 
+Gem and endpoint for license generation
+
+
+[![Build Status](https://travis-ci.org/imazen/licensing.svg?branch=master)](https://travis-ci.org/imazen/licensing)
+
+
 TODO: Write a gem description
 
 
