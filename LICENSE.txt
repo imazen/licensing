@@ -1,4 +1,4 @@
-Copyright (c) 2017 Nathanael Jones
+Copyright (c) 2017 Lilith River
 
 MIT License
 
