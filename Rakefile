@@ -4,6 +4,7 @@ Bundler.setup(:default)
 # put this back if we fix the chargebee issues
 #require "bundler/gem_tasks"
 
+require 'dotenv/tasks'
 require 'rake/testtask'
 require 'openssl'
 require 'imazen_licensing'
