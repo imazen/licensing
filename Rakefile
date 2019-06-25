@@ -4,7 +4,10 @@ Bundler.setup(:default)
 # put this back if we fix the chargebee issues
 #require "bundler/gem_tasks"
 
-require 'dotenv/tasks'
+require 'dotenv'
+Dotenv.load('.env.test')
+puts "CHARGEBEE_SITE="
+puts ENV['CHARGEBEE_SITE']
 require 'rake/testtask'
 require 'openssl'
 require 'imazen_licensing'
