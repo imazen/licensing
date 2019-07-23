@@ -23,6 +23,7 @@ class ChargebeeControllerTest < ActionDispatch::IntegrationTest
   def load_chargebee_params(event_type)
     file_name = "#{event_type}.json"
     path = Rails.root.join('test', 'fixtures', 'chargebee', file_name)
-    JSON.parse(File.read(path)).merge(key: 'test')
+    key = Rails.application.credentials.chargebee_webhook_token
+    JSON.parse(File.read(path)).merge(key: key)
   end
 end

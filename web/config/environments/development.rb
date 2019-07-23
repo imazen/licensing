@@ -48,4 +48,8 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  # Generate a new license signing key using a weak test passphrase
+  config.license_signing_key_passphrase = "testpass"
+  config.license_signing_key = OpenSSL::PKey::RSA.new(2048).export(OpenSSL::Cipher::AES256.new(:CBC), config.license_signing_key_passphrase)
 end

@@ -8,14 +8,12 @@ class ChargebeeController < ApplicationController
     end
 
     # Ignore events that lack a subscription
-    if params.fetch("content",{}).fetch("subscription", nil).nil?
+    if params.fetch("content", {}).fetch("subscription", nil).nil?
       head :no_content
       return
     end
 
-
     cb = ChargebeeParse.new(params)
-
 
     license = generate_license(cb)
 
@@ -34,8 +32,8 @@ class ChargebeeController < ApplicationController
                                license[:id], sha)
 
 
-    s3_uploader = ImazenLicensing::S3::S3LicenseUploader.new(aws_id: Rails.application.secrets.license_s3_id,
-                                                             aws_secret: Rails.application.secrets.license_s3_secret)
+    s3_uploader = ImazenLicensing::S3::S3LicenseUploader.new(aws_id: Rails.application.credentials.license_s3_id,
+                                                             aws_secret: Rails.application.credentials.license_s3_secret)
 
     s3_uploader.upload_license(license_id: license[:id], license_secret: license[:secret], full_body: license[:license][:encoded])
 
@@ -66,11 +64,11 @@ class ChargebeeController < ApplicationController
 
 
   def generate_license(cb)
-    key = ImazenStore::Application.config.license_signing_key
-    passphrase = ImazenStore::Application.config.license_signing_key_passphrase
+    key = Web::Application.config.license_signing_key
+    passphrase = Web::Application.config.license_signing_key_passphrase
 
     license_id = cb.id # fnv digest of clientip and id
-    license_secret = Digest::SHA256.hexdigest([cb.id,Rails.application.secrets.license_secret_seed].join(''))
+    license_secret = Digest::SHA256.hexdigest([cb.id,Rails.application.credentials.license_secret_seed].join(''))
 
 
     id_license_params = {
@@ -157,8 +155,8 @@ class ChargebeeController < ApplicationController
 
 
   def update_license_id_and_hash(subscription_id, license_id, license_hash)
-    api_key = Rails.application.secrets.chargebee_api_key
-    site = Rails.application.secrets.chargebee_site
+    api_key = Rails.application.credentials.chargebee_api_key
+    site = Rails.application.credentials.chargebee_site
     url = "https://#{site}.chargebee.com/api/v2/subscriptions/#{subscription_id}"
     response = HTTParty.get(url,{basic_auth: {username: api_key}})
     if response.ok? && response.respond_to?(:[]) && response["subscription"].present?

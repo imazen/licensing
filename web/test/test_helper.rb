@@ -4,7 +4,7 @@ require 'rails/test_help'
 
 # Store test http interactions so we don't have to make real web requests every test run
 VCR.configure do |config|
-  config.cassette_library_dir = "test/support/vcr_cassettes"
+  config.cassette_library_dir = "test/vcr_cassettes"
   config.hook_into :webmock
 end
 

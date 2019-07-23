@@ -40,4 +40,8 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # Generate a new license signing key using a weak test passphrase
+  config.license_signing_key_passphrase = "testpass"
+  config.license_signing_key = OpenSSL::PKey::RSA.new(2048).export(OpenSSL::Cipher::AES256.new(:CBC), config.license_signing_key_passphrase)
 end
