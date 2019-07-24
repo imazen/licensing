@@ -1,0 +1,140 @@
+{
+  "id": "ev_3Nl8KVbQ42MScz1j",
+  "occurred_at": 1349695936,
+  "source": "scheduled_job",
+  "object": "event",
+  "api_version": "v2",
+  "content": {
+    "subscription": {
+      "id": "IG5ryl2QIcaZIV7QP",
+      "customer_id": "2smoc97nQIcYnlI7vs",
+      "plan_id": "basic",
+      "plan_quantity": 1,
+      "status": "cancelled",
+      "trial_start": 1341747135,
+      "trial_end": 1344425535,
+      "current_term_start": 1347103935,
+      "current_term_end": 1349695936,
+      "created_at": 1341142335,
+      "started_at": 1341747135,
+      "activated_at": 1344425535,
+      "cancelled_at": 1349695936,
+      "updated_at": 1349695936,
+      "has_scheduled_changes": false,
+      "resource_version": 1349695936000,
+      "deleted": false,
+      "object": "subscription",
+      "currency_code": "USD",
+      "addons": [
+        {
+          "id": "data_usage",
+          "quantity": 1,
+          "object": "addon"
+        }
+      ],
+      "due_invoices_count": 0,
+      "mrr": 995,
+      "exchange_rate": 1.0,
+      "base_currency_code": "USD"
+    },
+    "customer": {
+      "id": "2smoc97nQIcYnlI7vs",
+      "first_name": "Benjamin",
+      "last_name": "Ross",
+      "email": "Benjamin@test.com",
+      "auto_collection": "on",
+      "net_term_days": 0,
+      "allow_direct_debit": false,
+      "created_at": 1341142335,
+      "taxability": "taxable",
+      "updated_at": 1349177560,
+      "resource_version": 1349177560000,
+      "deleted": false,
+      "object": "customer",
+      "card_status": "valid",
+      "payment_method": {
+        "object": "payment_method",
+        "type": "card",
+        "reference_id": "tok_3Nl8KVbQ42MSSh1b",
+        "gateway": "chargebee",
+        "status": "valid"
+      },
+      "promotional_credits": 0,
+      "refundable_credits": 0,
+      "excess_payments": 0
+    }
+  },
+  "event_type": "subscription_cancelled",
+  "webhook_status": "not_configured",
+  "controller": "chargebee",
+  "action": "index",
+  "chargebee": {
+    "id": "ev_3Nl8KVbQ42MScz1j",
+    "occurred_at": 1349695936,
+    "source": "scheduled_job",
+    "object": "event",
+    "api_version": "v2",
+    "content": {
+      "subscription": {
+        "id": "3Nl8KVbQ42MLmI5",
+        "customer_id": "3Nl8KVbQ42MLmI5",
+        "plan_id": "basic",
+        "plan_quantity": 1,
+        "status": "cancelled",
+        "trial_start": 1341747135,
+        "trial_end": 1344425535,
+        "current_term_start": 1347103935,
+        "current_term_end": 1349695936,
+        "created_at": 1341142335,
+        "started_at": 1341747135,
+        "activated_at": 1344425535,
+        "cancelled_at": 1349695936,
+        "updated_at": 1349695936,
+        "has_scheduled_changes": false,
+        "resource_version": 1349695936000,
+        "deleted": false,
+        "object": "subscription",
+        "currency_code": "USD",
+        "addons": [
+          {
+            "id": "data_usage",
+            "quantity": 1,
+            "object": "addon"
+          }
+        ],
+        "due_invoices_count": 0,
+        "mrr": 995,
+        "exchange_rate": 1.0,
+        "base_currency_code": "USD"
+      },
+      "customer": {
+        "id": "3Nl8KVbQ42MLmI5",
+        "first_name": "Benjamin",
+        "last_name": "Ross",
+        "email": "Benjamin@test.com",
+        "auto_collection": "on",
+        "net_term_days": 0,
+        "allow_direct_debit": false,
+        "created_at": 1341142335,
+        "taxability": "taxable",
+        "updated_at": 1349177560,
+        "resource_version": 1349177560000,
+        "deleted": false,
+        "object": "customer",
+        "card_status": "valid",
+        "payment_method": {
+          "object": "payment_method",
+          "type": "card",
+          "reference_id": "tok_3Nl8KVbQ42MSSh1b",
+          "gateway": "chargebee",
+          "status": "valid"
+        },
+        "promotional_credits": 0,
+        "refundable_credits": 0,
+        "excess_payments": 0
+      }
+    },
+    "event_type": "subscription_cancelled",
+    "webhook_status": "not_configured"
+  }
+}
