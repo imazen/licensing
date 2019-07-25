@@ -77,7 +77,6 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
-  # TODO - consider switching to credentials.yml.enc for the key and passphrase
   config.license_signing_key_passphrase = ENV['LICENSE_SIGNING_KEY_PASSPHRASE']  || "if-the-attacker-can-access-both-source-and-env-vars-then-we-lose"
 
   config.license_signing_key = ENV['LICENSE_SIGNING_KEY_BLOB'].gsub(/\\n/,"\n")

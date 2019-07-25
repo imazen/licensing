@@ -1,1 +1,1 @@
-ImazenLicensing::Chargebee.new.configure(site: Rails.application.credentials.chargebee_site, api_key: Rails.application.credentials.chargebee_api_key)
+ImazenLicensing::Chargebee.new.configure(site: ENV["CHARGEBEE_SITE"], api_key: ENV["CHARGEBEE_API_KEY"])

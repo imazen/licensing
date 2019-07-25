@@ -2,7 +2,7 @@ class ChargebeeController < ApplicationController
   rescue_from StandardError, with: :log_error
 
   def index
-    unless params[:key] == Rails.application.credentials.chargebee_webhook_token
+    unless params[:key] == ENV["CHARGEBEE_WEBHOOK_TOKEN"]
       head :forbidden
       return
     end
@@ -32,8 +32,8 @@ class ChargebeeController < ApplicationController
                                license[:id], sha)
 
 
-    s3_uploader = ImazenLicensing::S3::S3LicenseUploader.new(aws_id: Rails.application.credentials.license_s3_id,
-                                                             aws_secret: Rails.application.credentials.license_s3_secret)
+    s3_uploader = ImazenLicensing::S3::S3LicenseUploader.new(aws_id: ENV["LICENSE_S3_ID"],
+                                                             aws_secret: ENV["LICENSE_S3_SECRET"])
 
     s3_uploader.upload_license(license_id: license[:id], license_secret: license[:secret], full_body: license[:license][:encoded])
 
@@ -68,7 +68,7 @@ class ChargebeeController < ApplicationController
     passphrase = Web::Application.config.license_signing_key_passphrase
 
     license_id = cb.id # fnv digest of clientip and id
-    license_secret = Digest::SHA256.hexdigest([cb.id,Rails.application.credentials.license_secret_seed].join(''))
+    license_secret = Digest::SHA256.hexdigest([cb.id, ENV["LICENSE_SECRET_SEED"]].join(''))
 
 
     id_license_params = {
@@ -155,8 +155,8 @@ class ChargebeeController < ApplicationController
 
 
   def update_license_id_and_hash(subscription_id, license_id, license_hash)
-    api_key = Rails.application.credentials.chargebee_api_key
-    site = Rails.application.credentials.chargebee_site
+    api_key = ENV["CHARGEBEE_API_KEY"]
+    site = ENV["CHARGEBEE_SITE"]
     url = "https://#{site}.chargebee.com/api/v2/subscriptions/#{subscription_id}"
     response = HTTParty.get(url,{basic_auth: {username: api_key}})
     if response.ok? && response.respond_to?(:[]) && response["subscription"].present?
