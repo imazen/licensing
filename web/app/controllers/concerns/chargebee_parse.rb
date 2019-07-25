@@ -70,7 +70,7 @@ class ChargebeeParse
   def listed_domains_min
     plan.meta_data.fetch(:listed_domains_min)
   end
-  
+
   def listed_domains_max
     plan.meta_data.fetch(:listed_domains_max)
   end
@@ -108,10 +108,10 @@ class ChargebeeParse
 
   def customer_email
     customer["email"]
-  end 
+  end
 
   def subscription_expiration_date
-    subscription["current_term_end"] 
+    subscription["current_term_end"]
   end
 
   def owner
@@ -123,9 +123,10 @@ class ChargebeeParse
 
   def subscription_updated_at
     subscription["updated_at"]
-  end 
+  end
 
   private
+
   def parse_subscription
     subscription["started_at"] = parse_date(subscription["started_at"])
     subscription["activated_at"] = parse_date(subscription["activated_at"])

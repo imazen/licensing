@@ -1,13 +1,12 @@
+# Shared ignore settings
 */.bundle/
 */.yardoc
 */.idea/
-gem/Gemfile.lock
 */_yardoc/
 */coverage/
 */doc/
 */pkg/
 */spec/reports/
-gem/tmp/
 *.bundle
 *.so
 *.o
@@ -17,3 +16,13 @@ gem/tmp/
 *.exe.mdb
 *.env
 *.env.*
+
+# Gem-specific ignore settings
+gem/Gemfile.lock
+gem/tmp/
+
+# Rails app ignore settings
+*/log/
+!*/log/.keep
+web/tmp/
+!/web/tmp/.keep

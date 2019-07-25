@@ -1,0 +1,487 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://imazen-test.chargebee.com/api/v2/subscriptions/IG5ryl2QIcaZIV7QP
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Chargebee-Ruby-Client v2.2.7
+      Authorization:
+      - Basic dGVzdF9iT0ozbm1RRmprZHV2UWNHMWNveEVZeHVxZFphWUpweDo=
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Wed, 24 Jul 2019 21:13:10 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      Pragma:
+      - no-cache
+      Server:
+      - ChargeBee
+      Content-Length:
+      - '1852'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+            "subscription": {
+                "id": "IG5ryl2QIcaZIV7QP",
+                "customer_id": "2smoc97nQIcYnlI7vs",
+                "plan_id": "imageflow-site-license",
+                "plan_quantity": 1,
+                "plan_unit_price": 24900,
+                "plan_amount": 24900,
+                "billing_period": 1,
+                "billing_period_unit": "month",
+                "plan_free_quantity": 0,
+                "status": "cancelled",
+                "trial_start": 1493866732,
+                "trial_end": 1495076332,
+                "created_at": 1493866732,
+                "started_at": 1493866732,
+                "cancelled_at": 1495076333,
+                "cancel_reason": "no_card",
+                "updated_at": 1564002677,
+                "has_scheduled_changes": false,
+                "resource_version": 1564002677208,
+                "deleted": false,
+                "object": "subscription",
+                "currency_code": "USD",
+                "due_invoices_count": 0,
+                "mrr": 0,
+                "cf_company_website": "http://www.a.com",
+                "cf_license_id": "1056624108",
+                "cf_license_hash": "822da5c3c925280f2d789d20c991aebd7f450875c7a94628811c9a7b6fe598a3",
+                "meta_data": {"test": 1234}
+            },
+            "customer": {
+                "id": "2smoc97nQIcYnlI7vs",
+                "first_name": "test",
+                "last_name": "user",
+                "email": "test@test.com",
+                "phone": "888-555-0124",
+                "company": "test company",
+                "auto_collection": "on",
+                "net_term_days": 0,
+                "allow_direct_debit": false,
+                "created_at": 1493866311,
+                "taxability": "taxable",
+                "updated_at": 1495497351,
+                "locale": "en-US",
+                "pii_cleared": "active",
+                "resource_version": 1495497351529,
+                "deleted": false,
+                "object": "customer",
+                "card_status": "no_card",
+                "promotional_credits": 0,
+                "refundable_credits": 0,
+                "excess_payments": 0,
+                "unbilled_charges": 0,
+                "preferred_currency_code": "USD"
+            }
+        }
+    http_version: 
+  recorded_at: Wed, 24 Jul 2019 21:13:11 GMT
+- request:
+    method: get
+    uri: https://imazen-test.chargebee.com/api/v2/customers/2smoc97nQIcYnlI7vs
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Chargebee-Ruby-Client v2.2.7
+      Authorization:
+      - Basic dGVzdF9iT0ozbm1RRmprZHV2UWNHMWNveEVZeHVxZFphWUpweDo=
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Wed, 24 Jul 2019 21:13:11 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      Pragma:
+      - no-cache
+      Server:
+      - ChargeBee
+      Content-Length:
+      - '683'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |-
+        {"customer": {
+            "id": "2smoc97nQIcYnlI7vs",
+            "first_name": "test",
+            "last_name": "user",
+            "email": "test@test.com",
+            "phone": "888-555-0124",
+            "company": "test company",
+            "auto_collection": "on",
+            "net_term_days": 0,
+            "allow_direct_debit": false,
+            "created_at": 1493866311,
+            "taxability": "taxable",
+            "updated_at": 1495497351,
+            "locale": "en-US",
+            "pii_cleared": "active",
+            "resource_version": 1495497351529,
+            "deleted": false,
+            "object": "customer",
+            "card_status": "no_card",
+            "promotional_credits": 0,
+            "refundable_credits": 0,
+            "excess_payments": 0,
+            "unbilled_charges": 0,
+            "preferred_currency_code": "USD"
+        }}
+    http_version: 
+  recorded_at: Wed, 24 Jul 2019 21:13:11 GMT
+- request:
+    method: get
+    uri: https://imazen-test.chargebee.com/api/v2/plans/imageflow-site-license
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Chargebee-Ruby-Client v2.2.7
+      Authorization:
+      - Basic dGVzdF9iT0ozbm1RRmprZHV2UWNHMWNveEVZeHVxZFphWUpweDo=
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Wed, 24 Jul 2019 21:13:11 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      Pragma:
+      - no-cache
+      Server:
+      - ChargeBee
+      Content-Length:
+      - '1170'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |-
+        {"plan": {
+            "id": "imageflow-site-license",
+            "name": "Imageflow Site License",
+            "invoice_name": "Imageflow Site License",
+            "description": "Site-wide license for ImageResizer Elite Edition. Restricted to businesses with fewer than 500 employees.",
+            "price": 24900,
+            "period": 1,
+            "period_unit": "month",
+            "trial_period": 14,
+            "trial_period_unit": "day",
+            "pricing_model": "flat_fee",
+            "free_quantity": 0,
+            "status": "active",
+            "enabled_in_hosted_pages": true,
+            "enabled_in_portal": true,
+            "addon_applicability": "all",
+            "is_shippable": false,
+            "updated_at": 1493880262,
+            "giftable": false,
+            "resource_version": 1493880262407,
+            "object": "plan",
+            "charge_model": "flat_fee",
+            "taxable": true,
+            "currency_code": "USD",
+            "meta_data": {
+                "kind": "oem",
+                "is_public": true,
+                "restrictions": "Single-product OEM redistribution. Only for organizations with fewer than 500 employees.",
+                "features": [
+                    "R_Elite",
+                    "R_Creative",
+                    "R_Performance"
+                ],
+                "network_grace_minutes": 720,
+                "subscription_grace_minutes": 28800
+            }
+        }}
+    http_version: 
+  recorded_at: Wed, 24 Jul 2019 21:13:11 GMT
+- request:
+    method: get
+    uri: https://imazen-test.chargebee.com/api/v2/subscriptions/IG5ryl2QIcaZIV7QP
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Basic dGVzdF9iT0ozbm1RRmprZHV2UWNHMWNveEVZeHVxZFphWUpweDo=
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Wed, 24 Jul 2019 21:13:12 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      Pragma:
+      - no-cache
+      Server:
+      - ChargeBee
+      Content-Length:
+      - '1852'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+            "subscription": {
+                "id": "IG5ryl2QIcaZIV7QP",
+                "customer_id": "2smoc97nQIcYnlI7vs",
+                "plan_id": "imageflow-site-license",
+                "plan_quantity": 1,
+                "plan_unit_price": 24900,
+                "plan_amount": 24900,
+                "billing_period": 1,
+                "billing_period_unit": "month",
+                "plan_free_quantity": 0,
+                "status": "cancelled",
+                "trial_start": 1493866732,
+                "trial_end": 1495076332,
+                "created_at": 1493866732,
+                "started_at": 1493866732,
+                "cancelled_at": 1495076333,
+                "cancel_reason": "no_card",
+                "updated_at": 1564002677,
+                "has_scheduled_changes": false,
+                "resource_version": 1564002677208,
+                "deleted": false,
+                "object": "subscription",
+                "currency_code": "USD",
+                "due_invoices_count": 0,
+                "mrr": 0,
+                "cf_company_website": "http://www.a.com",
+                "cf_license_id": "1056624108",
+                "cf_license_hash": "822da5c3c925280f2d789d20c991aebd7f450875c7a94628811c9a7b6fe598a3",
+                "meta_data": {"test": 1234}
+            },
+            "customer": {
+                "id": "2smoc97nQIcYnlI7vs",
+                "first_name": "test",
+                "last_name": "user",
+                "email": "test@test.com",
+                "phone": "888-555-0124",
+                "company": "test company",
+                "auto_collection": "on",
+                "net_term_days": 0,
+                "allow_direct_debit": false,
+                "created_at": 1493866311,
+                "taxability": "taxable",
+                "updated_at": 1495497351,
+                "locale": "en-US",
+                "pii_cleared": "active",
+                "resource_version": 1495497351529,
+                "deleted": false,
+                "object": "customer",
+                "card_status": "no_card",
+                "promotional_credits": 0,
+                "refundable_credits": 0,
+                "excess_payments": 0,
+                "unbilled_charges": 0,
+                "preferred_currency_code": "USD"
+            }
+        }
+    http_version: 
+  recorded_at: Wed, 24 Jul 2019 21:13:12 GMT
+- request:
+    method: post
+    uri: https://imazen-test.chargebee.com/api/v2/subscriptions/IG5ryl2QIcaZIV7QP
+    body:
+      encoding: UTF-8
+      string: id=IG5ryl2QIcaZIV7QP&customer_id=2smoc97nQIcYnlI7vs&plan_id=imageflow-site-license&plan_quantity=1&plan_unit_price=24900&plan_amount=24900&billing_period=1&billing_period_unit=month&plan_free_quantity=0&status=cancelled&trial_start=1493866732&created_at=1493866732&started_at=1493866732&cancelled_at=1495076333&cancel_reason=no_card&updated_at=1564002677&has_scheduled_changes=false&resource_version=1564002677208&deleted=false&object=subscription&currency_code=USD&due_invoices_count=0&mrr=0&cf_company_website=http%3A%2F%2Fwww.a.com&cf_license_id=1056624108&cf_license_hash=4694b5a9f36556aad24940c0b1b760e27b56573f263091b3b0e38abaeb25f84c&meta_data[test]=1234
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Basic dGVzdF9iT0ozbm1RRmprZHV2UWNHMWNveEVZeHVxZFphWUpweDo=
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Wed, 24 Jul 2019 21:13:11 GMT
+      Pragma:
+      - no-cache
+      Server:
+      - ChargeBee
+      Content-Length:
+      - '1876'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+            "subscription": {
+                "id": "IG5ryl2QIcaZIV7QP",
+                "customer_id": "2smoc97nQIcYnlI7vs",
+                "plan_id": "imageflow-site-license",
+                "plan_quantity": 1,
+                "plan_unit_price": 24900,
+                "plan_amount": 24900,
+                "billing_period": 1,
+                "billing_period_unit": "month",
+                "plan_free_quantity": 0,
+                "status": "cancelled",
+                "trial_start": 1493866732,
+                "trial_end": 1495076332,
+                "created_at": 1493866732,
+                "started_at": 1493866732,
+                "cancelled_at": 1495076333,
+                "cancel_reason": "no_card",
+                "updated_at": 1564002792,
+                "has_scheduled_changes": false,
+                "resource_version": 1564002792464,
+                "deleted": false,
+                "object": "subscription",
+                "currency_code": "USD",
+                "due_invoices_count": 0,
+                "mrr": 0,
+                "cf_company_website": "http://www.a.com",
+                "cf_license_id": "1056624108",
+                "cf_license_hash": "4694b5a9f36556aad24940c0b1b760e27b56573f263091b3b0e38abaeb25f84c",
+                "meta_data": {"test": 1234}
+            },
+            "customer": {
+                "id": "2smoc97nQIcYnlI7vs",
+                "first_name": "test",
+                "last_name": "user",
+                "email": "test@test.com",
+                "phone": "888-555-0124",
+                "company": "test company",
+                "auto_collection": "on",
+                "net_term_days": 0,
+                "allow_direct_debit": false,
+                "created_at": 1493866311,
+                "taxability": "taxable",
+                "updated_at": 1495497351,
+                "locale": "en-US",
+                "pii_cleared": "active",
+                "resource_version": 1495497351529,
+                "deleted": false,
+                "object": "customer",
+                "card_status": "no_card",
+                "promotional_credits": 0,
+                "refundable_credits": 0,
+                "excess_payments": 0,
+                "unbilled_charges": 0,
+                "preferred_currency_code": "USD"
+            },
+            "credit_notes": []
+        }
+    http_version: 
+  recorded_at: Wed, 24 Jul 2019 21:13:12 GMT
+- request:
+    method: put
+    uri: https://s3-us-west-2.amazonaws.com/licenses.imazen.net/v1/licenses/latest/8436955c7e60de19dc4ca04d2bd9c4a4a4b34daa69dfa89dd4d1de0a92b73ce3.txt
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.45.0
+      Content-Type:
+      - text/plain; charset=utf-8
+      X-Amz-Acl:
+      - public-read
+      X-Amz-Date:
+      - 20190724T211312Z
+      X-Amz-Content-Sha256:
+      - STREAMING-AWS4-HMAC-SHA256-PAYLOAD
+      X-Amz-Decoded-Content-Length:
+      - '843'
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=AKIAICS7RGGEDL62367A/20190724/us-west-2/s3/aws4_request,
+        SignedHeaders=content-type;host;x-amz-acl;x-amz-content-sha256;x-amz-date;x-amz-decoded-content-length,
+        Signature=c2ca156b55b400b9bf42461b0971d0b18646aff38633b540942dc628ebf4c122
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amz-Id-2:
+      - OMyOlgIBuqfauE8Qt1KjHEGLRYdweYSFX56EnXYMQEt5X1L8jt3fVUWQ1OaCrtKmmzYVe3g1hZ8=
+      X-Amz-Request-Id:
+      - CD79691A27D48740
+      Date:
+      - Wed, 24 Jul 2019 21:13:14 GMT
+      X-Amz-Version-Id:
+      - vQG8ipP9tcDA6bGK01TseC331bk2nWVs
+      Etag:
+      - '"4a886f8e57314d90497cf49dbbcd2962"'
+      Content-Length:
+      - '0'
+      Server:
+      - AmazonS3
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    http_version: 
+  recorded_at: Wed, 24 Jul 2019 21:13:13 GMT
+recorded_with: VCR 5.0.0
