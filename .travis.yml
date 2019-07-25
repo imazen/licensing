@@ -1,5 +1,6 @@
 language: ruby
 install:
   - cd gem; bundle; rake
+  - cd ../web; bundle; rake
 rvm:
   - 2.5
