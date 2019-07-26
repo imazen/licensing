@@ -37,12 +37,11 @@ class ChargebeeController < ApplicationController
 
     s3_uploader.upload_license(license_id: license[:id], license_secret: license[:secret], full_body: license[:license][:encoded])
 
-
     head :no_content
   end
 
   def log_error(e)
-    LicenseMailer.we_fucked_up(e,params).deliver
+    LicenseMailer.we_fucked_up(e,params).deliver_now
     raise e
   end
 
