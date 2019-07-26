@@ -12,7 +12,7 @@ gem 'puma', '~> 3.11'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'chargebee', github: 'imazen/chargebee-ruby', branch: 'master'
-gem 'imazen_licensing', path: '../gem'
+gem 'imazen_licensing', path: './gem'
 gem 'httparty'
 
 group :development, :test do
