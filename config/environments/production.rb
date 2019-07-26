@@ -81,9 +81,6 @@ Rails.application.configure do
 
   config.license_signing_key = ENV['LICENSE_SIGNING_KEY_BLOB'].gsub(/\\n/,"\n")
 
-  # Do not dump schema after migrations.
-  config.active_record.dump_schema_after_migration = false
-
   config.action_mailer.smtp_settings = {
     :user_name      => ENV['SMTP_USER'] || 'store@store.imazen.io',
     :password       => ENV['SMTP_PASSWORD'] || 'loathing_sendgrid',
