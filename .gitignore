@@ -22,7 +22,7 @@ gem/Gemfile.lock
 gem/tmp/
 
 # Rails app ignore settings
-*/log/
-!*/log/.keep
-web/tmp/
-!/web/tmp/.keep
+*log/
+!*log/.keep
+tmp/
+!tmp/.keep
