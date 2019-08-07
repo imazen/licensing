@@ -1,18 +1,8 @@
 class ChargebeeController < ApplicationController
   rescue_from StandardError, with: :log_error
+  before_action :ensure_valid_key, :check_subscription
 
   def index
-    unless params[:key] == ENV["CHARGEBEE_WEBHOOK_TOKEN"]
-      head :forbidden
-      return
-    end
-
-    # Ignore events that lack a subscription
-    if params.fetch("content", {}).fetch("subscription", nil).nil?
-      head :no_content
-      return
-    end
-
     cb = ChargebeeParse.new(params)
 
     license = generate_license(cb)
@@ -47,7 +37,6 @@ class ChargebeeController < ApplicationController
 
   private
 
-
   def get_licensed_domains(cb)
     domains = cb.subscription["cf_licensed_domains"];
     domains = (domains || "").split(" ")
@@ -60,7 +49,6 @@ class ChargebeeController < ApplicationController
     # TODO: validate domains
     domains
   end
-
 
   def generate_license(cb)
     key = Web::Application.config.license_signing_key
@@ -171,5 +159,18 @@ class ChargebeeController < ApplicationController
       end
     end
     false
+  end
+
+  def ensure_valid_key
+    unless params[:key] == ENV["CHARGEBEE_WEBHOOK_TOKEN"]
+      head :forbidden
+    end
+  end
+
+  def check_subscription
+    # Ignore events that lack a subscription
+    if params.fetch("content", {}).fetch("subscription", nil).nil?
+      head :no_content
+    end
   end
 end
