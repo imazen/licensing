@@ -35,6 +35,7 @@ class ChargebeeController < ApplicationController
     true
   end
 
+  # @TODO: move me to chargebee_license_generator
   def update_license_id_and_hash(subscription_id, license_id, license_hash)
     api_key = ENV["CHARGEBEE_API_KEY"]
     site = ENV["CHARGEBEE_SITE"]
@@ -72,6 +73,7 @@ class ChargebeeController < ApplicationController
     Web::Application.config.license_signing_key_passphrase
   end
 
+  # @TODO: move me to chargebee_license_generator
   def maybe_send_license_email(cb, sha, license)
     if sha != cb.subscription["cf_license_hash"]
       LicenseMailer.id_license_email(
@@ -83,9 +85,10 @@ class ChargebeeController < ApplicationController
     end
   end
 
+  # @TODO: move me to chargebee_license_generator
   def upload_to_s3(license, aws_id, aws_secret)
-    s3_uploader = ImazenLicensing::S3::S3LicenseUploader.new(aws_id: ENV["LICENSE_S3_ID"],
-                                                             aws_secret: ENV["LICENSE_S3_SECRET"])
+    s3_uploader = ImazenLicensing::S3::S3LicenseUploader.new(aws_id: aws_id,
+                                                             aws_secret: aws_secret)
 
     s3_uploader.upload_license(license_id: license[:id], license_secret: license[:secret], full_body: license[:license][:encoded])
   end
