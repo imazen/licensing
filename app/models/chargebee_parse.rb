@@ -11,15 +11,21 @@ class ChargebeeParse
     self.customer = params.fetch("content",{}).fetch("customer",{})
     self.event_type = params["event_type"]
 
-    # compare Time.zone.now to subscription updated_at. if >3 seconds, fetch everything new
+    nil
+  end
 
+  def maybe_update_subscription_and_customer
+    # compare Time.zone.now to subscription updated_at. if >3 seconds, fetch everything new
     if (subscription_updated_at < Time.zone.now - 3.seconds)
       self.subscription = ChargeBee::Subscription.retrieve(self.subscription["id"]).subscription.as_json
       parse_subscription
       self.customer = ChargeBee::Customer.retrieve(self.subscription["customer_id"]).customer.as_json
     end
+  end
 
-    nil
+  def licensed_domains
+    domains = self.subscription["cf_licensed_domains"]
+    (domains || "").split(" ")
   end
 
   def id
@@ -123,6 +129,10 @@ class ChargebeeParse
 
   def subscription_updated_at
     subscription["updated_at"]
+  end
+
+  def site_license?
+    plan_id == "imageflow-site-license"
   end
 
   private

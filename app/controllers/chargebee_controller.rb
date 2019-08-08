@@ -4,7 +4,9 @@ class ChargebeeController < ApplicationController
 
   def index
     cb = ChargebeeParse.new(params)
+    cb.maybe_update_subscription_and_customer
 
+    raise "Domain count incorrect" unless domains_count_ok?(cb)
     license = generate_license(cb)
 
     sha = Digest::SHA256.hexdigest(license[:id_license][:encoded])
@@ -37,17 +39,11 @@ class ChargebeeController < ApplicationController
 
   private
 
-  def get_licensed_domains(cb)
-    domains = cb.subscription["cf_licensed_domains"];
-    domains = (domains || "").split(" ")
-    #requires listed_domains_min and listed_domains_max
-    if domains.length < cb.listed_domains_min
-      raise "A minimum of #{cb.listed_domains_min} domain(s) are required to generate this license"
-    elsif domains.length > cb.listed_domains_max
-      raise "A maximum of #{cb.listed_domains_max} domains are permitted by this plan"
-    end
-    # TODO: validate domains
-    domains
+  def domains_count_ok?(cb)
+    return true if cb.site_license?
+    domains = cb.licensed_domains
+    return false if domains.length < cb.listed_domains_min || domains.length > cb.listed_domains_max
+    true
   end
 
   def generate_license(cb)
@@ -98,7 +94,7 @@ class ChargebeeController < ApplicationController
                      {
                        max_servers: cb.subscription_quantity,
                        total_cores: cb.plan_cores * cb.subscription_quantity,
-                       domains: get_licensed_domains(cb)
+                       domains: cb.licensed_domains
                      }
                    when "site-wide"
                      {
