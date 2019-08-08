@@ -158,15 +158,11 @@ class ChargebeeController < ApplicationController
   end
 
   def ensure_valid_key
-    unless params[:key] == ENV["CHARGEBEE_WEBHOOK_TOKEN"]
-      head :forbidden
-    end
+    head :forbidden if params[:key] != ENV["CHARGEBEE_WEBHOOK_TOKEN"]
   end
 
   def check_subscription
     # Ignore events that lack a subscription
-    if params.fetch("content", {}).fetch("subscription", nil).nil?
-      head :no_content
-    end
+    head :no_content if params.dig("content", "subscription").empty?
   end
 end
