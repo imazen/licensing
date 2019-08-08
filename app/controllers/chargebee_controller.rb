@@ -5,31 +5,18 @@ class ChargebeeController < ApplicationController
   def index
     cb = ChargebeeParse.new(params)
     cb.maybe_update_subscription_and_customer
-
-    raise "Domain count incorrect" unless domains_count_ok?(cb)
+    subscription_id = cb.subscription["id"]
     seed = ENV["LICENSE_SECRET_SEED"]
     key, passphrase = license_signing_key, license_signing_passphrase
-    license = ChargebeeLicenseGenerator.generate_license(cb, seed, key, passphrase)
 
+    raise "Domain count incorrect" unless domains_count_ok?(cb)
+    license = ChargebeeLicenseGenerator.generate_license(cb, seed, key, passphrase)
     sha = Digest::SHA256.hexdigest(license[:id_license][:encoded])
 
-    if sha != cb.subscription["cf_license_hash"]
-      LicenseMailer.id_license_email(
-        emails: [cb.customer_email],
-        id_license_encoded: license[:id_license][:encoded],
-        id_license_text: license[:id_license][:text],
-        remote_license_text: license[:license][:text]
-      ).deliver
-    end
+    maybe_send_license_email(cb, sha, license)
+    update_license_id_and_hash(subscription_id, license[:id], sha)
 
-    update_license_id_and_hash(cb.subscription["id"],
-                               license[:id], sha)
-
-
-    s3_uploader = ImazenLicensing::S3::S3LicenseUploader.new(aws_id: ENV["LICENSE_S3_ID"],
-                                                             aws_secret: ENV["LICENSE_S3_SECRET"])
-
-    s3_uploader.upload_license(license_id: license[:id], license_secret: license[:secret], full_body: license[:license][:encoded])
+    upload_to_s3(license, ENV["LICENSE_S3_ID"], ENV["LICENSE_S3_SECRET"])
 
     head :no_content
   end
@@ -83,5 +70,23 @@ class ChargebeeController < ApplicationController
 
   def license_signing_passphrase
     Web::Application.config.license_signing_key_passphrase
+  end
+
+  def maybe_send_license_email(cb, sha, license)
+    if sha != cb.subscription["cf_license_hash"]
+      LicenseMailer.id_license_email(
+        emails: [cb.customer_email],
+        id_license_encoded: license[:id_license][:encoded],
+        id_license_text: license[:id_license][:text],
+        remote_license_text: license[:license][:text]
+      ).deliver
+    end
+  end
+
+  def upload_to_s3(license, aws_id, aws_secret)
+    s3_uploader = ImazenLicensing::S3::S3LicenseUploader.new(aws_id: ENV["LICENSE_S3_ID"],
+                                                             aws_secret: ENV["LICENSE_S3_SECRET"])
+
+    s3_uploader.upload_license(license_id: license[:id], license_secret: license[:secret], full_body: license[:license][:encoded])
   end
 end
