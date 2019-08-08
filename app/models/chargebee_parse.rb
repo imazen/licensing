@@ -1,4 +1,9 @@
 class ChargebeeParse
+  TIMESTAMP_FIELDS = [
+    'started_at', 'activated_at', 'next_billing_at',
+    'created_at', 'updated_at', 'current_term_start',
+    'current_term_end', 'cancelled_at', 'trial_start', 'trial_end'
+  ]
   attr_accessor :subscription, :customer, :plan, :event_type
 
   def initialize(params)
@@ -136,16 +141,9 @@ class ChargebeeParse
   private
 
   def parse_subscription_timestamps
-    subscription["started_at"] = parse_date(subscription["started_at"])
-    subscription["activated_at"] = parse_date(subscription["activated_at"])
-    subscription["next_billing_at"] = parse_date(subscription["next_billing_at"])
-    subscription["created_at"] = parse_date(subscription["created_at"])
-    subscription["updated_at"] = parse_date(subscription["updated_at"])
-    subscription["current_term_start"] = parse_date(subscription["current_term_start"])
-    subscription["current_term_end"] = parse_date(subscription["current_term_end"])
-    subscription["cancelled_at"] = parse_date(subscription["cancelled_at"])
-    subscription["trial_start"] = parse_date(subscription["trial_start"])
-    subscription["trial_end"] = parse_date(subscription["trial_end"])
+    TIMESTAMP_FIELDS.each do |field|
+      subscription[field] = parse_date(subscription[field])
+    end
   end
 
   def parse_date(object)
