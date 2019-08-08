@@ -14,8 +14,7 @@ class ChargebeeParse
   end
 
   def maybe_update_subscription_and_customer
-    # compare Time.zone.now to subscription updated_at. if >3 seconds, fetch everything new
-    if (subscription_updated_at < Time.zone.now - 3.seconds)
+    if subscription_stale?
       self.subscription = ChargeBee::Subscription.retrieve(self.subscription["id"]).subscription.as_json
       parse_subscription_timestamps
       self.customer = ChargeBee::Customer.retrieve(self.subscription["customer_id"]).customer.as_json
@@ -55,7 +54,6 @@ class ChargebeeParse
     @plan ||= ChargeBee::Plan.retrieve(plan_id).plan
   end
 
-
   def plan_cores
     plan.meta_data.fetch(:cores)
   end
@@ -84,8 +82,6 @@ class ChargebeeParse
     plan.meta_data.fetch(:listed_domains_max)
   end
 
-
-
   def product
     plan.invoice_name
   end
@@ -93,7 +89,6 @@ class ChargebeeParse
   def is_public
     plan.meta_data.fetch(:is_public)
   end
-
 
   def subscription_metadata
     subscription["meta_data"]
@@ -148,5 +143,9 @@ class ChargebeeParse
 
   def parse_date(object)
     (object.present? || nil) && Time.zone.at(Integer(object)).to_datetime
+  end
+
+  def subscription_stale?
+    subscription_updated_at < Time.zone.now - 3.seconds
   end
 end
