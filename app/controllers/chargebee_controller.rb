@@ -51,13 +51,6 @@ class ChargebeeController < ApplicationController
     key, passphrase = license_signing_key, license_signing_passphrase
     id_license_params, generated_id_license = generate_id_license(cb, seed, key, passphrase)
 
-    restrictions = license_restrictions(cb)
-
-    # TODO:
-    # Add company or non-profit restrictions based on cb.coupon_strings
-    # Always set subscription_expiration_date
-    # if perpetual license add-on is present, lift expires date..
-
     license_type_params = params_for_license_type(cb)
 
     # @TODO: handle cancellations
@@ -73,7 +66,7 @@ class ChargebeeController < ApplicationController
       product: cb.product, # from plan
       must_be_fetched: true,
       is_public: cb.is_public,
-      restrictions: restrictions.join(' ')
+      restrictions: license_restrictions(cb).join(' ')
     }.merge(license_type_params)
 
     license = ImazenLicensing::LicenseGenerator.generate_with_info(license_params, key, passphrase)
@@ -152,6 +145,11 @@ class ChargebeeController < ApplicationController
   end
 
   def params_for_license_type(cb)
+    # TODO:
+    # Add company or non-profit restrictions based on cb.coupon_strings
+    # Always set subscription_expiration_date
+    # if perpetual license add-on is present, lift expires date..
+
     case cb.kind
     when "per-core"
       {
