@@ -47,35 +47,11 @@ class ChargebeeController < ApplicationController
   end
 
   def generate_license(cb)
-    key = Web::Application.config.license_signing_key
-    passphrase = Web::Application.config.license_signing_key_passphrase
+    seed = ENV["LICENSE_SECRET_SEED"]
+    key, passphrase = license_signing_key, license_signing_passphrase
+    id_license_params, generated_id_license = generate_id_license(cb, seed, key, passphrase)
 
-    license_id = cb.id # fnv digest of clientip and id
-    license_secret = Digest::SHA256.hexdigest([cb.id, ENV["LICENSE_SECRET_SEED"]].join(''))
-
-
-    id_license_params = {
-      kind: 'id',
-      id: license_id, # we generate this (lowercase, numeric)
-      owner: cb.owner,
-      secret: license_secret,
-      issued: cb.subscription["created_at"],
-      network_grace_minutes: 480,
-      is_public: false
-    }
-
-    id_license = ImazenLicensing::LicenseGenerator.generate_with_info(id_license_params, key, passphrase)
-
-
-    restrictions = [cb.restrictions] + { "MICROENTERPRISE_ONLY" => "Only valid for organizations with less than 5 employees.",
-                                         "SMALLBIZ_ONLY" => "Only valid for organizations with less than 30 employees.",
-                                         "SMB_ONLY" => "Only valid for organizations with less than 500 employees.",
-                                         "NONPROFIT_ONLY" => "Only valid for non-profit organizations."
-    }.map do |k,v|
-      cb.coupon_strings.any?{|s| s.include? (k) } ? v : nil
-    end
-
-    restrictions = restrictions.compact.uniq
+    restrictions = license_restrictions(cb)
 
 
     # TODO:
@@ -113,7 +89,7 @@ class ChargebeeController < ApplicationController
     # @TODO: push billing issue data and subscription status
 
     license_params = {
-      id: cb.id, # we generate this (lowercase, numeric)
+      id: id_license_params[:id], # we generate this (lowercase, numeric)
       owner: cb.owner,
       kind: cb.kind, # from plan
       issued: cb.issued,
@@ -129,10 +105,10 @@ class ChargebeeController < ApplicationController
 
 
     {
-      id_license: id_license,
+      id_license: generated_id_license,
       license: license,
-      secret: license_secret,
-      id: license_id
+      secret: id_license_params[:secret],
+      id: id_license_params[:id]
     }
   end
 
@@ -164,5 +140,39 @@ class ChargebeeController < ApplicationController
   def check_subscription
     # Ignore events that lack a subscription
     head :no_content if params.dig("content", "subscription").empty?
+  end
+
+  def license_signing_key
+    Web::Application.config.license_signing_key
+  end
+
+  def license_signing_passphrase
+    Web::Application.config.license_signing_key_passphrase
+  end
+
+  def generate_id_license(cb, license_secret_seed, key, passphrase)
+    id_license_params = {
+      kind: 'id',
+      id: cb.id, # we generate this (lowercase, numeric)
+      owner: cb.owner,
+      secret: cb.license_secret(license_secret_seed),
+      issued: cb.subscription["created_at"],
+      network_grace_minutes: 480,
+      is_public: false
+    }
+
+    generated_id_license = ImazenLicensing::LicenseGenerator.generate_with_info(id_license_params, key, passphrase)
+
+    [id_license_params, generated_id_license]
+  end
+
+  def license_restrictions(cb)
+    [cb.restrictions] + { "MICROENTERPRISE_ONLY" => "Only valid for organizations with less than 5 employees.",
+                                         "SMALLBIZ_ONLY" => "Only valid for organizations with less than 30 employees.",
+                                         "SMB_ONLY" => "Only valid for organizations with less than 500 employees.",
+                                         "NONPROFIT_ONLY" => "Only valid for non-profit organizations."
+    }.map do |k,v|
+      cb.coupon_strings.any?{|s| s.include? (k) } ? v : nil
+    end.compact.uniq
   end
 end

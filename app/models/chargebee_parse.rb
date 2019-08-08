@@ -26,6 +26,10 @@ class ChargebeeParse
     Digest::FNV.calculate([created_from_ip,subscription["id"]].join(''), 30).to_s.rjust(8,"0")
   end
 
+  def license_secret(seed)
+    Digest::SHA256.hexdigest([self.id, seed].join(''))
+  end
+
   def created_from_ip
     IPAddr.new(subscription["created_from_ip"].split(",").first).to_i if subscription["created_from_ip"]
   end
