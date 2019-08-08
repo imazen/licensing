@@ -2,9 +2,9 @@ class ChargebeeParse
   attr_accessor :subscription, :customer, :plan, :event_type
 
   def initialize(params)
-    self.subscription = params.fetch("content",{}).fetch("subscription",{})
-    parse_subscription
-    self.customer = params.fetch("content",{}).fetch("customer",{})
+    self.subscription = params.dig("content", "subscription") || {}
+    parse_subscription_timestamps
+    self.customer = params.dig("content", "subscription") || {}
     self.event_type = params["event_type"]
   end
 
@@ -12,14 +12,14 @@ class ChargebeeParse
     # compare Time.zone.now to subscription updated_at. if >3 seconds, fetch everything new
     if (subscription_updated_at < Time.zone.now - 3.seconds)
       self.subscription = ChargeBee::Subscription.retrieve(self.subscription["id"]).subscription.as_json
-      parse_subscription
+      parse_subscription_timestamps
       self.customer = ChargeBee::Customer.retrieve(self.subscription["customer_id"]).customer.as_json
     end
   end
 
   def licensed_domains
-    domains = self.subscription["cf_licensed_domains"]
-    (domains || "").split(" ")
+    domains = self.subscription["cf_licensed_domains"] || ""
+    domains.split(" ")
   end
 
   def id
@@ -131,7 +131,7 @@ class ChargebeeParse
 
   private
 
-  def parse_subscription
+  def parse_subscription_timestamps
     subscription["started_at"] = parse_date(subscription["started_at"])
     subscription["activated_at"] = parse_date(subscription["activated_at"])
     subscription["next_billing_at"] = parse_date(subscription["next_billing_at"])
@@ -142,7 +142,6 @@ class ChargebeeParse
     subscription["cancelled_at"] = parse_date(subscription["cancelled_at"])
     subscription["trial_start"] = parse_date(subscription["trial_start"])
     subscription["trial_end"] = parse_date(subscription["trial_end"])
-
   end
 
   def parse_date(object)
