@@ -2,16 +2,10 @@ class ChargebeeParse
   attr_accessor :subscription, :customer, :plan, :event_type
 
   def initialize(params)
-    get_chargebee_objects(params)
-  end
-
-  def get_chargebee_objects(params)
     self.subscription = params.fetch("content",{}).fetch("subscription",{})
     parse_subscription
     self.customer = params.fetch("content",{}).fetch("customer",{})
     self.event_type = params["event_type"]
-
-    nil
   end
 
   def maybe_update_subscription_and_customer
