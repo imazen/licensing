@@ -53,37 +53,12 @@ class ChargebeeController < ApplicationController
 
     restrictions = license_restrictions(cb)
 
-
     # TODO:
     # Add company or non-profit restrictions based on cb.coupon_strings
     # Always set subscription_expiration_date
     # if perpetual license add-on is present, lift expires date..
 
-
-    extra_fields = case cb.kind
-                   when "per-core"
-                     {
-                       max_servers: cb.subscription_quantity,
-                       total_cores: cb.plan_cores * cb.subscription_quantity,
-                     }
-                   when "per-core-domain"
-                     {
-                       max_servers: cb.subscription_quantity,
-                       total_cores: cb.plan_cores * cb.subscription_quantity,
-                       domains: cb.licensed_domains
-                     }
-                   when "site-wide"
-                     {
-
-                     }
-                   when "oem"
-                     {
-                       only_for_use_within: cb.subscription["cf_for_use_within_product_oem_redistribution"],
-                       # @TODO: set subscription_expiration_date immediately to prevent newer binaries from being used with a oem revoked license
-                     }
-                   else
-                     {}
-                   end
+    license_type_params = params_for_license_type(cb)
 
     # @TODO: handle cancellations
     # @TODO: push billing issue data and subscription status
@@ -99,7 +74,7 @@ class ChargebeeController < ApplicationController
       must_be_fetched: true,
       is_public: cb.is_public,
       restrictions: restrictions.join(' ')
-    }.merge(extra_fields)
+    }.merge(license_type_params)
 
     license = ImazenLicensing::LicenseGenerator.generate_with_info(license_params, key, passphrase)
 
@@ -168,11 +143,38 @@ class ChargebeeController < ApplicationController
 
   def license_restrictions(cb)
     [cb.restrictions] + { "MICROENTERPRISE_ONLY" => "Only valid for organizations with less than 5 employees.",
-                                         "SMALLBIZ_ONLY" => "Only valid for organizations with less than 30 employees.",
-                                         "SMB_ONLY" => "Only valid for organizations with less than 500 employees.",
-                                         "NONPROFIT_ONLY" => "Only valid for non-profit organizations."
+                          "SMALLBIZ_ONLY" => "Only valid for organizations with less than 30 employees.",
+                          "SMB_ONLY" => "Only valid for organizations with less than 500 employees.",
+                          "NONPROFIT_ONLY" => "Only valid for non-profit organizations."
     }.map do |k,v|
       cb.coupon_strings.any?{|s| s.include? (k) } ? v : nil
     end.compact.uniq
+  end
+
+  def params_for_license_type(cb)
+    case cb.kind
+    when "per-core"
+      {
+        max_servers: cb.subscription_quantity,
+        total_cores: cb.plan_cores * cb.subscription_quantity,
+      }
+    when "per-core-domain"
+      {
+        max_servers: cb.subscription_quantity,
+        total_cores: cb.plan_cores * cb.subscription_quantity,
+        domains: cb.licensed_domains
+      }
+    when "site-wide"
+      {
+
+      }
+    when "oem"
+      {
+        only_for_use_within: cb.subscription["cf_for_use_within_product_oem_redistribution"],
+        # @TODO: set subscription_expiration_date immediately to prevent newer binaries from being used with a oem revoked license
+      }
+    else
+      {}
+    end
   end
 end
