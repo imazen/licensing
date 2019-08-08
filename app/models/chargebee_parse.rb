@@ -23,7 +23,7 @@ class ChargebeeParse
   end
 
   def id
-    Digest::FNV.calculate([created_from_ip,subscription["id"]].join(''), 30).to_s.rjust(8,"0")
+    @id ||= Digest::FNV.calculate([created_from_ip,subscription["id"]].join(''), 30).to_s.rjust(8,"0")
   end
 
   def license_secret(seed)
