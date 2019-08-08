@@ -56,21 +56,7 @@ class ChargebeeController < ApplicationController
     # @TODO: handle cancellations
     # @TODO: push billing issue data and subscription status
 
-    license_params = {
-      id: id_license_params[:id], # we generate this (lowercase, numeric)
-      owner: cb.owner,
-      kind: cb.kind, # from plan
-      issued: cb.issued,
-      expires: cb.term_end_guess.advance( minutes: cb.subscription_grace_minutes),
-      features: cb.features, # from plan
-      product: cb.product, # from plan
-      must_be_fetched: true,
-      is_public: cb.is_public,
-      restrictions: license_restrictions(cb).join(' ')
-    }.merge(license_type_params)
-
-    license = ImazenLicensing::LicenseGenerator.generate_with_info(license_params, key, passphrase)
-
+    _license_params, license = generate_license_with_params(cb, license_type_params, key, passphrase)
 
     {
       id_license: generated_id_license,
@@ -174,5 +160,24 @@ class ChargebeeController < ApplicationController
     else
       {}
     end
+  end
+
+  def generate_license_with_params(cb, license_type_params, key, passphrase)
+    license_params = {
+      id: cb.id, # we generate this (lowercase, numeric)
+      owner: cb.owner,
+      kind: cb.kind, # from plan
+      issued: cb.issued,
+      expires: cb.term_end_guess.advance( minutes: cb.subscription_grace_minutes),
+      features: cb.features, # from plan
+      product: cb.product, # from plan
+      must_be_fetched: true,
+      is_public: cb.is_public,
+      restrictions: license_restrictions(cb).join(' ')
+    }.merge(license_type_params)
+
+    license = ImazenLicensing::LicenseGenerator.generate_with_info(license_params, key, passphrase)
+
+    [license_params, license]
   end
 end
