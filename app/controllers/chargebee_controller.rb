@@ -9,7 +9,7 @@ class ChargebeeController < ApplicationController
     seed = ENV["LICENSE_SECRET_SEED"]
     key, passphrase = license_signing_key, license_signing_passphrase
 
-    raise "Domain count incorrect" unless domains_count_ok?(cb)
+    send_domain_emails(cb) and return unless domains_count_ok?(cb)
     license = ChargebeeLicenseGenerator.generate_license(cb, seed, key, passphrase)
     sha = Digest::SHA256.hexdigest(license[:id_license][:encoded])
 
@@ -29,10 +29,16 @@ class ChargebeeController < ApplicationController
   private
 
   def domains_count_ok?(cb)
-    return true if cb.site_license?
-    domains = cb.licensed_domains
-    return false if domains.length < cb.listed_domains_min || domains.length > cb.listed_domains_max
-    true
+    return true unless cb.domains_required?
+    false if cb.domains_under_min? || cb.domains_over_max?
+  end
+
+  def send_domain_emails(cb)
+    if cb.domains_under_min?
+      LicenseMailer.domains_under_min(cb)
+    elsif cb.domains_over_max?
+      LicenseMailer.domains_over_max(cb)
+    end
   end
 
   # @TODO: move me to chargebee_license_generator
