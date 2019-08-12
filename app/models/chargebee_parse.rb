@@ -129,8 +129,16 @@ class ChargebeeParse
     subscription["updated_at"]
   end
 
-  def site_license?
-    plan_id == "imageflow-site-license"
+  def domains_required?
+    kind == 'per-core-domain'
+  end
+
+  def domains_under_min?
+    licensed_domains.length < listed_domains_min
+  end
+
+  def domains_over_max?
+    licensed_domains.length > listed_domains_max
   end
 
   private
