@@ -19,4 +19,8 @@ class LicenseMailer < ApplicationMailer
          ].join("\n")
         )
   end
+
+  def domains_under_min(emails:)
+    mail(to: emails, bcc: OUR_EMAILS, subject: 'Licensing Issue', template_name: 'domains_under_min_email')
+  end
 end
