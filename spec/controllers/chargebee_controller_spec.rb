@@ -29,7 +29,9 @@ RSpec.describe ChargebeeController, type: :controller do
       context 'domains count is under minimum' do
         it 'sends domains_under_min email' do
           VCR.use_cassette('domains_under_min') do
-            expect(LicenseMailer).to receive(:domains_under_min)
+            # expect the correct mailer method to be called, then stub out
+            # the return value with something that responds to deliver_now
+            expect(LicenseMailer).to receive(:domains_under_min).and_return(double(deliver_now: true))
             post :index, params: load_chargebee_params('domains_under_min')
           end
         end

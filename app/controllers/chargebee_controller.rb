@@ -35,9 +35,11 @@ class ChargebeeController < ApplicationController
 
   def send_domain_emails(cb)
     if cb.domains_under_min?
-      LicenseMailer.domains_under_min(cb)
+      LicenseMailer.domains_under_min(cb.customer_email, cb.listed_domains_max).deliver_now
     elsif cb.domains_over_max?
-      LicenseMailer.domains_over_max(cb)
+      raise "Someone tried to register with too many domains"
+      # @TODO: not yet implemented
+      # LicenseMailer.domains_over_max(cb.customer_email, cb.listed_domains_max).deliver_now
     end
   end
 
