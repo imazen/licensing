@@ -1,0 +1,512 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://imazen-test.chargebee.com/api/v2/subscriptions/1t0Aw2NRYyaT9O19xD
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Chargebee-Ruby-Client v2.2.7
+      Authorization:
+      - Basic dGVzdF9iT0ozbm1RRmprZHV2UWNHMWNveEVZeHVxZFphWUpweDo=
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Mon, 12 Aug 2019 23:08:30 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      Pragma:
+      - no-cache
+      Server:
+      - ChargeBee
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '957'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAAAAAAAAJ1WTXPbNhC951doeOzEGZLml3xKm6ZtZjJJ3DgT94QBwZWEGAQYAJTEZPzfuwT1QVBS4lY+eMR92F3svveo789m+AlMWxqmeWO5ksHN7Lt76iK8wu9BZMNfN/G7v//p6N38fTTf/h48P2JYa6yqQZMBzMoKakXMCoSAbgxsBJU7UAdUi+6qAX1lQK/xX3xVqZpyaa54TZegwfBv+BgRC6VrKhmcpPraUmm57TBhNI21klvSaI7HbmZJkobhFEFr1Up7JlpyIbhcEizNVTVJ7gddmf19TvpbaIBxk+MixlLbmv4ol8RqTsX4uHtAEKP77FGa4V8YJfMTCMhqAGRxmsw9gIStJft2qb0EYxqoheqAOK3k2vghom2qkxzJfIxYUUMMW0HVCsSxFZVL6G+/oMLACIdrV61mQJASZmDjMV+aZiNoBQKw6JkkqvwCzK3FI7ZHWa1Bso4wVfUECT599ChdtUC4XCukj0HMwJPx+tiCCAxKAztC5/MCZ1IUeXAehQNY9TjIwjzK8igvGKVhmpUJi6KCJUVCizBlJc2hyJIkCXO4TvMojrOMLgo6p3kCeV7Egcv+OBQ5SO+caC/rcMG1sUTS2l394ylA0FH8LaxBeuID1Klw4x2OvoQtrRsBL5iqPRGslHQpsmgWzcNwlqXJ7DqOvBGpuqGyOxaavVK6eTGG0NYqXAJWYjuDCvxtSrDEgq5JRTszWRQVQm1IxTUeJhWUTq5TwvgaSOL0ukiKeEw2S7cUtTToePgmvJn4EkiK6ygMwzgdT4NzwgT6hONsQPEyay/FOe4fEoWeRT2F+wdujC9KdUWO1rOmArky7lGj+eqONLSrQVqya2ggVFOT2Kze/lXef7h9c5dpkWzfe3vYn6rBrpxxHjk56W2CfO7jbNc42vTdTmMaFtBLd9+UVQ+E4GLXhFy/E8X9/R+3v9V3d68/v5bTo0tc0Ia6BaIB6SWUABcwhDKn+l2R5Ya8+TPVnVncvlrGcfX19vOX6cnpVA/RR2++qlY9idG6kXQVt1O+4v1aWfXsugCALXqS2W9oGm1l7/iDxerBYr0Xnxuf7uPnHND3ln76nq/8gDg/me3/m2vAuVN7EoZpGk0NKulDKIvkhOB7/qy5oZ7v4WT7l+E+LpUlD1JtPBLDtuGogFpJ2xt2FJ7G3Mv+ZhaHcXzml8E33jjPw9bSeXDZZc5YxM9N5D94xMgJfB0FNTUPWEW2deleHcEvo8/JRJ/86+7pnjHw7NnjvzR52YJ/CgAA
+    http_version: 
+  recorded_at: Mon, 12 Aug 2019 23:08:30 GMT
+- request:
+    method: get
+    uri: https://imazen-test.chargebee.com/api/v2/customers/cbdemo_shelley
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Chargebee-Ruby-Client v2.2.7
+      Authorization:
+      - Basic dGVzdF9iT0ozbm1RRmprZHV2UWNHMWNveEVZeHVxZFphWUpweDo=
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Mon, 12 Aug 2019 23:08:30 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      Pragma:
+      - no-cache
+      Server:
+      - ChargeBee
+      Content-Length:
+      - '1734'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+            "customer": {
+                "id": "cbdemo_shelley",
+                "first_name": "Shelley",
+                "last_name": "Levene",
+                "email": "shelley@example.com",
+                "phone": "61 1900 654 321",
+                "company": "Levene Corp.",
+                "auto_collection": "on",
+                "net_term_days": 0,
+                "allow_direct_debit": false,
+                "created_at": 1425384826,
+                "taxability": "taxable",
+                "updated_at": 1483100025,
+                "pii_cleared": "active",
+                "resource_version": 1483100025000,
+                "deleted": false,
+                "object": "customer",
+                "card_status": "valid",
+                "primary_payment_source_id": "pm_2shLHbXPQIT6rl4xOn",
+                "payment_method": {
+                    "object": "payment_method",
+                    "type": "card",
+                    "reference_id": "tok___dev__3Nl8XXFQBmTTEWEn",
+                    "gateway": "chargebee",
+                    "gateway_account_id": "gw_IG5rysfQCg22dqQWj",
+                    "status": "valid"
+                },
+                "promotional_credits": 0,
+                "refundable_credits": 0,
+                "excess_payments": 0,
+                "unbilled_charges": 0,
+                "preferred_currency_code": "USD"
+            },
+            "card": {
+                "status": "valid",
+                "gateway": "chargebee",
+                "gateway_account_id": "gw_IG5rysfQCg22dqQWj",
+                "iin": "400551",
+                "last4": "0004",
+                "card_type": "visa",
+                "funding_type": "not_known",
+                "expiry_month": 10,
+                "expiry_year": 2022,
+                "billing_zip": "600059",
+                "created_at": 1483100025,
+                "updated_at": 1483100025,
+                "resource_version": 1483100025000,
+                "object": "card",
+                "masked_number": "************0004",
+                "customer_id": "cbdemo_shelley",
+                "payment_source_id": "pm_2shLHbXPQIT6rl4xOn"
+            }
+        }
+    http_version: 
+  recorded_at: Mon, 12 Aug 2019 23:08:30 GMT
+- request:
+    method: get
+    uri: https://imazen-test.chargebee.com/api/v2/plans/yearly-per-server-2-domains-imageresizer-performance
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Chargebee-Ruby-Client v2.2.7
+      Authorization:
+      - Basic dGVzdF9iT0ozbm1RRmprZHV2UWNHMWNveEVZeHVxZFphWUpweDo=
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Mon, 12 Aug 2019 23:08:29 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      Pragma:
+      - no-cache
+      Server:
+      - ChargeBee
+      Content-Length:
+      - '1530'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |-
+        {"plan": {
+            "id": "yearly-per-server-2-domains-imageresizer-performance",
+            "name": "Yearly Per Server | 2 Domains | IR Performance",
+            "invoice_name": "Yearly Per Server | 2 Domains | ImageResizer Performance for SMB",
+            "description": "Billed Yearly\n\nImageResizer Performance Edition for businesses with fewer than 500 employees. SaaS usage restricted.\n\nYou can modify the 2 authorized domain names during signup or from your customer portal at any time.\n\nEach license covers 4 cores. We use the operating system's definition of a core (logical processor). \n\nThese are floating licenses. You are responsible for changing the quantity in the Customer Portal to match peak concurrent usage.",
+            "price": 44500,
+            "period": 1,
+            "period_unit": "year",
+            "trial_period": 7,
+            "trial_period_unit": "day",
+            "pricing_model": "per_unit",
+            "free_quantity": 0,
+            "status": "active",
+            "enabled_in_hosted_pages": true,
+            "enabled_in_portal": true,
+            "addon_applicability": "all",
+            "is_shippable": false,
+            "updated_at": 1494631360,
+            "giftable": false,
+            "resource_version": 1494631360982,
+            "object": "plan",
+            "charge_model": "per_unit",
+            "taxable": true,
+            "currency_code": "USD",
+            "meta_data": {
+                "kind": "per-core-domain",
+                "is_public": true,
+                "cores": 4,
+                "listed_domains_min": 1,
+                "listed_domains_max": 2,
+                "features": ["R_Performance"],
+                "network_grace_minutes": 480,
+                "subscription_grace_minutes": 20160
+            }
+        }}
+    http_version: 
+  recorded_at: Mon, 12 Aug 2019 23:08:30 GMT
+- request:
+    method: get
+    uri: https://imazen-test.chargebee.com/api/v2/subscriptions/1t0Aw2NRYyaT9O19xD
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Basic dGVzdF9iT0ozbm1RRmprZHV2UWNHMWNveEVZeHVxZFphWUpweDo=
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Mon, 12 Aug 2019 23:08:30 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      Pragma:
+      - no-cache
+      Server:
+      - ChargeBee
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '957'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        {
+            "subscription": {
+                "id": "1t0Aw2NRYyaT9O19xD",
+                "customer_id": "cbdemo_shelley",
+                "plan_id": "yearly-per-server-2-domains-imageresizer-performance",
+                "plan_quantity": 1,
+                "plan_unit_price": 44500,
+                "plan_amount": 44500,
+                "billing_period": 1,
+                "billing_period_unit": "year",
+                "plan_free_quantity": 0,
+                "status": "in_trial",
+                "trial_start": 1565650149,
+                "trial_end": 1566254949,
+                "next_billing_at": 1566254949,
+                "created_at": 1565650149,
+                "started_at": 1565650149,
+                "updated_at": 1565650499,
+                "has_scheduled_changes": false,
+                "resource_version": 1565650499556,
+                "deleted": false,
+                "object": "subscription",
+                "currency_code": "USD",
+                "due_invoices_count": 0,
+                "cf_license_id": "798149887",
+                "cf_license_hash": "e607167178caa056b4c118c484a805cba7e8644407e35712266af8a9a74e7782"
+            },
+            "customer": {
+                "id": "cbdemo_shelley",
+                "first_name": "Shelley",
+                "last_name": "Levene",
+                "email": "shelley@example.com",
+                "phone": "61 1900 654 321",
+                "company": "Levene Corp.",
+                "auto_collection": "on",
+                "net_term_days": 0,
+                "allow_direct_debit": false,
+                "created_at": 1425384826,
+                "taxability": "taxable",
+                "updated_at": 1483100025,
+                "pii_cleared": "active",
+                "resource_version": 1483100025000,
+                "deleted": false,
+                "object": "customer",
+                "card_status": "valid",
+                "primary_payment_source_id": "pm_2shLHbXPQIT6rl4xOn",
+                "payment_method": {
+                    "object": "payment_method",
+                    "type": "card",
+                    "reference_id": "tok___dev__3Nl8XXFQBmTTEWEn",
+                    "gateway": "chargebee",
+                    "gateway_account_id": "gw_IG5rysfQCg22dqQWj",
+                    "status": "valid"
+                },
+                "promotional_credits": 0,
+                "refundable_credits": 0,
+                "excess_payments": 0,
+                "unbilled_charges": 0,
+                "preferred_currency_code": "USD"
+            },
+            "card": {
+                "status": "valid",
+                "gateway": "chargebee",
+                "gateway_account_id": "gw_IG5rysfQCg22dqQWj",
+                "iin": "400551",
+                "last4": "0004",
+                "card_type": "visa",
+                "funding_type": "not_known",
+                "expiry_month": 10,
+                "expiry_year": 2022,
+                "billing_zip": "600059",
+                "created_at": 1483100025,
+                "updated_at": 1483100025,
+                "resource_version": 1483100025000,
+                "object": "card",
+                "masked_number": "************0004",
+                "customer_id": "cbdemo_shelley",
+                "payment_source_id": "pm_2shLHbXPQIT6rl4xOn"
+            }
+        }
+    http_version: 
+  recorded_at: Mon, 12 Aug 2019 23:08:31 GMT
+- request:
+    method: post
+    uri: https://imazen-test.chargebee.com/api/v2/subscriptions/1t0Aw2NRYyaT9O19xD
+    body:
+      encoding: UTF-8
+      string: id=1t0Aw2NRYyaT9O19xD&customer_id=cbdemo_shelley&plan_id=yearly-per-server-2-domains-imageresizer-performance&plan_quantity=1&plan_unit_price=44500&plan_amount=44500&billing_period=1&billing_period_unit=year&plan_free_quantity=0&status=in_trial&trial_start=1565650149&next_billing_at=1566254949&created_at=1565650149&started_at=1565650149&updated_at=1565650499&has_scheduled_changes=false&resource_version=1565650499556&deleted=false&object=subscription&currency_code=USD&due_invoices_count=0&cf_license_id=798149887&cf_license_hash=73308d8d6ee1a8ef02a86dd77bfb245e13ee722b264bf0fa2415b55000a8e95b
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Basic dGVzdF9iT0ozbm1RRmprZHV2UWNHMWNveEVZeHVxZFphWUpweDo=
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Mon, 12 Aug 2019 23:08:31 GMT
+      Pragma:
+      - no-cache
+      Server:
+      - ChargeBee
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '966'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        {
+            "subscription": {
+                "id": "1t0Aw2NRYyaT9O19xD",
+                "customer_id": "cbdemo_shelley",
+                "plan_id": "yearly-per-server-2-domains-imageresizer-performance",
+                "plan_quantity": 1,
+                "plan_unit_price": 44500,
+                "plan_amount": 44500,
+                "billing_period": 1,
+                "billing_period_unit": "year",
+                "plan_free_quantity": 0,
+                "status": "in_trial",
+                "trial_start": 1565650149,
+                "trial_end": 1566254949,
+                "next_billing_at": 1566254949,
+                "created_at": 1565650149,
+                "started_at": 1565650149,
+                "updated_at": 1565651311,
+                "has_scheduled_changes": false,
+                "resource_version": 1565651311301,
+                "deleted": false,
+                "object": "subscription",
+                "currency_code": "USD",
+                "due_invoices_count": 0,
+                "cf_license_id": "798149887",
+                "cf_license_hash": "73308d8d6ee1a8ef02a86dd77bfb245e13ee722b264bf0fa2415b55000a8e95b"
+            },
+            "customer": {
+                "id": "cbdemo_shelley",
+                "first_name": "Shelley",
+                "last_name": "Levene",
+                "email": "shelley@example.com",
+                "phone": "61 1900 654 321",
+                "company": "Levene Corp.",
+                "auto_collection": "on",
+                "net_term_days": 0,
+                "allow_direct_debit": false,
+                "created_at": 1425384826,
+                "taxability": "taxable",
+                "updated_at": 1483100025,
+                "pii_cleared": "active",
+                "resource_version": 1483100025000,
+                "deleted": false,
+                "object": "customer",
+                "card_status": "valid",
+                "primary_payment_source_id": "pm_2shLHbXPQIT6rl4xOn",
+                "payment_method": {
+                    "object": "payment_method",
+                    "type": "card",
+                    "reference_id": "tok___dev__3Nl8XXFQBmTTEWEn",
+                    "gateway": "chargebee",
+                    "gateway_account_id": "gw_IG5rysfQCg22dqQWj",
+                    "status": "valid"
+                },
+                "promotional_credits": 0,
+                "refundable_credits": 0,
+                "excess_payments": 0,
+                "unbilled_charges": 0,
+                "preferred_currency_code": "USD"
+            },
+            "card": {
+                "status": "valid",
+                "gateway": "chargebee",
+                "gateway_account_id": "gw_IG5rysfQCg22dqQWj",
+                "iin": "400551",
+                "last4": "0004",
+                "card_type": "visa",
+                "funding_type": "not_known",
+                "expiry_month": 10,
+                "expiry_year": 2022,
+                "billing_zip": "600059",
+                "created_at": 1483100025,
+                "updated_at": 1483100025,
+                "resource_version": 1483100025000,
+                "object": "card",
+                "masked_number": "************0004",
+                "customer_id": "cbdemo_shelley",
+                "payment_source_id": "pm_2shLHbXPQIT6rl4xOn"
+            },
+            "credit_notes": []
+        }
+    http_version: 
+  recorded_at: Mon, 12 Aug 2019 23:08:31 GMT
+- request:
+    method: put
+    uri: https://s3-us-west-2.amazonaws.com/licenses.imazen.net/v1/licenses/latest/86f806f7c8f31892597cb2584f29a10e0d733162cae3c5321cfa85990918d907.txt
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/1.45.0
+      Content-Type:
+      - text/plain; charset=utf-8
+      X-Amz-Acl:
+      - public-read
+      X-Amz-Date:
+      - 20190812T230831Z
+      X-Amz-Content-Sha256:
+      - STREAMING-AWS4-HMAC-SHA256-PAYLOAD
+      X-Amz-Decoded-Content-Length:
+      - '844'
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=AKIAICS7RGGEDL62367A/20190812/us-west-2/s3/aws4_request,
+        SignedHeaders=content-type;host;x-amz-acl;x-amz-content-sha256;x-amz-date;x-amz-decoded-content-length,
+        Signature=d183059302ead64378f636e1e34b70cbe1308d183388f4e2d3f904f4073a7005
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amz-Id-2:
+      - ra+VUf/MjzNeRqRLlGv+k6zXK9jFnbR7SGrwT41IwoA/8wM2NPQ08IWY+ZRtFOwlFjSxFf1J1FQ=
+      X-Amz-Request-Id:
+      - 1905AE56B4F646B9
+      Date:
+      - Mon, 12 Aug 2019 23:08:32 GMT
+      X-Amz-Version-Id:
+      - mxYY8GQox9aitvLfiVdOSbprDSuwjPcs
+      Etag:
+      - '"15c8dbebbe8e0f86b9b573a617277a02"'
+      Content-Length:
+      - '0'
+      Server:
+      - AmazonS3
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    http_version: 
+  recorded_at: Mon, 12 Aug 2019 23:08:31 GMT
+recorded_with: VCR 5.0.0

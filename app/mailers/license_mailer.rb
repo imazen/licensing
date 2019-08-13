@@ -19,4 +19,15 @@ class LicenseMailer < ApplicationMailer
          ].join("\n")
         )
   end
+
+  def domains_under_min(email, domains_max)
+    @domains_max = domains_max
+    mail(to: email, bcc: OUR_EMAILS, subject: 'Licensing Issue', template_name: 'domains_under_min')
+  end
+
+  # @TODO not yet implemented
+  # def domains_over_max(email, domains_max)
+  #   @domains_max = domains_max
+  #   mail(to: email, bcc: OUR_EMAILS, subject: 'Licensing Issue', template_name: 'domains_over_max')
+  # end
 end

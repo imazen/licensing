@@ -1,29 +1,37 @@
 class ChargebeeParse
+  TIMESTAMP_FIELDS = [
+    'started_at', 'activated_at', 'next_billing_at',
+    'created_at', 'updated_at', 'current_term_start',
+    'current_term_end', 'cancelled_at', 'trial_start', 'trial_end'
+  ]
   attr_accessor :subscription, :customer, :plan, :event_type
 
   def initialize(params)
-    get_chargebee_objects(params)
+    self.subscription = params.dig("content", "subscription") || {}
+    parse_subscription_timestamps
+    self.customer = params.dig("content", "subscription") || {}
+    self.event_type = params["event_type"]
   end
 
-  def get_chargebee_objects(params)
-    self.subscription = params.fetch("content",{}).fetch("subscription",{})
-    parse_subscription
-    self.customer = params.fetch("content",{}).fetch("customer",{})
-    self.event_type = params["event_type"]
-
-    # compare Time.zone.now to subscription updated_at. if >3 seconds, fetch everything new
-
-    if (subscription_updated_at < Time.zone.now - 3.seconds)
+  def maybe_update_subscription_and_customer
+    if subscription_stale?
       self.subscription = ChargeBee::Subscription.retrieve(self.subscription["id"]).subscription.as_json
-      parse_subscription
+      parse_subscription_timestamps
       self.customer = ChargeBee::Customer.retrieve(self.subscription["customer_id"]).customer.as_json
     end
+  end
 
-    nil
+  def licensed_domains
+    domains = self.subscription["cf_licensed_domains"] || ""
+    domains.split(" ")
   end
 
   def id
-    Digest::FNV.calculate([created_from_ip,subscription["id"]].join(''), 30).to_s.rjust(8,"0")
+    @id ||= Digest::FNV.calculate([created_from_ip,subscription["id"]].join(''), 30).to_s.rjust(8,"0")
+  end
+
+  def license_secret(seed)
+    Digest::SHA256.hexdigest([self.id, seed].join(''))
   end
 
   def created_from_ip
@@ -45,7 +53,6 @@ class ChargebeeParse
   def plan
     @plan ||= ChargeBee::Plan.retrieve(plan_id).plan
   end
-
 
   def plan_cores
     plan.meta_data.fetch(:cores)
@@ -75,8 +82,6 @@ class ChargebeeParse
     plan.meta_data.fetch(:listed_domains_max)
   end
 
-
-
   def product
     plan.invoice_name
   end
@@ -84,7 +89,6 @@ class ChargebeeParse
   def is_public
     plan.meta_data.fetch(:is_public)
   end
-
 
   def subscription_metadata
     subscription["meta_data"]
@@ -125,23 +129,31 @@ class ChargebeeParse
     subscription["updated_at"]
   end
 
+  def domains_required?
+    kind == 'per-core-domain'
+  end
+
+  def domains_under_min?
+    licensed_domains.length < listed_domains_min
+  end
+
+  def domains_over_max?
+    licensed_domains.length > listed_domains_max
+  end
+
   private
 
-  def parse_subscription
-    subscription["started_at"] = parse_date(subscription["started_at"])
-    subscription["activated_at"] = parse_date(subscription["activated_at"])
-    subscription["next_billing_at"] = parse_date(subscription["next_billing_at"])
-    subscription["created_at"] = parse_date(subscription["created_at"])
-    subscription["updated_at"] = parse_date(subscription["updated_at"])
-    subscription["current_term_start"] = parse_date(subscription["current_term_start"])
-    subscription["current_term_end"] = parse_date(subscription["current_term_end"])
-    subscription["cancelled_at"] = parse_date(subscription["cancelled_at"])
-    subscription["trial_start"] = parse_date(subscription["trial_start"])
-    subscription["trial_end"] = parse_date(subscription["trial_end"])
-
+  def parse_subscription_timestamps
+    TIMESTAMP_FIELDS.each do |field|
+      subscription[field] = parse_date(subscription[field])
+    end
   end
 
   def parse_date(object)
     (object.present? || nil) && Time.zone.at(Integer(object)).to_datetime
+  end
+
+  def subscription_stale?
+    subscription_updated_at < Time.zone.now - 3.seconds
   end
 end

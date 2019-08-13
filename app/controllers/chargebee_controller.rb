@@ -1,41 +1,22 @@
 class ChargebeeController < ApplicationController
   rescue_from StandardError, with: :log_error
+  before_action :ensure_valid_key, :check_subscription
 
   def index
-    unless params[:key] == ENV["CHARGEBEE_WEBHOOK_TOKEN"]
-      head :forbidden
-      return
-    end
-
-    # Ignore events that lack a subscription
-    if params.fetch("content", {}).fetch("subscription", nil).nil?
-      head :no_content
-      return
-    end
-
     cb = ChargebeeParse.new(params)
+    cb.maybe_update_subscription_and_customer
+    subscription_id = cb.subscription["id"]
+    seed = ENV["LICENSE_SECRET_SEED"]
+    key, passphrase = license_signing_key, license_signing_passphrase
 
-    license = generate_license(cb)
-
+    send_domain_emails(cb) and return unless domains_count_ok?(cb)
+    license = ChargebeeLicenseGenerator.generate_license(cb, seed, key, passphrase)
     sha = Digest::SHA256.hexdigest(license[:id_license][:encoded])
 
-    if sha != cb.subscription["cf_license_hash"]
-      LicenseMailer.id_license_email(
-        emails: [cb.customer_email],
-        id_license_encoded: license[:id_license][:encoded],
-        id_license_text: license[:id_license][:text],
-        remote_license_text: license[:license][:text]
-      ).deliver
-    end
+    maybe_send_license_email(cb, sha, license)
+    update_license_id_and_hash(subscription_id, license[:id], sha)
 
-    update_license_id_and_hash(cb.subscription["id"],
-                               license[:id], sha)
-
-
-    s3_uploader = ImazenLicensing::S3::S3LicenseUploader.new(aws_id: ENV["LICENSE_S3_ID"],
-                                                             aws_secret: ENV["LICENSE_S3_SECRET"])
-
-    s3_uploader.upload_license(license_id: license[:id], license_secret: license[:secret], full_body: license[:license][:encoded])
+    upload_to_s3(license, ENV["LICENSE_S3_ID"], ENV["LICENSE_S3_SECRET"])
 
     head :no_content
   end
@@ -47,112 +28,22 @@ class ChargebeeController < ApplicationController
 
   private
 
-
-  def get_licensed_domains(cb)
-    domains = cb.subscription["cf_licensed_domains"];
-    domains = (domains || "").split(" ")
-    #requires listed_domains_min and listed_domains_max
-    if domains.length < cb.listed_domains_min
-      raise "A minimum of #{cb.listed_domains_min} domain(s) are required to generate this license"
-    elsif domains.length > cb.listed_domains_max
-      raise "A maximum of #{cb.listed_domains_max} domains are permitted by this plan"
-    end
-    # TODO: validate domains
-    domains
+  def domains_count_ok?(cb)
+    return true unless cb.domains_required?
+    false if cb.domains_under_min? || cb.domains_over_max?
   end
 
-
-  def generate_license(cb)
-    key = Web::Application.config.license_signing_key
-    passphrase = Web::Application.config.license_signing_key_passphrase
-
-    license_id = cb.id # fnv digest of clientip and id
-    license_secret = Digest::SHA256.hexdigest([cb.id, ENV["LICENSE_SECRET_SEED"]].join(''))
-
-
-    id_license_params = {
-      kind: 'id',
-      id: license_id, # we generate this (lowercase, numeric)
-      owner: cb.owner,
-      secret: license_secret,
-      issued: cb.subscription["created_at"],
-      network_grace_minutes: 480,
-      is_public: false
-    }
-
-    id_license = ImazenLicensing::LicenseGenerator.generate_with_info(id_license_params, key, passphrase)
-
-
-    restrictions = [cb.restrictions] + { "MICROENTERPRISE_ONLY" => "Only valid for organizations with less than 5 employees.",
-                                         "SMALLBIZ_ONLY" => "Only valid for organizations with less than 30 employees.",
-                                         "SMB_ONLY" => "Only valid for organizations with less than 500 employees.",
-                                         "NONPROFIT_ONLY" => "Only valid for non-profit organizations."
-    }.map do |k,v|
-      cb.coupon_strings.any?{|s| s.include? (k) } ? v : nil
+  def send_domain_emails(cb)
+    if cb.domains_under_min?
+      LicenseMailer.domains_under_min(cb.customer_email, cb.listed_domains_max).deliver_now
+    elsif cb.domains_over_max?
+      raise "Someone tried to register with too many domains"
+      # @TODO: not yet implemented
+      # LicenseMailer.domains_over_max(cb.customer_email, cb.listed_domains_max).deliver_now
     end
-
-    restrictions = restrictions.compact.uniq
-
-
-    # TODO:
-    # Add company or non-profit restrictions based on cb.coupon_strings
-    # Always set subscription_expiration_date
-    # if perpetual license add-on is present, lift expires date..
-
-
-    extra_fields = case cb.kind
-                   when "per-core"
-                     {
-                       max_servers: cb.subscription_quantity,
-                       total_cores: cb.plan_cores * cb.subscription_quantity,
-                     }
-                   when "per-core-domain"
-                     {
-                       max_servers: cb.subscription_quantity,
-                       total_cores: cb.plan_cores * cb.subscription_quantity,
-                       domains: get_licensed_domains(cb)
-                     }
-                   when "site-wide"
-                     {
-
-                     }
-                   when "oem"
-                     {
-                       only_for_use_within: cb.subscription["cf_for_use_within_product_oem_redistribution"],
-                       # @TODO: set subscription_expiration_date immediately to prevent newer binaries from being used with a oem revoked license
-                     }
-                   else
-                     {}
-                   end
-
-    # @TODO: handle cancellations
-    # @TODO: push billing issue data and subscription status
-
-    license_params = {
-      id: cb.id, # we generate this (lowercase, numeric)
-      owner: cb.owner,
-      kind: cb.kind, # from plan
-      issued: cb.issued,
-      expires: cb.term_end_guess.advance( minutes: cb.subscription_grace_minutes),
-      features: cb.features, # from plan
-      product: cb.product, # from plan
-      must_be_fetched: true,
-      is_public: cb.is_public,
-      restrictions: restrictions.join(' ')
-    }.merge(extra_fields)
-
-    license = ImazenLicensing::LicenseGenerator.generate_with_info(license_params, key, passphrase)
-
-
-    {
-      id_license: id_license,
-      license: license,
-      secret: license_secret,
-      id: license_id
-    }
   end
 
-
+  # @TODO: move me to chargebee_license_generator
   def update_license_id_and_hash(subscription_id, license_id, license_hash)
     api_key = ENV["CHARGEBEE_API_KEY"]
     site = ENV["CHARGEBEE_SITE"]
@@ -171,5 +62,42 @@ class ChargebeeController < ApplicationController
       end
     end
     false
+  end
+
+  def ensure_valid_key
+    head :forbidden if params[:key] != ENV["CHARGEBEE_WEBHOOK_TOKEN"]
+  end
+
+  def check_subscription
+    # Ignore events that lack a subscription
+    head :no_content if params.dig("content", "subscription").empty?
+  end
+
+  def license_signing_key
+    Web::Application.config.license_signing_key
+  end
+
+  def license_signing_passphrase
+    Web::Application.config.license_signing_key_passphrase
+  end
+
+  # @TODO: move me to chargebee_license_generator
+  def maybe_send_license_email(cb, sha, license)
+    if sha != cb.subscription["cf_license_hash"]
+      LicenseMailer.id_license_email(
+        emails: [cb.customer_email],
+        id_license_encoded: license[:id_license][:encoded],
+        id_license_text: license[:id_license][:text],
+        remote_license_text: license[:license][:text]
+      ).deliver
+    end
+  end
+
+  # @TODO: move me to chargebee_license_generator
+  def upload_to_s3(license, aws_id, aws_secret)
+    s3_uploader = ImazenLicensing::S3::S3LicenseUploader.new(aws_id: aws_id,
+                                                             aws_secret: aws_secret)
+
+    s3_uploader.upload_license(license_id: license[:id], license_secret: license[:secret], full_body: license[:license][:encoded])
   end
 end
