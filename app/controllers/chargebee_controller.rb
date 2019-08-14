@@ -70,7 +70,7 @@ class ChargebeeController < ApplicationController
 
   def check_subscription
     # Ignore events that lack a subscription
-    head :no_content if params.dig("content", "subscription").blank?
+    render plain: "testing" if params.dig("content", "subscription").blank?
   end
 
   def license_signing_key
