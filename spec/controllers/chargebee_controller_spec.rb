@@ -9,10 +9,10 @@ RSpec.describe ChargebeeController, type: :controller do
   end
 
   context 'subscription_created webhook' do
-    it 'returns no_content' do
+    it 'returns success response' do
       VCR.use_cassette("subscription_created") do
         post :index, params: load_chargebee_params('subscription_created')
-        expect(response).to have_http_status :no_content
+        expect(response).to have_http_status :success
       end
     end
 
@@ -43,10 +43,10 @@ RSpec.describe ChargebeeController, type: :controller do
           end
         end
 
-        it 'returns no content' do
+        it 'returns success response' do
           VCR.use_cassette('domains_under_min') do
             post :index, params: load_chargebee_params('domains_under_min')
-            expect(response).to have_http_status :no_content
+            expect(response).to have_http_status :success
           end
         end
       end
@@ -61,46 +61,46 @@ RSpec.describe ChargebeeController, type: :controller do
   end
 
   context "subscription_activated webhook" do
-    it 'returns no_content' do
+    it 'returns success response' do
       VCR.use_cassette("subscription_activated") do
         post :index, params: load_chargebee_params('subscription_activated')
-        assert_response :no_content
+        assert_response :success
       end
     end
   end
 
   context "subscription_cancelled webhook" do
-    it 'returns no_content' do
+    it 'returns success response' do
       VCR.use_cassette("subscription_cancelled") do
         post :index, params: load_chargebee_params('subscription_cancelled')
-        assert_response :no_content
+        assert_response :success
       end
     end
   end
 
   context "subscription_changed webhook" do
-    it 'returns no_content' do
+    it 'returns success response' do
       VCR.use_cassette("subscription_changed") do
         post :index, params: load_chargebee_params('subscription_changed')
-        assert_response :no_content
+        assert_response :success
       end
     end
   end
 
   context "subscription_reactivated webhook" do
-    it 'returns no_content' do
+    it 'returns success response' do
       VCR.use_cassette("subscription_reactivated") do
         post :index, params: load_chargebee_params('subscription_reactivated')
-        assert_response :no_content
+        assert_response :success
       end
     end
   end
 
   context "subscription_renewed webhook" do
-    it 'returns no_content' do
+    it 'returns success response' do
       VCR.use_cassette("subscription_renewed") do
         post :index, params: load_chargebee_params('subscription_renewed')
-        assert_response :no_content
+        assert_response :success
       end
     end
   end

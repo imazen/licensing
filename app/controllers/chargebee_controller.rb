@@ -18,7 +18,7 @@ class ChargebeeController < ApplicationController
 
     upload_to_s3(license, ENV["LICENSE_S3_ID"], ENV["LICENSE_S3_SECRET"])
 
-    head :no_content
+    render plain: "Testing we can see this"
   end
 
   def log_error(e)
