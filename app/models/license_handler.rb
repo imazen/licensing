@@ -1,5 +1,8 @@
 class LicenseHandler
+  attr_accessor :message
+
   def initialize(cb, seed, key, passphrase)
+    self.message = cb.message
     @cb = cb
     @seed = seed
     @key = key
@@ -13,6 +16,7 @@ class LicenseHandler
     handler.maybe_send_license_email
     handler.update_license_id_and_hash
     handler.upload_to_s3
+    handler.message.join("\n") + "#{ENV['SOURCE_VERSION']}"
   end
 
   # @TODO: handle cancellations
@@ -35,6 +39,7 @@ class LicenseHandler
     api_key = ENV["CHARGEBEE_API_KEY"]
     site = ENV["CHARGEBEE_SITE"]
     url = "https://#{site}.chargebee.com/api/v2/subscriptions/#{subscription_id}"
+    self.message << "#{self.class}: fetching subscription #{subscription_id} from ChargeBee API."
     response = HTTParty.get(url,{basic_auth: {username: api_key}})
     if response.ok? && response&.fetch("subscription").present?
       current_subscription = response.fetch("subscription").reject { |k,v| k == "trial_end" }
@@ -44,21 +49,25 @@ class LicenseHandler
       }).compact
 
       if (new_subscription.to_a - current_subscription.to_a).present?
+        self.message << "#{self.class}: posting subscription #{subscription_id} back to ChargeBee API."
         HTTParty.post(url,{body: new_subscription, basic_auth: {username: api_key}})
-        return true
+      else
+        self.message << "#{self.class}: license unchanged for subscription #{subscription_id}; no post to ChargeBee API"
       end
     end
-    false
   end
 
   def maybe_send_license_email
     if @sha != @cb.subscription["cf_license_hash"]
+      self.message << "#{self.class}: sending id license email to #{@cb.customer_email}"
       LicenseMailer.id_license_email(
         emails: [@cb.customer_email],
         id_license_encoded: @license_summary[:id_license][:encoded],
         id_license_text: @license_summary[:id_license][:text],
         remote_license_text: @license_summary[:license][:text]
       ).deliver_now
+    else
+      self.message << "#{self.class}: subscription 'cf_license_hash' and checked sha are identical, no email sent"
     end
   end
 
@@ -66,6 +75,7 @@ class LicenseHandler
     s3_uploader = ImazenLicensing::S3::S3LicenseUploader.new(aws_id: aws_id,
                                                              aws_secret: aws_secret)
 
+    self.message << "#{self.class}: uploading license to S3"
     s3_uploader.upload_license(license_id: @license_summary[:id],
                                license_secret: @license_summary[:secret],
                                full_body: @license_summary[:license][:encoded])

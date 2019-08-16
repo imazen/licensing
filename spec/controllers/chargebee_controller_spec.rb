@@ -9,24 +9,38 @@ RSpec.describe ChargebeeController, type: :controller do
   end
 
   context 'subscription_created webhook' do
+    let(:expected_body) {
+      "ChargebeeParse: Retrieved subscription and customer via ChargeBee gem.\nLicenseHandler: sending id license email to test@test.com\nLicenseHandler: fetching subscription IG5ryl2QIcaZIV7QP from ChargeBee API.\nLicenseHandler: posting subscription IG5ryl2QIcaZIV7QP back to ChargeBee API.\nLicenseHandler: uploading license to S3"
+    }
+
     it 'returns success response' do
       VCR.use_cassette("subscription_created") do
         post :index, params: load_chargebee_params('subscription_created')
         expect(response).to have_http_status :success
+        expect(response.body).to eq expected_body
       end
     end
 
     context 'subscription requires domains' do
       context 'domains count is ok' do
+        let(:expected_body) {
+          "ChargebeeParse: Retrieved subscription and customer via ChargeBee gem.\nLicenseHandler: sending id license email to shelley@example.com\nLicenseHandler: fetching subscription JFIJqVlRYy4RlKoGJ from ChargeBee API.\nLicenseHandler: posting subscription JFIJqVlRYy4RlKoGJ back to ChargeBee API.\nLicenseHandler: uploading license to S3"
+        }
+
         it 'does not send domain emails' do
           VCR.use_cassette('domains_count_ok') do
             expect(LicenseMailer).not_to receive(:domains_under_min)
             post :index, params: load_chargebee_params('domains_count_ok')
+            expect(response.body).to eq expected_body
           end
         end
       end
 
       context 'domains count is under minimum' do
+        let(:expected_body) {
+          "ChargebeeParse: Retrieved subscription and customer via ChargeBee gem.\nDomains under minimum, sent email to shelley@example.com"
+        }
+
         it 'sends domains_under_min email' do
           VCR.use_cassette('domains_under_min') do
             # expect the correct mailer method to be called, then stub out
@@ -47,6 +61,7 @@ RSpec.describe ChargebeeController, type: :controller do
           VCR.use_cassette('domains_under_min') do
             post :index, params: load_chargebee_params('domains_under_min')
             expect(response).to have_http_status :success
+            expect(response.body).to eq expected_body
           end
         end
       end
@@ -105,10 +120,21 @@ RSpec.describe ChargebeeController, type: :controller do
     end
   end
 
+  context 'non-subscription webhook event' do
+    it 'returns log message' do
+      post :index, params: { key: key, event_type: 'payment_succeeded' }
+      expected_message = 'No subscription given; webhook event: payment_succeeded'
+      expect(response.body).to eq(expected_message)
+    end
+  end
+
   def load_chargebee_params(event_type)
     file_name = "#{event_type}.json"
     path = Rails.root.join('spec', 'fixtures', 'chargebee', file_name)
-    key = ENV["CHARGEBEE_WEBHOOK_TOKEN"]
     JSON.parse(File.read(path)).merge(key: key)
+  end
+
+  def key
+    ENV["CHARGEBEE_WEBHOOK_TOKEN"]
   end
 end

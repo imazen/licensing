@@ -36,13 +36,20 @@ RSpec.describe LicenseHandler do
 
   describe '#maybe_send_license_email' do
     let(:subscription_params) { { "current_term_end" => 1565926099, "cf_license_hash" => cf_license_hash } }
+    before do
+      allow(LicenseMailer).to receive(:id_license_email).and_return(double(deliver_now: true))
+      handler.maybe_send_license_email
+    end
 
     context 'subscription cf_license_hash matches encoded license' do
       let(:cf_license_hash) { Digest::SHA256.hexdigest(license[:encoded]) }
 
       it 'does not send new license email' do
-        expect(LicenseMailer).to_not receive(:id_license_email)
-        handler.maybe_send_license_email
+        expect(LicenseMailer).to_not have_received(:id_license_email)
+      end
+
+      it 'logs that we did not send new license email' do
+        expect(handler.message).to include(a_string_matching(/no email sent/))
       end
     end
 
@@ -50,8 +57,11 @@ RSpec.describe LicenseHandler do
       let(:cf_license_hash) { Digest::SHA256.hexdigest("foo") }
 
       it 'sends new license email to customer' do
-        expect(LicenseMailer).to receive(:id_license_email).and_return(double(deliver_now: true))
-        handler.maybe_send_license_email
+        expect(LicenseMailer).to have_received(:id_license_email)
+      end
+
+      it 'logs that we sent new license email' do
+        expect(handler.message).to include(a_string_matching(/sending id license email/))
       end
     end
   end
@@ -62,7 +72,11 @@ RSpec.describe LicenseHandler do
       allow(HTTParty).to receive(:post)
       handler.update_license_id_and_hash
     end
-    let(:response) { double }
+    let(:response) { double(ok?: true, fetch: {}) }
+
+    it 'logs the subscription fetch' do
+      expect(handler.message).to include(a_string_matching(/fetching subscription/))
+    end
 
     context 'when a successful api response includes a subscription' do
       let(:response) { double(ok?: true, fetch: subscription) }
@@ -72,6 +86,10 @@ RSpec.describe LicenseHandler do
 
         it 'posts the new subscription to the api' do
           expect(HTTParty).to have_received(:post)
+        end
+
+        it 'logs the subscription posting' do
+          expect(handler.message).to include(a_string_matching(/posting subscription/))
         end
       end
 
@@ -83,6 +101,11 @@ RSpec.describe LicenseHandler do
 
         it 'does not post to the api' do
           expect(HTTParty).to_not have_received(:post)
+        end
+
+        it 'logs that we did not post the subscription' do
+          expect(handler.message).to include(a_string_matching(/license unchanged for subscription/))
+          expect(handler.message).to include(a_string_matching(/no post to ChargeBee/))
         end
       end
     end
@@ -105,12 +128,18 @@ RSpec.describe LicenseHandler do
   end
 
   describe '#upload_to_s3' do
-    before { allow(ImazenLicensing::S3::S3LicenseUploader).to receive(:new).and_return(fake_uploader)  }
+    before do
+      allow(ImazenLicensing::S3::S3LicenseUploader).to receive(:new).and_return(fake_uploader)
+      handler.upload_to_s3
+    end
     let(:fake_uploader) { double(upload_license: true) }
 
     it 'calls upload_license' do
-      expect(fake_uploader).to receive(:upload_license)
-      handler.upload_to_s3
+      expect(fake_uploader).to have_received(:upload_license)
+    end
+
+    it 'logs the upload' do
+      expect(handler.message).to include(a_string_matching(/uploading license to S3/))
     end
   end
 end
