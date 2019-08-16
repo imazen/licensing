@@ -5,17 +5,11 @@ class ChargebeeController < ApplicationController
   def index
     cb = ChargebeeParse.new(params)
     cb.maybe_update_subscription_and_customer
-    subscription_id = cb.subscription["id"]
     seed = ENV["LICENSE_SECRET_SEED"]
     key, passphrase = license_signing_key, license_signing_passphrase
 
     send_domain_emails(cb) and return unless domains_count_ok?(cb)
-    generator = ChargebeeLicenseGenerator.new(cb, seed, key, passphrase)
-
-    generator.maybe_send_license_email
-    generator.update_license_id_and_hash
-
-    generator.upload_to_s3(ENV["LICENSE_S3_ID"], ENV["LICENSE_S3_SECRET"])
+    ChargebeeLicenseGenerator.call(cb, seed, key, passphrase)
 
     render plain: "Testing we can see this"
   end

@@ -8,8 +8,11 @@ class ChargebeeLicenseGenerator
     @sha = Digest::SHA256.hexdigest(@license_summary[:id_license][:encoded])
   end
 
-  def self.generate_license(cb, seed, key, passphrase)
-    new(cb, seed, key, passphrase).generate_license
+  def self.call(cb, seed, key, passphrase)
+    generator = new(cb, seed, key, passphrase)
+    generator.maybe_send_license_email
+    generator.update_license_id_and_hash
+    generator.upload_to_s3
   end
 
   def generate_license
@@ -62,7 +65,7 @@ class ChargebeeLicenseGenerator
     end
   end
 
-  def upload_to_s3(aws_id, aws_secret)
+  def upload_to_s3
     s3_uploader = ImazenLicensing::S3::S3LicenseUploader.new(aws_id: aws_id,
                                                              aws_secret: aws_secret)
 
@@ -72,6 +75,14 @@ class ChargebeeLicenseGenerator
   end
 
   private
+
+  def aws_id
+    ENV["LICENSE_S3_ID"]
+  end
+
+  def aws_secret
+    ENV["LICENSE_S3_SECRET"]
+  end
 
   def generate_id_license(cb, license_secret_seed, key, passphrase)
     id_license_params = {
