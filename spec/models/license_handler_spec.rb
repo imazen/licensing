@@ -62,7 +62,11 @@ RSpec.describe LicenseHandler do
       allow(HTTParty).to receive(:post)
       handler.update_license_id_and_hash
     end
-    let(:response) { double }
+    let(:response) { double(ok?: true, fetch: {}) }
+
+    it 'logs the subscription fetch' do
+      expect(handler.message).to include(a_string_matching(/fetching subscription/))
+    end
 
     context 'when a successful api response includes a subscription' do
       let(:response) { double(ok?: true, fetch: subscription) }
@@ -72,6 +76,10 @@ RSpec.describe LicenseHandler do
 
         it 'posts the new subscription to the api' do
           expect(HTTParty).to have_received(:post)
+        end
+
+        it 'logs the subscription posting' do
+          expect(handler.message).to include(a_string_matching(/posting subscription/))
         end
       end
 
@@ -83,6 +91,11 @@ RSpec.describe LicenseHandler do
 
         it 'does not post to the api' do
           expect(HTTParty).to_not have_received(:post)
+        end
+
+        it 'logs that we did not post the subscription' do
+          expect(handler.message).to include(a_string_matching(/license unchanged for subscription/))
+          expect(handler.message).to include(a_string_matching(/no post to ChargeBee/))
         end
       end
     end

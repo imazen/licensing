@@ -1,10 +1,13 @@
 class LicenseHandler
+  attr_accessor :message
+
   def initialize(cb, seed, key, passphrase)
     @cb = cb
     @seed = seed
     @key = key
     @passphrase = passphrase
     @license_summary = generate_license
+    self.message = []
     @sha = Digest::SHA256.hexdigest(@license_summary[:id_license][:encoded])
   end
 
@@ -35,6 +38,7 @@ class LicenseHandler
     api_key = ENV["CHARGEBEE_API_KEY"]
     site = ENV["CHARGEBEE_SITE"]
     url = "https://#{site}.chargebee.com/api/v2/subscriptions/#{subscription_id}"
+    self.message << "#{self.class}: fetching subscription #{subscription_id} from ChargeBee API."
     response = HTTParty.get(url,{basic_auth: {username: api_key}})
     if response.ok? && response&.fetch("subscription").present?
       current_subscription = response.fetch("subscription").reject { |k,v| k == "trial_end" }
@@ -44,11 +48,12 @@ class LicenseHandler
       }).compact
 
       if (new_subscription.to_a - current_subscription.to_a).present?
+        self.message << "#{self.class}: posting subscription #{subscription_id} back to ChargeBee API."
         HTTParty.post(url,{body: new_subscription, basic_auth: {username: api_key}})
-        return true
+      else
+        self.message << "#{self.class}: license unchanged for subscription #{subscription_id}; no post to ChargeBee API"
       end
     end
-    false
   end
 
   def maybe_send_license_email
