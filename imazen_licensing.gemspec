@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "fog-aws", "~> 1.3"
+  spec.add_dependency "fog-aws", ">= 1.3", "< 4.0"
   spec.add_dependency "mime-types", "~> 3.1"
   spec.add_dependency "public_suffix", "~> 2"
   spec.add_dependency "chargebee", "~> 2"
