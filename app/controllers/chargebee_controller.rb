@@ -29,6 +29,8 @@ class ChargebeeController < ApplicationController
   def send_domain_emails(cb)
     if cb.domains_under_min?
       LicenseMailer.domains_under_min(cb.customer_email, cb.listed_domains_max).deliver_now
+      message = cb.message << "Domains under minimum, sent email to #{cb.customer_email}"
+      render plain: message.join("\n")
     elsif cb.domains_over_max?
       raise "Someone tried to register with too many domains"
       # @TODO: not yet implemented
@@ -42,7 +44,7 @@ class ChargebeeController < ApplicationController
 
   def check_subscription
     # Ignore events that lack a subscription
-    render plain: "testing" if params.dig("content", "subscription").blank?
+    render plain: "No subscription given; webhook event: #{webhook_event}" if params.dig("content", "subscription").blank?
   end
 
   def license_signing_key
@@ -51,5 +53,9 @@ class ChargebeeController < ApplicationController
 
   def license_signing_passphrase
     Web::Application.config.license_signing_key_passphrase
+  end
+
+  def webhook_event
+    params["event_type"] || "not given"
   end
 end

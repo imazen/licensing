@@ -47,6 +47,8 @@ RSpec.describe ChargebeeController, type: :controller do
           VCR.use_cassette('domains_under_min') do
             post :index, params: load_chargebee_params('domains_under_min')
             expect(response).to have_http_status :success
+            expect(response.body).to include("Retrieved subscription")
+            expect(response.body).to include("Domains under minimum")
           end
         end
       end
@@ -105,10 +107,21 @@ RSpec.describe ChargebeeController, type: :controller do
     end
   end
 
+  context 'non-subscription webhook event' do
+    it 'returns log message' do
+      post :index, params: { key: key, event_type: 'payment_succeeded' }
+      expected_message = 'No subscription given; webhook event: payment_succeeded'
+      expect(response.body).to eq(expected_message)
+    end
+  end
+
   def load_chargebee_params(event_type)
     file_name = "#{event_type}.json"
     path = Rails.root.join('spec', 'fixtures', 'chargebee', file_name)
-    key = ENV["CHARGEBEE_WEBHOOK_TOKEN"]
     JSON.parse(File.read(path)).merge(key: key)
+  end
+
+  def key
+    ENV["CHARGEBEE_WEBHOOK_TOKEN"]
   end
 end
