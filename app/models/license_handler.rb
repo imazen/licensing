@@ -58,12 +58,15 @@ class LicenseHandler
 
   def maybe_send_license_email
     if @sha != @cb.subscription["cf_license_hash"]
+      self.message << "#{self.class}: sending id license email to #{@cb.customer_email}"
       LicenseMailer.id_license_email(
         emails: [@cb.customer_email],
         id_license_encoded: @license_summary[:id_license][:encoded],
         id_license_text: @license_summary[:id_license][:text],
         remote_license_text: @license_summary[:license][:text]
       ).deliver_now
+    else
+      self.message << "#{self.class}: subscription 'cf_license_hash' and checked sha are identical, no email sent"
     end
   end
 

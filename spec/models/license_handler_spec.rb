@@ -36,13 +36,20 @@ RSpec.describe LicenseHandler do
 
   describe '#maybe_send_license_email' do
     let(:subscription_params) { { "current_term_end" => 1565926099, "cf_license_hash" => cf_license_hash } }
+    before do
+      allow(LicenseMailer).to receive(:id_license_email).and_return(double(deliver_now: true))
+      handler.maybe_send_license_email
+    end
 
     context 'subscription cf_license_hash matches encoded license' do
       let(:cf_license_hash) { Digest::SHA256.hexdigest(license[:encoded]) }
 
       it 'does not send new license email' do
-        expect(LicenseMailer).to_not receive(:id_license_email)
-        handler.maybe_send_license_email
+        expect(LicenseMailer).to_not have_received(:id_license_email)
+      end
+
+      it 'logs that we did not send new license email' do
+        expect(handler.message).to include(a_string_matching(/no email sent/))
       end
     end
 
@@ -50,8 +57,11 @@ RSpec.describe LicenseHandler do
       let(:cf_license_hash) { Digest::SHA256.hexdigest("foo") }
 
       it 'sends new license email to customer' do
-        expect(LicenseMailer).to receive(:id_license_email).and_return(double(deliver_now: true))
-        handler.maybe_send_license_email
+        expect(LicenseMailer).to have_received(:id_license_email)
+      end
+
+      it 'logs that we sent new license email' do
+        expect(handler.message).to include(a_string_matching(/sending id license email/))
       end
     end
   end
