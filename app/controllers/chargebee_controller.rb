@@ -5,20 +5,12 @@ class ChargebeeController < ApplicationController
   def index
     cb = ChargebeeParse.new(params)
     cb.maybe_update_subscription_and_customer
-    subscription_id = cb.subscription["id"]
+    send_domain_emails(cb) and return unless domains_count_ok?(cb)
+
     seed = ENV["LICENSE_SECRET_SEED"]
     key, passphrase = license_signing_key, license_signing_passphrase
 
-    send_domain_emails(cb) and return unless domains_count_ok?(cb)
-    license = ChargebeeLicenseGenerator.generate_license(cb, seed, key, passphrase)
-    sha = Digest::SHA256.hexdigest(license[:id_license][:encoded])
-
-    maybe_send_license_email(cb, sha, license)
-    update_license_id_and_hash(subscription_id, license[:id], sha)
-
-    upload_to_s3(license, ENV["LICENSE_S3_ID"], ENV["LICENSE_S3_SECRET"])
-
-    render plain: "Testing we can see this"
+    render plain: LicenseHandler.call(cb, seed, key, passphrase)
   end
 
   def log_error(e)
@@ -36,32 +28,13 @@ class ChargebeeController < ApplicationController
   def send_domain_emails(cb)
     if cb.domains_under_min?
       LicenseMailer.domains_under_min(cb.customer_email, cb.listed_domains_max).deliver_now
+      message = cb.message << "Domains under minimum, sent email to #{cb.customer_email}"
+      render plain: message.join("\n")
     elsif cb.domains_over_max?
       raise "Someone tried to register with too many domains"
       # @TODO: not yet implemented
       # LicenseMailer.domains_over_max(cb.customer_email, cb.listed_domains_max).deliver_now
     end
-  end
-
-  # @TODO: move me to chargebee_license_generator
-  def update_license_id_and_hash(subscription_id, license_id, license_hash)
-    api_key = ENV["CHARGEBEE_API_KEY"]
-    site = ENV["CHARGEBEE_SITE"]
-    url = "https://#{site}.chargebee.com/api/v2/subscriptions/#{subscription_id}"
-    response = HTTParty.get(url,{basic_auth: {username: api_key}})
-    if response.ok? && response.respond_to?(:[]) && response["subscription"].present?
-      current_subscription = response["subscription"].reject { |k,v| k == "trial_end" }
-      new_subscription = current_subscription.merge({
-        "cf_license_id" => license_id,
-        "cf_license_hash" => license_hash
-      }).compact
-
-      if (new_subscription.to_a - current_subscription.to_a).present?
-        HTTParty.post(url,{body: new_subscription, basic_auth: {username: api_key}})
-        return true
-      end
-    end
-    false
   end
 
   def ensure_valid_key
@@ -70,7 +43,7 @@ class ChargebeeController < ApplicationController
 
   def check_subscription
     # Ignore events that lack a subscription
-    render plain: "testing" if params.dig("content", "subscription").blank?
+    render plain: "No subscription given; webhook event: #{webhook_event}" if params.dig("content", "subscription").blank?
   end
 
   def license_signing_key
@@ -81,23 +54,7 @@ class ChargebeeController < ApplicationController
     Web::Application.config.license_signing_key_passphrase
   end
 
-  # @TODO: move me to chargebee_license_generator
-  def maybe_send_license_email(cb, sha, license)
-    if sha != cb.subscription["cf_license_hash"]
-      LicenseMailer.id_license_email(
-        emails: [cb.customer_email],
-        id_license_encoded: license[:id_license][:encoded],
-        id_license_text: license[:id_license][:text],
-        remote_license_text: license[:license][:text]
-      ).deliver
-    end
-  end
-
-  # @TODO: move me to chargebee_license_generator
-  def upload_to_s3(license, aws_id, aws_secret)
-    s3_uploader = ImazenLicensing::S3::S3LicenseUploader.new(aws_id: aws_id,
-                                                             aws_secret: aws_secret)
-
-    s3_uploader.upload_license(license_id: license[:id], license_secret: license[:secret], full_body: license[:license][:encoded])
+  def webhook_event
+    params["event_type"] || "not given"
   end
 end

@@ -105,4 +105,38 @@ RSpec.describe 'ChargebeeParse' do
       end
     end
   end
+
+  describe '#message' do
+    subject { cb.message }
+
+    it { is_expected.to be_a(Array) }
+
+    context 'after trying to update subscription and customer' do
+      context 'with a stale subscription' do
+        before do
+          allow(cb).to receive(:subscription_stale?).and_return(true)
+          allow(ChargeBee::Subscription).to receive(:retrieve).and_return(double(subscription: {}))
+          allow(ChargeBee::Customer).to receive(:retrieve).and_return(double(customer: {}))
+          cb.maybe_update_subscription_and_customer
+        end
+
+        it 'includes a string containing log info' do
+          expect(subject).to include(a_string_matching(/Retrieved/))
+          expect(subject).to include(a_string_matching(/subscription/))
+          expect(subject).to include(a_string_matching(/customer/))
+        end
+      end
+
+      context 'with a subscription that is not stale' do
+        before do
+          allow(cb).to receive(:subscription_stale?).and_return(false)
+          cb.maybe_update_subscription_and_customer
+        end
+
+        it 'includes a string containing log info' do
+          expect(subject).to include(a_string_matching(/skipping/))
+        end
+      end
+    end
+  end
 end

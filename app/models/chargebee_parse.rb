@@ -4,10 +4,11 @@ class ChargebeeParse
     'created_at', 'updated_at', 'current_term_start',
     'current_term_end', 'cancelled_at', 'trial_start', 'trial_end'
   ]
-  attr_accessor :subscription, :customer, :plan, :event_type
+  attr_accessor :subscription, :customer, :plan, :event_type, :message
 
   def initialize(params)
     self.subscription = params.dig("content", "subscription") || {}
+    self.message = []
     parse_subscription_timestamps
     self.customer = params.dig("content", "subscription") || {}
     self.event_type = params["event_type"]
@@ -15,9 +16,12 @@ class ChargebeeParse
 
   def maybe_update_subscription_and_customer
     if subscription_stale?
+      self.message << "#{self.class}: Retrieved subscription and customer via ChargeBee gem."
       self.subscription = ChargeBee::Subscription.retrieve(self.subscription["id"]).subscription.as_json
       parse_subscription_timestamps
       self.customer = ChargeBee::Customer.retrieve(self.subscription["customer_id"]).customer.as_json
+    else
+      self.message << "#{self.class}: Subscription updated within the last 3 seconds; skipping subscription & customer fetching."
     end
   end
 
