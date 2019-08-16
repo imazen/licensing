@@ -103,4 +103,14 @@ RSpec.describe LicenseHandler do
       end
     end
   end
+
+  describe '#upload_to_s3' do
+    before { allow(ImazenLicensing::S3::S3LicenseUploader).to receive(:new).and_return(fake_uploader)  }
+    let(:fake_uploader) { double(upload_license: true) }
+
+    it 'calls upload_license' do
+      expect(fake_uploader).to receive(:upload_license)
+      handler.upload_to_s3
+    end
+  end
 end
