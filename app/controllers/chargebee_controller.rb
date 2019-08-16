@@ -10,7 +10,8 @@ class ChargebeeController < ApplicationController
     key, passphrase = license_signing_key, license_signing_passphrase
 
     send_domain_emails(cb) and return unless domains_count_ok?(cb)
-    license = ChargebeeLicenseGenerator.generate_license(cb, seed, key, passphrase)
+    generator = ChargebeeLicenseGenerator.new(cb, seed, key, passphrase)
+    license = generator.generate_license
     sha = Digest::SHA256.hexdigest(license[:id_license][:encoded])
 
     maybe_send_license_email(cb, sha, license)
@@ -43,6 +44,7 @@ class ChargebeeController < ApplicationController
     end
   end
 
+  # ===========================================================================
   # @TODO: move me to chargebee_license_generator
   def update_license_id_and_hash(subscription_id, license_id, license_hash)
     api_key = ENV["CHARGEBEE_API_KEY"]
@@ -64,6 +66,7 @@ class ChargebeeController < ApplicationController
     false
   end
 
+  # ===========================================================================
   def ensure_valid_key
     head :forbidden if params[:key] != ENV["CHARGEBEE_WEBHOOK_TOKEN"]
   end
