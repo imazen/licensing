@@ -17,7 +17,7 @@ class ChargebeeController < ApplicationController
     generator.maybe_send_license_email(sha, license)
     generator.update_license_id_and_hash(license[:id], sha)
 
-    upload_to_s3(license, ENV["LICENSE_S3_ID"], ENV["LICENSE_S3_SECRET"])
+    generator.upload_to_s3(license, ENV["LICENSE_S3_ID"], ENV["LICENSE_S3_SECRET"])
 
     render plain: "Testing we can see this"
   end
@@ -59,13 +59,5 @@ class ChargebeeController < ApplicationController
 
   def license_signing_passphrase
     Web::Application.config.license_signing_key_passphrase
-  end
-
-  # @TODO: move me to chargebee_license_generator
-  def upload_to_s3(license, aws_id, aws_secret)
-    s3_uploader = ImazenLicensing::S3::S3LicenseUploader.new(aws_id: aws_id,
-                                                             aws_secret: aws_secret)
-
-    s3_uploader.upload_license(license_id: license[:id], license_secret: license[:secret], full_body: license[:license][:encoded])
   end
 end

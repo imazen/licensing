@@ -60,6 +60,13 @@ class ChargebeeLicenseGenerator
     end
   end
 
+  def upload_to_s3(license, aws_id, aws_secret)
+    s3_uploader = ImazenLicensing::S3::S3LicenseUploader.new(aws_id: aws_id,
+                                                             aws_secret: aws_secret)
+
+    s3_uploader.upload_license(license_id: license[:id], license_secret: license[:secret], full_body: license[:license][:encoded])
+  end
+
   private
 
   def generate_id_license(cb, license_secret_seed, key, passphrase)
