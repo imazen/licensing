@@ -14,7 +14,7 @@ class ChargebeeController < ApplicationController
     license = generator.generate_license
     sha = Digest::SHA256.hexdigest(license[:id_license][:encoded])
 
-    maybe_send_license_email(cb, sha, license)
+    generator.maybe_send_license_email(sha, license)
     generator.update_license_id_and_hash(license[:id], sha)
 
     upload_to_s3(license, ENV["LICENSE_S3_ID"], ENV["LICENSE_S3_SECRET"])
@@ -59,18 +59,6 @@ class ChargebeeController < ApplicationController
 
   def license_signing_passphrase
     Web::Application.config.license_signing_key_passphrase
-  end
-
-  # @TODO: move me to chargebee_license_generator
-  def maybe_send_license_email(cb, sha, license)
-    if sha != cb.subscription["cf_license_hash"]
-      LicenseMailer.id_license_email(
-        emails: [cb.customer_email],
-        id_license_encoded: license[:id_license][:encoded],
-        id_license_text: license[:id_license][:text],
-        remote_license_text: license[:license][:text]
-      ).deliver
-    end
   end
 
   # @TODO: move me to chargebee_license_generator

@@ -49,6 +49,17 @@ class ChargebeeLicenseGenerator
     false
   end
 
+  def maybe_send_license_email(sha, license)
+    if sha != @cb.subscription["cf_license_hash"]
+      LicenseMailer.id_license_email(
+        emails: [@cb.customer_email],
+        id_license_encoded: license[:id_license][:encoded],
+        id_license_text: license[:id_license][:text],
+        remote_license_text: license[:license][:text]
+      ).deliver
+    end
+  end
+
   private
 
   def generate_id_license(cb, license_secret_seed, key, passphrase)
