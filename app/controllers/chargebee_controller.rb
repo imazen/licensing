@@ -15,7 +15,7 @@ class ChargebeeController < ApplicationController
     sha = Digest::SHA256.hexdigest(license[:id_license][:encoded])
 
     maybe_send_license_email(cb, sha, license)
-    update_license_id_and_hash(subscription_id, license[:id], sha)
+    generator.update_license_id_and_hash(license[:id], sha)
 
     upload_to_s3(license, ENV["LICENSE_S3_ID"], ENV["LICENSE_S3_SECRET"])
 
@@ -44,29 +44,6 @@ class ChargebeeController < ApplicationController
     end
   end
 
-  # ===========================================================================
-  # @TODO: move me to chargebee_license_generator
-  def update_license_id_and_hash(subscription_id, license_id, license_hash)
-    api_key = ENV["CHARGEBEE_API_KEY"]
-    site = ENV["CHARGEBEE_SITE"]
-    url = "https://#{site}.chargebee.com/api/v2/subscriptions/#{subscription_id}"
-    response = HTTParty.get(url,{basic_auth: {username: api_key}})
-    if response.ok? && response.respond_to?(:[]) && response["subscription"].present?
-      current_subscription = response["subscription"].reject { |k,v| k == "trial_end" }
-      new_subscription = current_subscription.merge({
-        "cf_license_id" => license_id,
-        "cf_license_hash" => license_hash
-      }).compact
-
-      if (new_subscription.to_a - current_subscription.to_a).present?
-        HTTParty.post(url,{body: new_subscription, basic_auth: {username: api_key}})
-        return true
-      end
-    end
-    false
-  end
-
-  # ===========================================================================
   def ensure_valid_key
     head :forbidden if params[:key] != ENV["CHARGEBEE_WEBHOOK_TOKEN"]
   end

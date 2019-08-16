@@ -28,6 +28,27 @@ class ChargebeeLicenseGenerator
     }
   end
 
+  def update_license_id_and_hash(license_id, license_hash)
+    subscription_id = @cb.subscription['id']
+    api_key = ENV["CHARGEBEE_API_KEY"]
+    site = ENV["CHARGEBEE_SITE"]
+    url = "https://#{site}.chargebee.com/api/v2/subscriptions/#{subscription_id}"
+    response = HTTParty.get(url,{basic_auth: {username: api_key}})
+    if response.ok? && response.respond_to?(:[]) && response["subscription"].present?
+      current_subscription = response["subscription"].reject { |k,v| k == "trial_end" }
+      new_subscription = current_subscription.merge({
+        "cf_license_id" => license_id,
+        "cf_license_hash" => license_hash
+      }).compact
+
+      if (new_subscription.to_a - current_subscription.to_a).present?
+        HTTParty.post(url,{body: new_subscription, basic_auth: {username: api_key}})
+        return true
+      end
+    end
+    false
+  end
+
   private
 
   def generate_id_license(cb, license_secret_seed, key, passphrase)
