@@ -15,17 +15,14 @@ class ChargebeeLicenseGenerator
     generator.upload_to_s3
   end
 
+  # @TODO: handle cancellations
+  # @TODO: push billing issue data and subscription status
   def generate_license
     id_license_params, id_license = generate_id_license(@cb, @seed, @key, @passphrase)
-
     license_type_params = params_for_license_type(@cb)
-
-    # @TODO: handle cancellations
-    # @TODO: push billing issue data and subscription status
-
     _license_params, license = generate_license_with_params(@cb, license_type_params, @key, @passphrase)
 
-    @license_summary = {
+    {
       id_license: id_license,
       license: license,
       secret: id_license_params[:secret],
@@ -61,7 +58,7 @@ class ChargebeeLicenseGenerator
         id_license_encoded: @license_summary[:id_license][:encoded],
         id_license_text: @license_summary[:id_license][:text],
         remote_license_text: @license_summary[:license][:text]
-      ).deliver
+      ).deliver_now
     end
   end
 
@@ -110,12 +107,11 @@ class ChargebeeLicenseGenerator
     end.compact.uniq
   end
 
+  # TODO:
+  # Add company or non-profit restrictions based on cb.coupon_strings
+  # Always set subscription_expiration_date
+  # if perpetual license add-on is present, lift expires date..
   def params_for_license_type(cb)
-    # TODO:
-    # Add company or non-profit restrictions based on cb.coupon_strings
-    # Always set subscription_expiration_date
-    # if perpetual license add-on is present, lift expires date..
-
     case cb.kind
     when "per-core"
       {
