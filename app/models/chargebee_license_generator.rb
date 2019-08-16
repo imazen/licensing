@@ -20,7 +20,7 @@ class ChargebeeLicenseGenerator
 
     _license_params, license = generate_license_with_params(@cb, license_type_params, @key, @passphrase)
 
-    {
+    @license_summary = {
       id_license: generated_id_license,
       license: license,
       secret: id_license_params[:secret],
@@ -28,7 +28,7 @@ class ChargebeeLicenseGenerator
     }
   end
 
-  def update_license_id_and_hash(license_id, license_hash)
+  def update_license_id_and_hash(license_hash)
     subscription_id = @cb.subscription['id']
     api_key = ENV["CHARGEBEE_API_KEY"]
     site = ENV["CHARGEBEE_SITE"]
@@ -37,7 +37,7 @@ class ChargebeeLicenseGenerator
     if response.ok? && response.respond_to?(:[]) && response["subscription"].present?
       current_subscription = response["subscription"].reject { |k,v| k == "trial_end" }
       new_subscription = current_subscription.merge({
-        "cf_license_id" => license_id,
+        "cf_license_id" => @license_summary[:id],
         "cf_license_hash" => license_hash
       }).compact
 
@@ -49,22 +49,24 @@ class ChargebeeLicenseGenerator
     false
   end
 
-  def maybe_send_license_email(sha, license)
+  def maybe_send_license_email(sha)
     if sha != @cb.subscription["cf_license_hash"]
       LicenseMailer.id_license_email(
         emails: [@cb.customer_email],
-        id_license_encoded: license[:id_license][:encoded],
-        id_license_text: license[:id_license][:text],
-        remote_license_text: license[:license][:text]
+        id_license_encoded: @license_summary[:id_license][:encoded],
+        id_license_text: @license_summary[:id_license][:text],
+        remote_license_text: @license_summary[:license][:text]
       ).deliver
     end
   end
 
-  def upload_to_s3(license, aws_id, aws_secret)
+  def upload_to_s3(aws_id, aws_secret)
     s3_uploader = ImazenLicensing::S3::S3LicenseUploader.new(aws_id: aws_id,
                                                              aws_secret: aws_secret)
 
-    s3_uploader.upload_license(license_id: license[:id], license_secret: license[:secret], full_body: license[:license][:encoded])
+    s3_uploader.upload_license(license_id: @license_summary[:id],
+                               license_secret: @license_summary[:secret],
+                               full_body: @license_summary[:license][:encoded])
   end
 
   private

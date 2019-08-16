@@ -14,10 +14,10 @@ class ChargebeeController < ApplicationController
     license = generator.generate_license
     sha = Digest::SHA256.hexdigest(license[:id_license][:encoded])
 
-    generator.maybe_send_license_email(sha, license)
-    generator.update_license_id_and_hash(license[:id], sha)
+    generator.maybe_send_license_email(sha)
+    generator.update_license_id_and_hash(sha)
 
-    generator.upload_to_s3(license, ENV["LICENSE_S3_ID"], ENV["LICENSE_S3_SECRET"])
+    generator.upload_to_s3(ENV["LICENSE_S3_ID"], ENV["LICENSE_S3_SECRET"])
 
     render plain: "Testing we can see this"
   end
