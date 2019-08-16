@@ -36,8 +36,8 @@ class LicenseHandler
     site = ENV["CHARGEBEE_SITE"]
     url = "https://#{site}.chargebee.com/api/v2/subscriptions/#{subscription_id}"
     response = HTTParty.get(url,{basic_auth: {username: api_key}})
-    if response.ok? && response.respond_to?(:[]) && response["subscription"].present?
-      current_subscription = response["subscription"].reject { |k,v| k == "trial_end" }
+    if response.ok? && response&.fetch("subscription").present?
+      current_subscription = response.fetch("subscription").reject { |k,v| k == "trial_end" }
       new_subscription = current_subscription.merge({
         "cf_license_id" => @license_summary[:id],
         "cf_license_hash" => @sha

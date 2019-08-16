@@ -55,4 +55,52 @@ RSpec.describe LicenseHandler do
       end
     end
   end
+
+  describe '#update_license_id_and_hash' do
+    before do
+      allow(HTTParty).to receive(:get).and_return(response)
+      allow(HTTParty).to receive(:post)
+      handler.update_license_id_and_hash
+    end
+    let(:response) { double }
+
+    context 'when a successful api response includes a subscription' do
+      let(:response) { double(ok?: true, fetch: subscription) }
+
+      context 'new subscription is different from the fetched subscription' do
+        let(:subscription) { { "cf_license_id" => "123", "cf_license_hash" => "123" } }
+
+        it 'posts the new subscription to the api' do
+          expect(HTTParty).to have_received(:post)
+        end
+      end
+
+      context 'generated license matches the fetched subscription' do
+        let(:subscription)  {
+          { 'cf_license_id' => '18652613',
+            'cf_license_hash' => Digest::SHA256.hexdigest(license[:encoded]) }
+        }
+
+        it 'does not post to the api' do
+          expect(HTTParty).to_not have_received(:post)
+        end
+      end
+    end
+
+    context 'when api response is not successful' do
+      let(:response) { double(ok?: false) }
+
+      it 'does not post to the api' do
+        expect(HTTParty).to_not have_received(:post)
+      end
+    end
+
+    context 'when api response does not include a subscription' do
+      let(:response) { double(ok?: true, fetch: {}) }
+
+      it 'does not post to the api' do
+        expect(HTTParty).to_not have_received(:post)
+      end
+    end
+  end
 end
