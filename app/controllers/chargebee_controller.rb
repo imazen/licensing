@@ -11,11 +11,9 @@ class ChargebeeController < ApplicationController
 
     send_domain_emails(cb) and return unless domains_count_ok?(cb)
     generator = ChargebeeLicenseGenerator.new(cb, seed, key, passphrase)
-    license = generator.generate_license
-    sha = Digest::SHA256.hexdigest(license[:id_license][:encoded])
 
-    generator.maybe_send_license_email(sha)
-    generator.update_license_id_and_hash(sha)
+    generator.maybe_send_license_email
+    generator.update_license_id_and_hash
 
     generator.upload_to_s3(ENV["LICENSE_S3_ID"], ENV["LICENSE_S3_SECRET"])
 

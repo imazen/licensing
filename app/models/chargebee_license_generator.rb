@@ -4,6 +4,8 @@ class ChargebeeLicenseGenerator
     @seed = seed
     @key = key
     @passphrase = passphrase
+    @license_summary = generate_license
+    @sha = Digest::SHA256.hexdigest(@license_summary[:id_license][:encoded])
   end
 
   def self.generate_license(cb, seed, key, passphrase)
@@ -28,7 +30,7 @@ class ChargebeeLicenseGenerator
     }
   end
 
-  def update_license_id_and_hash(license_hash)
+  def update_license_id_and_hash
     subscription_id = @cb.subscription['id']
     api_key = ENV["CHARGEBEE_API_KEY"]
     site = ENV["CHARGEBEE_SITE"]
@@ -38,7 +40,7 @@ class ChargebeeLicenseGenerator
       current_subscription = response["subscription"].reject { |k,v| k == "trial_end" }
       new_subscription = current_subscription.merge({
         "cf_license_id" => @license_summary[:id],
-        "cf_license_hash" => license_hash
+        "cf_license_hash" => @sha
       }).compact
 
       if (new_subscription.to_a - current_subscription.to_a).present?
@@ -49,8 +51,8 @@ class ChargebeeLicenseGenerator
     false
   end
 
-  def maybe_send_license_email(sha)
-    if sha != @cb.subscription["cf_license_hash"]
+  def maybe_send_license_email
+    if @sha != @cb.subscription["cf_license_hash"]
       LicenseMailer.id_license_email(
         emails: [@cb.customer_email],
         id_license_encoded: @license_summary[:id_license][:encoded],
