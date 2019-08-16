@@ -2,12 +2,12 @@ class LicenseHandler
   attr_accessor :message
 
   def initialize(cb, seed, key, passphrase)
+    self.message = cb.message
     @cb = cb
     @seed = seed
     @key = key
     @passphrase = passphrase
     @license_summary = generate_license
-    self.message = []
     @sha = Digest::SHA256.hexdigest(@license_summary[:id_license][:encoded])
   end
 
@@ -16,6 +16,7 @@ class LicenseHandler
     handler.maybe_send_license_email
     handler.update_license_id_and_hash
     handler.upload_to_s3
+    handler.message.join("\n") + "#{ENV['SOURCE_VERSION']}"
   end
 
   # @TODO: handle cancellations
@@ -74,6 +75,7 @@ class LicenseHandler
     s3_uploader = ImazenLicensing::S3::S3LicenseUploader.new(aws_id: aws_id,
                                                              aws_secret: aws_secret)
 
+    self.message << "#{self.class}: uploading license to S3"
     s3_uploader.upload_license(license_id: @license_summary[:id],
                                license_secret: @license_summary[:secret],
                                full_body: @license_summary[:license][:encoded])

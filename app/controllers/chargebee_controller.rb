@@ -5,13 +5,12 @@ class ChargebeeController < ApplicationController
   def index
     cb = ChargebeeParse.new(params)
     cb.maybe_update_subscription_and_customer
+    send_domain_emails(cb) and return unless domains_count_ok?(cb)
+
     seed = ENV["LICENSE_SECRET_SEED"]
     key, passphrase = license_signing_key, license_signing_passphrase
 
-    send_domain_emails(cb) and return unless domains_count_ok?(cb)
-    LicenseHandler.call(cb, seed, key, passphrase)
-
-    render plain: "Testing we can see this"
+    render plain: LicenseHandler.call(cb, seed, key, passphrase)
   end
 
   def log_error(e)
