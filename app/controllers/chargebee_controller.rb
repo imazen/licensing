@@ -9,7 +9,7 @@ class ChargebeeController < ApplicationController
     key, passphrase = license_signing_key, license_signing_passphrase
 
     send_domain_emails(cb) and return unless domains_count_ok?(cb)
-    ChargebeeLicenseGenerator.call(cb, seed, key, passphrase)
+    LicenseHandler.call(cb, seed, key, passphrase)
 
     render plain: "Testing we can see this"
   end

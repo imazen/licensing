@@ -1,4 +1,4 @@
-class ChargebeeLicenseGenerator
+class LicenseHandler
   def initialize(cb, seed, key, passphrase)
     @cb = cb
     @seed = seed
@@ -9,10 +9,10 @@ class ChargebeeLicenseGenerator
   end
 
   def self.call(cb, seed, key, passphrase)
-    generator = new(cb, seed, key, passphrase)
-    generator.maybe_send_license_email
-    generator.update_license_id_and_hash
-    generator.upload_to_s3
+    handler = new(cb, seed, key, passphrase)
+    handler.maybe_send_license_email
+    handler.update_license_id_and_hash
+    handler.upload_to_s3
   end
 
   # @TODO: handle cancellations
