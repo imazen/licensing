@@ -11,7 +11,7 @@ class ChargebeeLicenseGenerator
   end
 
   def generate_license
-    id_license_params, generated_id_license = generate_id_license(@cb, @seed, @key, @passphrase)
+    id_license_params, id_license = generate_id_license(@cb, @seed, @key, @passphrase)
 
     license_type_params = params_for_license_type(@cb)
 
@@ -21,7 +21,7 @@ class ChargebeeLicenseGenerator
     _license_params, license = generate_license_with_params(@cb, license_type_params, @key, @passphrase)
 
     @license_summary = {
-      id_license: generated_id_license,
+      id_license: id_license,
       license: license,
       secret: id_license_params[:secret],
       id: id_license_params[:id]
@@ -82,9 +82,9 @@ class ChargebeeLicenseGenerator
       is_public: false
     }
 
-    generated_id_license = ImazenLicensing::LicenseGenerator.generate_with_info(id_license_params, key, passphrase)
+    id_license = ImazenLicensing::LicenseGenerator.generate_with_info(id_license_params, key, passphrase)
 
-    [id_license_params, generated_id_license]
+    [id_license_params, id_license]
   end
 
   def license_restrictions(cb)
