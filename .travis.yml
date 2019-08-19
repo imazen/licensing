@@ -1,3 +1,7 @@
 language: ruby
+install:
+  # - sudo apt-get install mono-complete -y
+  - bundle; rake
+  - cd gem; bundle; rake
 rvm:
   - 2.5
