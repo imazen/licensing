@@ -10,7 +10,9 @@ class ChargebeeController < ApplicationController
     seed = ENV["LICENSE_SECRET_SEED"]
     key, passphrase = license_signing_key, license_signing_passphrase
 
-    render plain: LicenseHandler.call(cb, seed, key, passphrase)
+    result_log = LicenseHandler.call(cb, seed, key, passphrase)
+    logger.info(result_log)
+    render plain: result_log
   end
 
   def log_error(e)
