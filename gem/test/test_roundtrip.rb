@@ -60,6 +60,7 @@ module ImazenLicensing
     end
 
     def test_roundtrip
+      skip if ENV['TRAVIS']
       assert mono_works
       #skip("Mono not installed, skipping licenses roundtrip test") unless $?.success?
       cs = ImazenLicensing::LicenseVerifierCs.new
