@@ -7,7 +7,7 @@ class LicenseHandler
     @seed = seed
     @key = key
     @passphrase = passphrase
-    @license_summary = generate_license
+    @license_summary = generate_license_pair
     @sha = Digest::SHA256.hexdigest(@license_summary[:id_license][:encoded])
   end
 
@@ -21,9 +21,9 @@ class LicenseHandler
 
   # @TODO: handle cancellations
   # @TODO: push billing issue data and subscription status
-  def generate_license
+  def generate_license_pair
     id_license_params, id_license = generate_id_license
-    _license_params, license = generate_license_with_params
+    _license_params, license = generate_license
 
     {
       id_license: id_license,
@@ -118,7 +118,7 @@ class LicenseHandler
     end.compact.uniq
   end
 
-  def generate_license_with_params
+  def generate_license
     license_params = {
       id: cb.id, # we generate this (lowercase, numeric)
       owner: cb.owner,

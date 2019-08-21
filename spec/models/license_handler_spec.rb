@@ -24,8 +24,8 @@ RSpec.describe LicenseHandler do
     allow(cb).to receive(:plan).and_return(double(meta_data: meta_data, invoice_name: 'Bob'))
   }
 
-  describe '#generate_license' do
-    subject { handler.generate_license }
+  describe '#generate_license_pair' do
+    subject { handler.generate_license_pair }
 
     it 'returns a license represented by a hash' do
       license_keys = [:id, :license, :id_license, :secret]
