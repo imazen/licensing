@@ -22,9 +22,9 @@ class LicenseHandler
   # @TODO: handle cancellations
   # @TODO: push billing issue data and subscription status
   def generate_license
-    id_license_params, id_license = generate_id_license(@cb, @seed, @key, @passphrase)
-    license_type_params = params_for_license_type(@cb)
-    _license_params, license = generate_license_with_params(@cb, license_type_params, @key, @passphrase)
+    id_license_params, id_license = generate_id_license(@seed, @key, @passphrase)
+    license_type_params = params_for_license_type
+    _license_params, license = generate_license_with_params(license_type_params, @key, @passphrase)
 
     {
       id_license: id_license,
@@ -35,7 +35,7 @@ class LicenseHandler
   end
 
   def update_license_id_and_hash
-    subscription_id = @cb.subscription['id']
+    subscription_id = cb.subscription['id']
     api_key = ENV["CHARGEBEE_API_KEY"]
     site = ENV["CHARGEBEE_SITE"]
     url = "https://#{site}.chargebee.com/api/v2/subscriptions/#{subscription_id}"
@@ -58,10 +58,10 @@ class LicenseHandler
   end
 
   def maybe_send_license_email
-    if @sha != @cb.subscription["cf_license_hash"]
-      self.message << "#{self.class}: sending id license email to #{@cb.customer_email}"
+    if @sha != cb.subscription["cf_license_hash"]
+      self.message << "#{self.class}: sending id license email to #{cb.customer_email}"
       LicenseMailer.id_license_email(
-        emails: [@cb.customer_email],
+        emails: [cb.customer_email],
         id_license_encoded: @license_summary[:id_license][:encoded],
         id_license_text: @license_summary[:id_license][:text],
         remote_license_text: @license_summary[:license][:text]
@@ -83,6 +83,8 @@ class LicenseHandler
 
   private
 
+  attr_reader :cb
+
   def aws_id
     ENV["LICENSE_S3_ID"]
   end
@@ -91,7 +93,7 @@ class LicenseHandler
     ENV["LICENSE_S3_SECRET"]
   end
 
-  def generate_id_license(cb, license_secret_seed, key, passphrase)
+  def generate_id_license(license_secret_seed, key, passphrase)
     id_license_params = {
       kind: 'id',
       id: cb.id, # we generate this (lowercase, numeric)
@@ -107,7 +109,7 @@ class LicenseHandler
     [id_license_params, id_license]
   end
 
-  def license_restrictions(cb)
+  def license_restrictions
     [cb.restrictions] + { "MICROENTERPRISE_ONLY" => "Only valid for organizations with less than 5 employees.",
                           "SMALLBIZ_ONLY" => "Only valid for organizations with less than 30 employees.",
                           "SMB_ONLY" => "Only valid for organizations with less than 500 employees.",
@@ -121,7 +123,7 @@ class LicenseHandler
   # Add company or non-profit restrictions based on cb.coupon_strings
   # Always set subscription_expiration_date
   # if perpetual license add-on is present, lift expires date..
-  def params_for_license_type(cb)
+  def params_for_license_type
     case cb.kind
     when "per-core"
       {
@@ -148,7 +150,7 @@ class LicenseHandler
     end
   end
 
-  def generate_license_with_params(cb, license_type_params, key, passphrase)
+  def generate_license_with_params(license_type_params, key, passphrase)
     license_params = {
       id: cb.id, # we generate this (lowercase, numeric)
       owner: cb.owner,
@@ -159,7 +161,7 @@ class LicenseHandler
       product: cb.product, # from plan
       must_be_fetched: true,
       is_public: cb.is_public,
-      restrictions: license_restrictions(cb).join(' ')
+      restrictions: license_restrictions.join(' ')
     }.merge(license_type_params)
 
     license = ImazenLicensing::LicenseGenerator.generate_with_info(license_params, key, passphrase)
