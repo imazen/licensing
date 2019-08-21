@@ -14,7 +14,7 @@ class LicenseHandler
   def self.call(cb, seed, key, passphrase)
     handler = new(cb, seed, key, passphrase)
     handler.maybe_send_license_email
-    handler.update_license_id_and_hash
+    handler.maybe_update_subscription
     handler.upload_to_s3
     handler.message.join("\n") + "#{ENV['SOURCE_VERSION']}"
   end
@@ -34,7 +34,7 @@ class LicenseHandler
     }
   end
 
-  def update_license_id_and_hash
+  def maybe_update_subscription
     subscription_id = cb.subscription['id']
     api_key = ENV["CHARGEBEE_API_KEY"]
     site = ENV["CHARGEBEE_SITE"]

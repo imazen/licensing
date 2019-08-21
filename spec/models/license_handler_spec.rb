@@ -66,11 +66,11 @@ RSpec.describe LicenseHandler do
     end
   end
 
-  describe '#update_license_id_and_hash' do
+  describe '#maybe_update_subscription' do
     before do
       allow(HTTParty).to receive(:get).and_return(response)
       allow(HTTParty).to receive(:post)
-      handler.update_license_id_and_hash
+      handler.maybe_update_subscription
     end
     let(:response) { double(ok?: true, fetch: {}) }
 
