@@ -22,14 +22,13 @@ class LicenseHandler
   # @TODO: handle cancellations
   # @TODO: push billing issue data and subscription status
   def generate_license_pair
-    id_license_params, id_license = generate_id_license
-    _license_params, license = generate_license
+    secret = cb.license_secret(@seed)
 
     {
-      id_license: id_license,
-      license: license,
-      secret: id_license_params[:secret],
-      id: id_license_params[:id]
+      id_license: generate_id_license(cb.id, secret),
+      license: generate_license,
+      secret: secret,
+      id: cb.id # we generate this (lowercase, numeric)
     }
   end
 
@@ -92,20 +91,18 @@ class LicenseHandler
     ENV["LICENSE_S3_SECRET"]
   end
 
-  def generate_id_license
+  def generate_id_license(cb_id, secret)
     id_license_params = {
       kind: 'id',
-      id: cb.id, # we generate this (lowercase, numeric)
+      id: cb_id,
       owner: cb.owner,
-      secret: cb.license_secret(@seed),
+      secret: secret,
       issued: cb.subscription["created_at"],
       network_grace_minutes: 480,
       is_public: false
     }
 
-    id_license = ImazenLicensing::LicenseGenerator.generate_with_info(id_license_params, @key, @passphrase)
-
-    [id_license_params, id_license]
+    ImazenLicensing::LicenseGenerator.generate_with_info(id_license_params, @key, @passphrase)
   end
 
   def license_restrictions
@@ -132,9 +129,7 @@ class LicenseHandler
       restrictions: license_restrictions.join(' ')
     }.merge(license_type_params)
 
-    license = ImazenLicensing::LicenseGenerator.generate_with_info(license_params, @key, @passphrase)
-
-    [license_params, license]
+    ImazenLicensing::LicenseGenerator.generate_with_info(license_params, @key, @passphrase)
   end
 
   # TODO:
