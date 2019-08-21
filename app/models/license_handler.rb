@@ -8,7 +8,6 @@ class LicenseHandler
     @key = key
     @passphrase = passphrase
     @license_summary = generate_license_pair
-    @sha = Digest::SHA256.hexdigest(@license_summary[:id_license][:encoded])
   end
 
   def self.call(cb, seed, key, passphrase)
@@ -43,7 +42,7 @@ class LicenseHandler
       current_subscription = response.fetch("subscription").reject { |k,v| k == "trial_end" }
       new_subscription = current_subscription.merge({
         "cf_license_id" => @license_summary[:id],
-        "cf_license_hash" => @sha
+        "cf_license_hash" => license_hash
       }).compact
 
       if (new_subscription.to_a - current_subscription.to_a).present?
@@ -56,7 +55,7 @@ class LicenseHandler
   end
 
   def maybe_send_license_email
-    if @sha != cb.subscription["cf_license_hash"]
+    if license_hash != cb.subscription["cf_license_hash"]
       self.message << "#{self.class}: sending id license email to #{cb.customer_email}"
       LicenseMailer.id_license_email(
         emails: [cb.customer_email],
@@ -65,7 +64,7 @@ class LicenseHandler
         remote_license_text: @license_summary[:license][:text]
       ).deliver_now
     else
-      self.message << "#{self.class}: subscription 'cf_license_hash' and checked sha are identical, no email sent"
+      self.message << "#{self.class}: subscription 'cf_license_hash' and generated sha are identical, no email sent"
     end
   end
 
@@ -105,16 +104,6 @@ class LicenseHandler
     ImazenLicensing::LicenseGenerator.generate_with_info(id_license_params, @key, @passphrase)
   end
 
-  def license_restrictions
-    [cb.restrictions] + { "MICROENTERPRISE_ONLY" => "Only valid for organizations with less than 5 employees.",
-                          "SMALLBIZ_ONLY" => "Only valid for organizations with less than 30 employees.",
-                          "SMB_ONLY" => "Only valid for organizations with less than 500 employees.",
-                          "NONPROFIT_ONLY" => "Only valid for non-profit organizations."
-    }.map do |k,v|
-      cb.coupon_strings.any?{|s| s.include? (k) } ? v : nil
-    end.compact.uniq
-  end
-
   def generate_license
     license_params = {
       id: cb.id, # we generate this (lowercase, numeric)
@@ -130,6 +119,20 @@ class LicenseHandler
     }.merge(license_type_params)
 
     ImazenLicensing::LicenseGenerator.generate_with_info(license_params, @key, @passphrase)
+  end
+
+  def license_hash
+    @license_hash ||= Digest::SHA256.hexdigest(@license_summary[:id_license][:encoded])
+  end
+
+  def license_restrictions
+    [cb.restrictions] + { "MICROENTERPRISE_ONLY" => "Only valid for organizations with less than 5 employees.",
+                          "SMALLBIZ_ONLY" => "Only valid for organizations with less than 30 employees.",
+                          "SMB_ONLY" => "Only valid for organizations with less than 500 employees.",
+                          "NONPROFIT_ONLY" => "Only valid for non-profit organizations."
+    }.map do |k,v|
+      cb.coupon_strings.any?{|s| s.include? (k) } ? v : nil
+    end.compact.uniq
   end
 
   # TODO:
