@@ -24,16 +24,6 @@ RSpec.describe LicenseHandler do
     allow(cb).to receive(:plan).and_return(double(meta_data: meta_data, invoice_name: 'Bob'))
   }
 
-  describe '#license_summary' do
-    subject { handler.license_summary }
-
-    it 'returns a license represented by a hash' do
-      license_keys = [:id, :license, :id_license, :secret]
-      expect(subject).to be_a Hash
-      expect(subject.keys).to match_array license_keys
-    end
-  end
-
   describe '#maybe_send_license_email' do
     let(:subscription_params) { { "current_term_end" => 1565926099, "cf_license_hash" => cf_license_hash } }
     before do

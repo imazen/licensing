@@ -17,17 +17,18 @@ class LicenseHandler
     handler.message.join("\n") + "#{ENV['SOURCE_VERSION']}"
   end
 
-  # @TODO: handle cancellations
-  # @TODO: push billing issue data and subscription status
-  def license_summary
-    secret = cb.license_secret(@seed)
-
-    @license_summary ||= {
-      id_license: generate_id_license(cb.id, secret),
-      license: generate_license,
-      secret: secret,
-      id: cb.id # we generate this (lowercase, numeric)
-    }
+  def maybe_send_license_email
+    if license_hash != cb.subscription["cf_license_hash"]
+      self.message << "#{self.class}: sending id license email to #{cb.customer_email}"
+      LicenseMailer.id_license_email(
+        emails: [cb.customer_email],
+        id_license_encoded: license_summary[:id_license][:encoded],
+        id_license_text: license_summary[:id_license][:text],
+        remote_license_text: license_summary[:license][:text]
+      ).deliver_now
+    else
+      self.message << "#{self.class}: subscription 'cf_license_hash' and generated sha are identical, no email sent"
+    end
   end
 
   def maybe_update_subscription
@@ -53,20 +54,6 @@ class LicenseHandler
     end
   end
 
-  def maybe_send_license_email
-    if license_hash != cb.subscription["cf_license_hash"]
-      self.message << "#{self.class}: sending id license email to #{cb.customer_email}"
-      LicenseMailer.id_license_email(
-        emails: [cb.customer_email],
-        id_license_encoded: license_summary[:id_license][:encoded],
-        id_license_text: license_summary[:id_license][:text],
-        remote_license_text: license_summary[:license][:text]
-      ).deliver_now
-    else
-      self.message << "#{self.class}: subscription 'cf_license_hash' and generated sha are identical, no email sent"
-    end
-  end
-
   def upload_to_s3
     s3_uploader = ImazenLicensing::S3::S3LicenseUploader.new(aws_id: aws_id,
                                                              aws_secret: aws_secret)
@@ -80,6 +67,19 @@ class LicenseHandler
   private
 
   attr_reader :cb
+
+  # @TODO: handle cancellations
+  # @TODO: push billing issue data and subscription status
+  def license_summary
+    secret = cb.license_secret(@seed)
+
+    @license_summary ||= {
+      id_license: generate_id_license(cb.id, secret),
+      license: generate_license,
+      secret: secret,
+      id: cb.id # we generate this (lowercase, numeric)
+    }
+  end
 
   def aws_id
     ENV["LICENSE_S3_ID"]
