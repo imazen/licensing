@@ -5,7 +5,7 @@ RSpec.describe LicenseHandler do
   let(:cb_params) {
     { "content" => { "subscription" => subscription_params } }
   }
-  let(:subscription_params) { { "current_term_end" => 1565926099 } }
+  let(:subscription_params) { { "created_at" => 1493866732, "current_term_end" => 1565926099 } }
   let(:seed) { 'foo' }
   let(:key) { '123acab' }
   let(:passphrase) { 'overthrowcapitalism' }
@@ -25,7 +25,7 @@ RSpec.describe LicenseHandler do
   }
 
   describe '#maybe_send_license_email' do
-    let(:subscription_params) { { "current_term_end" => 1565926099, "cf_license_hash" => cf_license_hash } }
+    let(:subscription_params) { { "created_at" => 1493866732, "current_term_end" => 1565926099, "cf_license_hash" => cf_license_hash } }
     before do
       allow(LicenseMailer).to receive(:id_license_email).and_return(double(deliver_now: true))
       handler.maybe_send_license_email

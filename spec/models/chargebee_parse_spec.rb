@@ -139,4 +139,71 @@ RSpec.describe 'ChargebeeParse' do
       end
     end
   end
+
+  describe '#expires_on' do
+    subject { cb.expires_on }
+
+    context 'without a perpetual add-on' do
+      context 'with a cancelled subscription' do
+        let(:subscription_data) { { 'created_at' => created_at, 'status' => 'cancelled', 'cancelled_at' => cancel_date } }
+        let(:created_at) { Time.parse('2016-01-01').strftime('%s').to_i }
+
+        context 'cancel date is over 3 years past subscription creation' do
+          let(:cancel_date) { Time.parse('2019-01-15').strftime('%s').to_i }
+
+          it 'returns nil' do
+            expect(subject).to be_nil
+          end
+        end
+
+        context 'cancel date is less than 3 years past subscription creation' do
+          let(:cancel_date) { Time.parse('2018-01-15').strftime('%s').to_i }
+          let(:fake_date) { double(advance: 'guess') }
+          before {
+            allow(cb).to receive(:term_end_guess).and_return(fake_date)
+            allow(cb).to receive(:subscription_grace_minutes).and_return(1)
+          }
+
+          it 'returns the term end guess' do
+            expect(subject).to eq 'guess'
+          end
+        end
+      end
+
+      context 'with a current subscription' do
+        let(:subscription_data) { { 'created_at' => created_at, 'status' => 'active' } }
+        let(:created_at) { 1.week.ago.strftime('%s').to_i }
+        let(:fake_date) { double(advance: 'guess') }
+
+        before {
+          allow(cb).to receive(:term_end_guess).and_return(fake_date)
+          allow(cb).to receive(:subscription_grace_minutes).and_return(1)
+        }
+
+        it 'returns the term end guess' do
+          expect(subject).to eq 'guess'
+        end
+      end
+    end
+
+    context 'with a perpetual add-on' do
+      let(:subscription_data) { { 'created_at' => created_at, 'status' => 'active' } }
+      let(:created_at) { 1.week.ago.strftime('%s').to_i }
+      before { allow(cb).to receive(:has_perpetual_addon?).and_return true }
+
+      it 'returns nil' do
+        expect(subject).to be_nil
+      end
+
+      context 'with a recently cancelled subscription' do
+        let(:subscription_data) { { 'created_at' => created_at, 'status' => 'cancelled', 'cancelled_at' => cancel_date } }
+        let(:created_at) { 1.year.ago.strftime('%s').to_i }
+        let(:cancel_date) { 1.week.ago.strftime('%s').to_i }
+
+        it 'still returns nil' do
+          expect(subject).to be_nil
+        end
+      end
+    end
+  end
 end
