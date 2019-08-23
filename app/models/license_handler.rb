@@ -109,7 +109,7 @@ class LicenseHandler
       owner: cb.owner,
       kind: cb.kind, # from plan
       issued: cb.issued,
-      expires: cb.term_end_guess.advance( minutes: cb.subscription_grace_minutes),
+      expires: cb.expires_on,
       features: cb.features, # from plan
       product: cb.product, # from plan
       must_be_fetched: true,
@@ -137,7 +137,6 @@ class LicenseHandler
   # TODO:
   # Add company or non-profit restrictions based on cb.coupon_strings
   # Always set subscription_expiration_date
-  # if perpetual license add-on is present, lift expires date..
   def license_type_params
     case cb.kind
     when "per-core"
