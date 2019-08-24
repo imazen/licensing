@@ -132,4 +132,30 @@ RSpec.describe LicenseHandler do
       expect(handler.message).to include(a_string_matching(/uploading license to S3/))
     end
   end
+
+  describe 'license params' do
+    subject { handler.send(:license_params) }
+
+    context 'with a cancelled subscription' do
+      let(:subscription_params) {
+        {
+          'created_at' => created_at,
+          'cancelled_at' => cancelled_at,
+          'status' => 'cancelled'
+        }
+      }
+      let(:created_at) { 1.year.ago.strftime('%s').to_i }
+      let(:cancelled_at) { 1.week.ago.strftime('%s').to_i }
+
+      it 'includes subscription_expiration_date' do
+        parsed_cancelled_at = Time.zone.at(cancelled_at).to_datetime
+        expect(subject).to include({subscription_expiration_date: parsed_cancelled_at})
+      end
+
+      it 'includes message' do
+        expected_message = 'Message: Your subscription has expired; please renew to access newer product releases.'
+        expect(subject).to include({message: expected_message})
+      end
+    end
+  end
 end

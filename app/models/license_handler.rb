@@ -104,19 +104,6 @@ class LicenseHandler
   end
 
   def generate_license
-    license_params = {
-      id: cb.id, # we generate this (lowercase, numeric)
-      owner: cb.owner,
-      kind: cb.kind, # from plan
-      issued: cb.issued,
-      expires: cb.expires_on,
-      features: cb.features, # from plan
-      product: cb.product, # from plan
-      must_be_fetched: true,
-      is_public: cb.is_public,
-      restrictions: license_restrictions.join(' ')
-    }.merge(license_type_params)
-
     ImazenLicensing::LicenseGenerator.generate_with_info(license_params, @key, @passphrase)
   end
 
@@ -132,6 +119,36 @@ class LicenseHandler
     }.map do |k,v|
       cb.coupon_strings.any?{|s| s.include? (k) } ? v : nil
     end.compact.uniq
+  end
+
+  def license_params
+    {
+      id: cb.id, # we generate this (lowercase, numeric)
+      owner: cb.owner,
+      kind: cb.kind, # from plan
+      issued: cb.issued,
+      expires: cb.expires_on,
+      features: cb.features, # from plan
+      product: cb.product, # from plan
+      must_be_fetched: true,
+      is_public: cb.is_public,
+      restrictions: license_restrictions.join(' ')
+    }.merge(conditional_license_params)
+  end
+
+  def conditional_license_params
+    cancelled_license_params.merge(license_type_params)
+  end
+
+  def cancelled_license_params
+    if cb.subscription['status'] == 'cancelled'
+      {
+        subscription_expiration_date: cb.subscription['cancelled_at'],
+        message: 'Message: Your subscription has expired; please renew to access newer product releases.'
+      }
+    else
+      {}
+    end
   end
 
   # TODO:
