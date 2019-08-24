@@ -99,7 +99,7 @@ class ChargebeeParse
   end
 
   def subscription_grace_minutes
-    plan.meta_data.fetch(:subscription_grace_minutes,20160)
+    plan.meta_data.fetch(:subscription_grace_minutes, 20160)
   end
 
   # for License Text
@@ -112,6 +112,11 @@ class ChargebeeParse
     return subscription["cancelled_at"] if subscription["cancelled_at"]
     return subscription["current_term_end"] if subscription["current_term_end"]
     return subscription["trial_end"] if subscription["trial_end"]
+  end
+
+  def expires_on
+    return if cancelled_after_3_years? || has_perpetual_addon?
+    term_end_guess.advance(minutes: subscription_grace_minutes)
   end
 
   def customer_email
@@ -145,7 +150,17 @@ class ChargebeeParse
     licensed_domains.length > listed_domains_max
   end
 
+  # @TODO - make private once we have a consistent & testable way to read addons
+  def has_perpetual_addon?
+    # Not implemented; need to find a consistent way of reading addons.
+  end
+
   private
+
+  def cancelled_after_3_years?
+    three_years = subscription['created_at'] + 3.years
+    subscription['status'] == 'cancelled' && subscription['cancelled_at'] > three_years
+  end
 
   def parse_subscription_timestamps
     TIMESTAMP_FIELDS.each do |field|

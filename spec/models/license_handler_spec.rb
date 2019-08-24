@@ -5,7 +5,7 @@ RSpec.describe LicenseHandler do
   let(:cb_params) {
     { "content" => { "subscription" => subscription_params } }
   }
-  let(:subscription_params) { { "current_term_end" => 1565926099 } }
+  let(:subscription_params) { { "created_at" => 1493866732, "current_term_end" => 1565926099 } }
   let(:seed) { 'foo' }
   let(:key) { '123acab' }
   let(:passphrase) { 'overthrowcapitalism' }
@@ -24,18 +24,8 @@ RSpec.describe LicenseHandler do
     allow(cb).to receive(:plan).and_return(double(meta_data: meta_data, invoice_name: 'Bob'))
   }
 
-  describe '#generate_license' do
-    subject { handler.generate_license }
-
-    it 'returns a license represented by a hash' do
-      license_keys = [:id, :license, :id_license, :secret]
-      expect(subject).to be_a Hash
-      expect(subject.keys).to match_array license_keys
-    end
-  end
-
   describe '#maybe_send_license_email' do
-    let(:subscription_params) { { "current_term_end" => 1565926099, "cf_license_hash" => cf_license_hash } }
+    let(:subscription_params) { { "created_at" => 1493866732, "current_term_end" => 1565926099, "cf_license_hash" => cf_license_hash } }
     before do
       allow(LicenseMailer).to receive(:id_license_email).and_return(double(deliver_now: true))
       handler.maybe_send_license_email
@@ -66,11 +56,11 @@ RSpec.describe LicenseHandler do
     end
   end
 
-  describe '#update_license_id_and_hash' do
+  describe '#maybe_update_subscription' do
     before do
       allow(HTTParty).to receive(:get).and_return(response)
       allow(HTTParty).to receive(:post)
-      handler.update_license_id_and_hash
+      handler.maybe_update_subscription
     end
     let(:response) { double(ok?: true, fetch: {}) }
 
@@ -140,6 +130,32 @@ RSpec.describe LicenseHandler do
 
     it 'logs the upload' do
       expect(handler.message).to include(a_string_matching(/uploading license to S3/))
+    end
+  end
+
+  describe 'license params' do
+    subject { handler.send(:license_params) }
+
+    context 'with a cancelled subscription' do
+      let(:subscription_params) {
+        {
+          'created_at' => created_at,
+          'cancelled_at' => cancelled_at,
+          'status' => 'cancelled'
+        }
+      }
+      let(:created_at) { 1.year.ago.strftime('%s').to_i }
+      let(:cancelled_at) { 1.week.ago.strftime('%s').to_i }
+
+      it 'includes subscription_expiration_date' do
+        parsed_cancelled_at = Time.zone.at(cancelled_at).to_datetime
+        expect(subject).to include({subscription_expiration_date: parsed_cancelled_at})
+      end
+
+      it 'includes message' do
+        expected_message = 'Message: Your subscription has expired; please renew to access newer product releases.'
+        expect(subject).to include({message: expected_message})
+      end
     end
   end
 end
