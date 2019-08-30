@@ -150,12 +150,11 @@ class ChargebeeParse
     licensed_domains.length > listed_domains_max
   end
 
-  # @TODO - make private once we have a consistent & testable way to read addons
-  def has_perpetual_addon?
-    # Not implemented; need to find a consistent way of reading addons.
-  end
-
   private
+
+  def has_perpetual_addon?
+    subscription["cf_perpetual"]
+  end
 
   def cancelled_after_3_years?
     three_years = subscription['created_at'] + 3.years
