@@ -150,15 +150,15 @@ class ChargebeeParse
     licensed_domains.length > listed_domains_max
   end
 
+  def cancelled_after_3_years?
+    three_years = subscription['created_at'] + 3.years
+    subscription['status'] == 'cancelled' && subscription['cancelled_at'] > three_years
+  end
+
   private
 
   def has_perpetual_addon?
     subscription["cf_perpetual"]
-  end
-
-  def cancelled_after_3_years?
-    three_years = subscription['created_at'] + 3.years
-    subscription['status'] == 'cancelled' && subscription['cancelled_at'] > three_years
   end
 
   def parse_subscription_timestamps

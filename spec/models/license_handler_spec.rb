@@ -136,7 +136,7 @@ RSpec.describe LicenseHandler do
   describe 'license params' do
     subject { handler.send(:license_params) }
 
-    context 'with a cancelled subscription' do
+    context 'when subscription is cancelled' do
       let(:subscription_params) {
         {
           'created_at' => created_at,
@@ -144,17 +144,39 @@ RSpec.describe LicenseHandler do
           'status' => 'cancelled'
         }
       }
-      let(:created_at) { 1.year.ago.strftime('%s').to_i }
-      let(:cancelled_at) { 1.week.ago.strftime('%s').to_i }
 
-      it 'includes subscription_expiration_date' do
-        parsed_cancelled_at = Time.zone.at(cancelled_at).to_datetime
-        expect(subject).to include({subscription_expiration_date: parsed_cancelled_at})
+      context 'before 3 years' do
+        let(:created_at) { 1.year.ago.strftime('%s').to_i }
+        let(:cancelled_at) { 1.week.ago.strftime('%s').to_i }
+
+        it 'includes correct message' do
+          expected_message = 'Your subscription has lapsed; please renew to continue using product.'
+          expect(subject).to include({message: expected_message})
+        end
+
+        it 'sets valid to false' do
+          expect(subject).to include({valid: false})
+        end
+
+        it 'includes subscription_expiration_date' do
+          parsed_cancelled_at = Time.zone.at(cancelled_at).to_datetime
+          expect(subject).to include({subscription_expiration_date: parsed_cancelled_at})
+        end
       end
 
-      it 'includes message' do
-        expected_message = 'Message: Your subscription has expired; please renew to access newer product releases.'
-        expect(subject).to include({message: expected_message})
+      context 'after 3 years' do
+        let(:created_at) { 4.years.ago.strftime('%s').to_i }
+        let(:cancelled_at) { 1.week.ago.strftime('%s').to_i }
+
+        it 'includes correct message' do
+          expected_message = 'Message: Your subscription has expired; please renew to access newer product releases.'
+          expect(subject).to include({message: expected_message})
+        end
+
+        it 'includes subscription_expiration_date' do
+          parsed_cancelled_at = Time.zone.at(cancelled_at).to_datetime
+          expect(subject).to include({subscription_expiration_date: parsed_cancelled_at})
+        end
       end
     end
   end
