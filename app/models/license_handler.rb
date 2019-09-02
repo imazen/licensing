@@ -137,18 +137,20 @@ class LicenseHandler
   end
 
   def conditional_license_params
-    cancelled_license_params.merge(license_type_params)
-  end
-
-  def cancelled_license_params
-    if cb.subscription['status'] == 'cancelled'
+    if cb.cancelled_after_3_years?
       {
         subscription_expiration_date: cb.subscription['cancelled_at'],
         message: 'Message: Your subscription has expired; please renew to access newer product releases.'
       }
+    elsif cb.subscription['status'] == 'cancelled'
+      {
+        valid: false,
+        subscription_expiration_date: cb.subscription['cancelled_at'],
+        message: 'Your subscription has lapsed; please renew to continue using product.'
+      }
     else
       {}
-    end
+    end.merge(license_type_params)
   end
 
   # TODO:
