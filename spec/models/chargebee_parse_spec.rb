@@ -187,16 +187,24 @@ RSpec.describe 'ChargebeeParse' do
     end
 
     context 'with a perpetual add-on' do
-      let(:subscription_data) { { 'created_at' => created_at, 'status' => 'active' } }
+      let(:subscription_data) {
+        { 'created_at' => created_at,
+          'status' => 'active',
+          'cf_perpetual' => true }
+      }
       let(:created_at) { 1.week.ago.strftime('%s').to_i }
-      before { allow(cb).to receive(:has_perpetual_addon?).and_return true }
 
       it 'returns nil' do
         expect(subject).to be_nil
       end
 
       context 'with a recently cancelled subscription' do
-        let(:subscription_data) { { 'created_at' => created_at, 'status' => 'cancelled', 'cancelled_at' => cancel_date } }
+        let(:subscription_data) {
+          { 'created_at' => created_at,
+            'cf_perpetual' => true,
+            'status' => 'cancelled',
+            'cancelled_at' => cancel_date }
+        }
         let(:created_at) { 1.year.ago.strftime('%s').to_i }
         let(:cancel_date) { 1.week.ago.strftime('%s').to_i }
 
