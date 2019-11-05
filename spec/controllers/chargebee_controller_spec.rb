@@ -17,7 +17,7 @@ RSpec.describe ChargebeeController, type: :controller do
       VCR.use_cassette("subscription_created") do
         post :index, params: load_chargebee_params('subscription_created')
         expect(response).to have_http_status :success
-        expect(response.body).to eq expected_body
+        expect(response.body).to start_with expected_body
       end
     end
 
@@ -31,7 +31,7 @@ RSpec.describe ChargebeeController, type: :controller do
           VCR.use_cassette('domains_count_ok') do
             expect(LicenseMailer).not_to receive(:domains_under_min)
             post :index, params: load_chargebee_params('domains_count_ok')
-            expect(response.body).to eq expected_body
+            expect(response.body).to start_with expected_body
           end
         end
       end

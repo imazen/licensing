@@ -59,6 +59,7 @@ class LicenseHandler
                                                              aws_secret: aws_secret)
 
     self.message << "#{self.class}: uploading license to S3"
+    self.message << "#{self.class}: #{license_summary[:license][:text]}" 
     s3_uploader.upload_license(license_id: license_summary[:id],
                                license_secret: license_summary[:secret],
                                full_body: license_summary[:license][:encoded])
