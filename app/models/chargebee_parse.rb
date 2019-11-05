@@ -155,11 +155,12 @@ class ChargebeeParse
     subscription['status'] == 'cancelled' && subscription['cancelled_at'] > three_years
   end
 
+  def has_perpetual_addon?
+    subscription["cf_perpetual"].to_s.strip.downcase == "true"
+  end
+  
   private
 
-  def has_perpetual_addon?
-    subscription["cf_perpetual"]
-  end
 
   def parse_subscription_timestamps
     TIMESTAMP_FIELDS.each do |field|

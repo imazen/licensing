@@ -137,7 +137,7 @@ class LicenseHandler
   end
 
   def conditional_license_params
-    if cb.cancelled_after_3_years?
+    if cb.cancelled_after_3_years? || cb.has_perpetual_addon?
       {
         subscription_expiration_date: cb.subscription['cancelled_at'],
         message: 'Message: Your subscription has expired; please renew to access newer product releases.'
