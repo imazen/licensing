@@ -80,7 +80,7 @@ GEM
       dotenv (= 2.7.5)
       railties (>= 3.2, < 6.1)
     erubi (1.9.0)
-    excon (0.68.0)
+    excon (0.71.1)
     ffi (1.11.1)
     fog-aws (1.4.1)
       fog-core (~> 1.38)
