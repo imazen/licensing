@@ -12,7 +12,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'chargebee', github: 'imazen/chargebee-ruby', branch: 'master'
 gem 'imazen_licensing', path: './gem'
 gem 'httparty'
-gem 'rest-client','= 2.0.2'
+gem 'rest-client','2.1.0'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
