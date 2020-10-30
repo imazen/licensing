@@ -1,12 +1,3 @@
-GIT
-  remote: https://github.com/imazen/chargebee-ruby.git
-  revision: 143900d4d74ff9215c75170125a6115e1a5065b9
-  branch: master
-  specs:
-    chargebee (2.2.7)
-      json_pure (~> 2.1)
-      rest-client (~> 2)
-
 PATH
   remote: gem
   specs:
@@ -67,6 +58,9 @@ GEM
       msgpack (~> 1.0)
     builder (3.2.4)
     byebug (11.1.3)
+    chargebee (2.7.9)
+      json_pure (~> 2.1)
+      rest-client (>= 1.8, < 3.0)
     coderay (1.1.3)
     concurrent-ruby (1.1.6)
     crack (0.4.3)
@@ -231,7 +225,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (>= 1.1.0)
   byebug
-  chargebee!
+  chargebee (= 2.7.9)
   dotenv-rails
   httparty
   imazen_licensing!
