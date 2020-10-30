@@ -128,7 +128,7 @@ class LicenseHandler
       owner: cb.owner,
       kind: cb.kind, # from plan
       issued: cb.issued,
-      expires: cb.expires_on,
+      expires: cb.resizer_expires_on,
       features: cb.features, # from plan
       product: cb.product, # from plan
       must_be_fetched: true,

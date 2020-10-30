@@ -141,7 +141,7 @@ RSpec.describe 'ChargebeeParse' do
   end
 
   describe '#expires_on' do
-    subject { cb.expires_on }
+    subject { cb.resizer_expires_on }
 
     context 'without a perpetual add-on' do
       context 'with a cancelled subscription' do

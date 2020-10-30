@@ -114,7 +114,7 @@ class ChargebeeParse
     return subscription["trial_end"] if subscription["trial_end"]
   end
 
-  def expires_on
+  def resizer_expires_on
     return if cancelled_after_3_years? || has_perpetual_addon?
     term_end_guess.advance(minutes: subscription_grace_minutes)
   end
