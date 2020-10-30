@@ -26,3 +26,4 @@ gem/tmp/
 !*log/.keep
 tmp/
 !tmp/.keep
+keys.sh

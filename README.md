@@ -3,7 +3,7 @@
 Gem and endpoint for asymmetric license key pair generation with S3 hosted license files. 
 
 
-[![Build Status](https://travis-ci.org/imazen/licensing.svg?branch=master)](https://travis-ci.org/imazen/licensing)
+[![Build Status](https://travis-ci.com/imazen/licensing.svg?branch=heroku)](https://travis-ci.com/github/imazen/licensing)
 
 
 ## Secrets used by rails app
@@ -15,8 +15,8 @@ Gem and endpoint for asymmetric license key pair generation with S3 hosted licen
   :address =>     ENV['SMTP_SERVER'] || 'smtp.mailgun.org',
    
 - AWS, for uploading license files
-- CHARGEBEE_DOMAIN
-- chargebee_secret
+- CHARGEBEE_SITE
+- CHARGEBEE_API_KEY
 - secret to validate webook 
 - 
  config.license_signing_key_passphrase = ENV['LICENSE_SIGNING_KEY_PASSPHRASE']
