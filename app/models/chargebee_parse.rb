@@ -54,6 +54,26 @@ class ChargebeeParse
     (subscription["coupons"] || []).map{|v| [v["coupon_id"], v["coupon_code"]]}.flatten.compact.uniq
   end
 
+  def imageflow_addon_present?
+    (subscription["addons"] || []).map{|v| v["id"]}.include?("promotional-imageflow-license")
+  end
+
+  def resizer_present?
+    features.include?("R_Performance") || features.include?("R4Performance")
+  end
+
+  def imageflow_present?
+    imageflow_addon_present? || features.include?("Imageflow")
+  end
+
+  def extended_features
+    if features.kind_of?(Array)
+      features + (imageflow_addon_present? ? ["Imageflow"] : [])
+    else
+      features + (imageflow_addon_present? ? " Imageflow" : "")
+    end
+  end
+
   def plan
     @plan ||= ChargeBee::Plan.retrieve(plan_id).plan
   end
@@ -116,6 +136,10 @@ class ChargebeeParse
 
   def resizer_expires_on
     return if cancelled_after_3_years? || has_perpetual_addon?
+    term_end_guess.advance(minutes: subscription_grace_minutes)
+  end
+
+  def imageflow_expires_on
     term_end_guess.advance(minutes: subscription_grace_minutes)
   end
 

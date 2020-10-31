@@ -1,12 +1,17 @@
 class LicenseMailer < ApplicationMailer
-  def id_license_email(emails:, id_license_encoded:, id_license_text:, remote_license_text:)
+  def id_license_email(mailer_name:, emails:, id_license_encoded:, id_license_text:, remote_license_text:)
     @id_license_body = id_license_encoded
     @id_license_text = id_license_text
     @remote_license_text = remote_license_text
 
-    product = remote_license_text.include?("IMAGEFLOW") ? "Imageflow" : "ImageResizer"
+    subject_lines = {
+        "imageresizer" => "ImageResizer",
+        "imageflow" => "Imageflow",
+        "both" => "Imageflow & ImageResizer"
+    }
+    subject = "#{subject_lines[mailer_name]} License Delivery"
 
-    mail(to: emails, bcc: OUR_EMAILS, subject: "#{product} License Delivery", template_name: "#{product.downcase}_id_license_email")
+    mail(to: emails, bcc: OUR_EMAILS, subject: subject, template_name: "#{mailer_name.downcase}_id_license_email")
   end
 
   def we_fucked_up(e,params)

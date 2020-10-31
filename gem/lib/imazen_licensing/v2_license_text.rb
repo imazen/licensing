@@ -13,7 +13,7 @@ module ImazenLicensing
       prohibit_characters("\r\n\\<>")
       prohibit_characters_in_fields(":")
       prohibit_duplicate_fields {|k| stringify_key(k).downcase }
-      require_dates_be_valid [:issued, :expires, :subscription_expiration_date]
+      require_dates_be_valid [:issued, :expires, :imaegflow_expires, :subscription_expiration_date]
       require_lowercase_alphanumeric(:id, 8)
       require_min_length(:owner, 2)
       

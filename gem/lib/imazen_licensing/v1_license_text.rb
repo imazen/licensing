@@ -25,6 +25,7 @@ ALLOWED=[:expires, :kind, :restrictions]
 
       require_dates_be_valid( [:issued] )
       require_dates_be_valid( [:expires] )
+      require_dates_be_valid( [:imageflow_expires] )
 
       domain_error =  DomainValidator.new.domain_error(data[:domain])
       raise domain_error if domain_error

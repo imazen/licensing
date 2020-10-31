@@ -1,0 +1,64 @@
+Here is your license for ImageResizer and Imageflow
+
+Ignore this e-mail if you have already installed your key; you do not need to update your license manually.
+
+For Imageflow.NET Server:
+
+Please install this license into your Startup.cs file, then visit /imageflow.license (public) or /resizer.debug (localhost-only, or per your customErrors configuration) in your application to confirm license status. If your license is invalid, you may see red dots appear in the corner of processed images.
+You can alternately use EnforceLicenseWith.Http422Error to have image requests fail
+====================================
+app.UseImageflow(new ImageflowMiddlewareOptions()
+    .SetLicenseKey(EnforceLicenseWith.RedDotWatermark,
+        "<%= @id_license_body %>")
+    );
+====================================
+
+For ImagerResizer:
+
+You will need ImageResizer v4.1.9 or later to use this license key, otherwise the license will be listed as invalid.
+
+Please install this license into your web.config, then visit /resizer.license (public) or /resizer.debug (localhost-only, or per your customErrors configuration) in your application to confirm license status. If your license is invalid, you may see red dots appear in the corner of processed images.
+====================================
+<configuration>
+  <resizer>
+    <licenses>
+      <license>
+        <%= @id_license_body %>
+      </license>
+    </licenses>
+  </resizer>
+</configuration>
+====================================
+
+If you are not using Web.config, you can install the license via code.
+
+ImageResizer.Configuration.Config.Current.Plugins.AddLicense(
+@"<%= @id_license_body %>");
+
+
+You can also check license status and diagnostics from code.
+
+string ImageResizer.Configuration.Config.Current.GetDiagnosticsPage()
+string ImageResizer.Configuration.Config.Current.GetLicensesPage()
+
+ImageResizer.Configuration.Config.Current.WriteDiagnosticsTo(string path)
+
+This is a network license key. It is validated hourly via a HTTPS GET request; this request also securely transmits metadata about the product (like server and core count, domain names, plugin names, and response times). Validation results are cached and can be used until expiry if is a network disruption. There is also a grace period in case no cached result is available.
+
+All information that is transmitted with license validation can be seen at /resizer.debug or /imageflow.debug respectively.
+
+
+Please contact support@imazen.io if you need help with installing your license.
+
+
+
+Decoded placeholder license (for informational purposes)
+====================================
+<%= @id_license_text %>
+
+Your initial (decoded) remote license (updated when you renew or change your subscription)
+====================================
+<%= @remote_license_text %>
+
+
+

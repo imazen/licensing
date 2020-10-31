@@ -19,12 +19,14 @@ class LicenseHandler
 
   def maybe_send_license_email
     if license_hash != cb.subscription["cf_license_hash"]
+
       self.message << "#{self.class}: sending id license email to #{cb.customer_email}"
       LicenseMailer.id_license_email(
-        emails: [cb.customer_email],
-        id_license_encoded: license_summary[:id_license][:encoded],
-        id_license_text: license_summary[:id_license][:text],
-        remote_license_text: license_summary[:license][:text]
+          mailer_name: mailer_name,
+          emails: [cb.customer_email],
+          id_license_encoded: license_summary[:id_license][:encoded],
+          id_license_text: license_summary[:id_license][:text],
+          remote_license_text: license_summary[:license][:text]
       ).deliver_now
     else
       self.message << "#{self.class}: subscription 'cf_license_hash' and generated sha are identical, no email sent"
@@ -118,8 +120,20 @@ class LicenseHandler
                           "SMB_ONLY" => "Only valid for organizations with less than 500 employees.",
                           "NONPROFIT_ONLY" => "Only valid for non-profit organizations."
     }.map do |k,v|
-      cb.coupon_strings.any?{|s| s.include? (k) } ? v : nil
+      cb.coupon_strings.any?{|s| s.include?(k) } ? v : nil
     end.compact.uniq
+  end
+
+  def mailer_name
+    if cb.resizer_present? && cb.imageflow_present?
+      "both"
+    elsif cb.imageflow_present?
+      "imageflow"
+    elsif cb.resizer_present?
+      "imageresizer"
+    else
+      nil
+    end
   end
 
   def license_params
@@ -129,7 +143,8 @@ class LicenseHandler
       kind: cb.kind, # from plan
       issued: cb.issued,
       expires: cb.resizer_expires_on,
-      features: cb.features, # from plan
+      imageflow_expires: cb.imageflow_expires_on,
+      features: cb.extended_features, # from plan and addons
       product: cb.product, # from plan
       must_be_fetched: true,
       is_public: cb.is_public,
