@@ -1,4 +1,7 @@
 class LicenseHandler
+  # Increment this to cause emails to be resent when you need to add information
+  EMAIL_VERSION="1"
+
   attr_accessor :message
 
   def initialize(cb, seed, key, passphrase)
@@ -110,8 +113,9 @@ class LicenseHandler
     ImazenLicensing::LicenseGenerator.generate_with_info(license_params, @key, @passphrase)
   end
 
+
   def license_hash
-    @license_hash ||= Digest::SHA256.hexdigest(license_summary[:id_license][:encoded])
+    @license_hash ||= Digest::SHA256.hexdigest(license_summary[:id_license][:encoded] + EMAIL_VERSION)
   end
 
   def license_restrictions
