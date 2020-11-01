@@ -4,8 +4,8 @@ Ignore this e-mail if you have already installed your key; you do not need to up
 
 
 For Imageflow.NET Server:
-Please install this license into your Startup.cs file, then visit /imageflow.license (public) or /resizer.debug (localhost-only, or per your customErrors configuration) in your application to confirm license status. If your license is invalid, you may see red dots appear in the corner of processed images.
-You can alternately use EnforceLicenseWith.Http422Error to have image requests fail
+Please install this license into your Startup.cs file, then visit /imageflow.license (public) or /imageflow.debug (localhost-only) in your application to confirm license status. If your license is invalid, you may see red dots appear in the corner of processed images.
+You can alternately use EnforceLicenseWith.Http422Error to have image requests fail instead of watermarking them.
 ====================================
 app.UseImageflow(new ImageflowMiddlewareOptions()
   .SetLicenseKey(EnforceLicenseWith.RedDotWatermark, "<%= @id_license_body %>")
