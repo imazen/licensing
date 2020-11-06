@@ -68,6 +68,30 @@ Valid: false
 Message: Please contact support; the license was shared with an unauthorized party and has been revoked.
 
 
+License 521983367 for Acme Corp:...
+
+Kind: id
+Id: 521983367
+Secret: test87d51c1f7d3f4a234c07c21bae2ce70715444cdd4df00506dcf136177372b244
+Owner: Acme Corp
+Issued: 2017-04-21T00:00:00+00:00
+NetworkGraceMinutes: 480
+IsPublic: false
+
+
+License 521983367 for Acme Corp (Enterprise-wide license):...
+
+Id: 521983367
+Owner: Acme Corp
+Features: Imageflow
+Product: Enterprise-wide license
+Kind: site-wide
+Issued: 2017-04-21T00:00:00+00:00
+IsPublic: true
+Valid: false
+Message: Please contact support; the license was shared with an unauthorized party and has been revoked.
+
+
 License 2037987837 for Acme Corp:...
 
 Kind: id
@@ -84,6 +108,33 @@ License 2037987837 for Acme Corp (OEM redistribtuion license):...
 Id: 2037987837
 Owner: Acme Corp
 Features: R_Elite R_Creative R_Performance
+Product: OEM redistribtuion license
+Kind: oem
+Issued: 2017-04-21T00:00:00+00:00
+Expires: 2017-06-05T00:00:00+00:00
+IsPublic: true
+MustBeFetched: true
+SubscriptionExpirationDate: 2017-04-21T00:00:00+00:00
+Message: This license has been compromised; please contact Vendor Gamma for an updated license
+Restrictions: Only for use within Vendor Gamma Prduct
+
+
+License 1345679125 for Acme Corp:...
+
+Kind: id
+Id: 1345679125
+Secret: test156f35507c7eee8f2c20024cf5161db4c7e1c699a0a8734d5ff74571fdb5e6ee
+Owner: Acme Corp
+Issued: 2017-04-21T00:00:00+00:00
+NetworkGraceMinutes: 480
+IsPublic: false
+
+
+License 1345679125 for Acme Corp (OEM redistribtuion license):...
+
+Id: 1345679125
+Owner: Acme Corp
+Features: Imageflow
 Product: OEM redistribtuion license
 Kind: oem
 Issued: 2017-04-21T00:00:00+00:00
@@ -145,6 +196,31 @@ Valid: false
 Message: Your subscription has lapsed; please renew to continue using product.
 
 
+License 3546789197 for Acme Corp:...
+
+Kind: id
+Id: 3546789197
+Secret: test4db567d31f7b54612b66f8572ac9d24ead869b3dd8b555d4e506d27c498c510c
+Owner: Acme Corp
+Issued: 2017-04-21T00:00:00+00:00
+NetworkGraceMinutes: 480
+IsPublic: false
+
+
+License 3546789197 for Acme Corp (site-wide):...
+
+Id: 3546789197
+Owner: Acme Corp
+Features: Imageflow
+Product: site-wide
+Kind: site-wide
+Issued: 2017-04-21T00:00:00+00:00
+IsPublic: true
+MustBeFetched: true
+Valid: false
+Message: Your subscription has lapsed; please renew to continue using product.
+
+
 License 2766684890 for Acme Corp:...
 
 Kind: id
@@ -165,6 +241,33 @@ Product: Enterprise-wide license
 Kind: site-wide
 Issued: 2017-04-21T00:00:00+00:00
 Expires: 2017-06-05T00:00:00+00:00
+IsPublic: true
+MustBeFetched: true
+ManageYourSubscription: https://account.imazen.io
+Restrictions: No resale of usage. Only for organizations with less than 500 employees.
+
+
+License 980532268 for Acme Corp:...
+
+Kind: id
+Id: 980532268
+Secret: test2cbc713a6d9853002503d33a67324dcf49bde227d711967ec6314eb12543c6bd
+Owner: Acme Corp
+Issued: 2017-04-21T00:00:00+00:00
+NetworkGraceMinutes: 480
+IsPublic: false
+
+
+License 980532268 for Acme Corp (Enterprise-wide Imageflow license):...
+
+Id: 980532268
+Owner: Acme Corp
+Features: Imageflow
+Product: Enterprise-wide Imageflow license
+Kind: site-wide
+Issued: 2017-04-21T00:00:00+00:00
+Expires: 2017-06-05T00:00:00+00:00
+ImageflowExpires: 2017-06-05T00:00:00+00:00
 IsPublic: true
 MustBeFetched: true
 ManageYourSubscription: https://account.imazen.io
@@ -245,6 +348,35 @@ Product: Per Server | 2 Domains | Performance
 Kind: per-core-domain
 Issued: 2017-04-21T00:00:00+00:00
 Expires: 2017-06-10T00:00:00+00:00
+IsPublic: true
+MustBeFetched: true
+MaxServers: 4
+TotalCores: 16
+ManageYourSubscription: https://account.imazen.io
+
+
+License 2974946287 for Acme Corp:...
+
+Kind: id
+Id: 2974946287
+Secret: testef1352b184d3fe7db4ceec458d70aaa48be97fdcb625848f6338e5594cc9bd35
+Owner: Acme Corp
+Issued: 2017-04-21T00:00:00+00:00
+NetworkGraceMinutes: 480
+IsPublic: false
+
+
+License 2974946287 for Acme Corp (Per Server | 2 Domains | Performance):...
+
+Id: 2974946287
+Owner: Acme Corp
+Domains: acme.com acmestaging.com
+Features: Imageflow
+Product: Per Server | 2 Domains | Performance
+Kind: per-core-domain
+Issued: 2017-04-21T00:00:00+00:00
+Expires: 2017-06-10T00:00:00+00:00
+ImageflowExpires: 2017-06-10T00:00:00+00:00
 IsPublic: true
 MustBeFetched: true
 MaxServers: 4

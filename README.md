@@ -51,6 +51,7 @@ TODO: Write a gem description
 * `Features: `
 * `Issued: `
 * (optionally) `Expires: `
+* (optionally) `ImageflowExpires: `
 * `MustBeFetched: true`
 * (optionally) SubscriptionExpirationDate, Domains, 
 * (optionally) kind, explanatory fields about subscription type, interval, duration, due date, etc.
@@ -75,6 +76,7 @@ TODO: Write a gem description
 * `Valid: false`: The license has been revoked
 * `NetworkGraceMinutes: integer`: For a placeholder license that has never been fetched/cached to disk: how many minutes to delay enforcement while attempting to connect to the internet. 
 * `Expires: iso8601 date`: When the license becomes invalid
+* `ImageflowExpires: iso8601 date`: When the license becomes invalid for Imageflow
 * `Issued: iso8601 date`: When the license becomes valid
 * `SubscriptionExpirationDate: iso8601 date`: Product builds after this date are not valid with this license
 * `LicenseServers: https://s3-us-west-2.amazonaws.com/licenses.imazen.net/ https://licenses-redirect.imazen.net/ https://licenses.imazen.net/ https://licenses2.imazen.net/

@@ -7,20 +7,30 @@
             { "V4DomainRemoteSubscriptionRemote", V4DomainRemoteSubscriptionRemote},
             { "HardRevocationPlaceholder", HardRevocationPlaceholder},
             { "HardRevocationRemote", HardRevocationRemote},
+            { "HardRevocationImageflowPlaceholder", HardRevocationImageflowPlaceholder},
+            { "HardRevocationImageflowRemote", HardRevocationImageflowRemote},
             { "SoftRevocationPlaceholder", SoftRevocationPlaceholder},
             { "SoftRevocationRemote", SoftRevocationRemote},
+            { "SoftRevocationImageflowPlaceholder", SoftRevocationImageflowPlaceholder},
+            { "SoftRevocationImageflowRemote", SoftRevocationImageflowRemote},
             { "PerpetualPlaceholder", PerpetualPlaceholder},
             { "PerpetualRemote", PerpetualRemote},
             { "CancelledPlaceholder", CancelledPlaceholder},
             { "CancelledRemote", CancelledRemote},
+            { "CancelledImageflowPlaceholder", CancelledImageflowPlaceholder},
+            { "CancelledImageflowRemote", CancelledImageflowRemote},
             { "SiteWidePlaceholder", SiteWidePlaceholder},
             { "SiteWideRemote", SiteWideRemote},
+            { "SiteWideImageflowPlaceholder", SiteWideImageflowPlaceholder},
+            { "SiteWideImageflowRemote", SiteWideImageflowRemote},
             { "OemPlaceholder", OemPlaceholder},
             { "OemRemote", OemRemote},
             { "CoresPlaceholder", CoresPlaceholder},
             { "CoresRemote", CoresRemote},
             { "PerCore2DomainsPlaceholder", PerCore2DomainsPlaceholder},
             { "PerCore2DomainsRemote", PerCore2DomainsRemote},
+            { "PerCore2DomainsImageflowPlaceholder", PerCore2DomainsImageflowPlaceholder},
+            { "PerCore2DomainsImageflowRemote", PerCore2DomainsImageflowRemote},
             { "XmlPlaceholder", XmlPlaceholder},
             { "XmlRemote", XmlRemote},
         };
@@ -84,6 +94,26 @@
         public const string HardRevocationRemote = "License 1812344071 for Acme Corp (Enterprise-wide license) :SWQ6IDE4MTIzNDQwNzEKT3duZXI6IEFjbWUgQ29ycApGZWF0dXJlczogUl9FbGl0ZSBSX0NyZWF0aXZlIFJfUGVyZm9ybWFuY2UKUHJvZHVjdDogRW50ZXJwcmlzZS13aWRlIGxpY2Vuc2UKS2luZDogc2l0ZS13aWRlCklzc3VlZDogMjAxNy0wNC0yMVQwMDowMDowMCswMDowMApJc1B1YmxpYzogdHJ1ZQpWYWxpZDogZmFsc2UKTWVzc2FnZTogUGxlYXNlIGNvbnRhY3Qgc3VwcG9ydDsgdGhlIGxpY2Vuc2Ugd2FzIHNoYXJlZCB3aXRoIGFuIHVuYXV0aG9yaXplZCBwYXJ0eSBhbmQgaGFzIGJlZW4gcmV2b2tlZC4=:kVRcjlOZyRvoUUZ3F0ecVoAia2z0tOraoSPhcrX+dsKEkYERFCIayPY1Wov/gfeaSKOh4opHwqu2iEt/xz5SS63H8MYRbSoL4mnN5zHVVYfiRiYBEnBjNWyKmkqxfGb0ATqwPV4Wgz0Ggh7hXaPVCkpNUq/59fQrzPmXbQQPKlHeX4Myh713SRXmSHJIcc8S1Pk6FFxRwk5I8PhS2CiQ9XkWsU4uFFAIlNrcstF27XZY4188EWjvcks15kOPVh9hjrJD2noX5xTUb0AHf0BOiviptomYd0LAmMSIW4/gvTkANSmslw5PyGIY2W9TZ7maQnG6LeIbv/ZQotj++OeVjg==";
         
         /// Kind: id
+        /// Id: 521983367
+        /// Secret: test87d51c1f7d3f4a234c07c21bae2ce70715444cdd4df00506dcf136177372b244
+        /// Owner: Acme Corp
+        /// Issued: 2017-04-21T00:00:00+00:00
+        /// NetworkGraceMinutes: 480
+        /// IsPublic: false
+        public const string HardRevocationImageflowPlaceholder = "License 521983367 for Acme Corp :S2luZDogaWQKSWQ6IDUyMTk4MzM2NwpTZWNyZXQ6IHRlc3Q4N2Q1MWMxZjdkM2Y0YTIzNGMwN2MyMWJhZTJjZTcwNzE1NDQ0Y2RkNGRmMDA1MDZkY2YxMzYxNzczNzJiMjQ0Ck93bmVyOiBBY21lIENvcnAKSXNzdWVkOiAyMDE3LTA0LTIxVDAwOjAwOjAwKzAwOjAwCk5ldHdvcmtHcmFjZU1pbnV0ZXM6IDQ4MApJc1B1YmxpYzogZmFsc2U=:TkwbcOkQpcNGNLW1biJGDUj4mUhy/FOe7z2+sVzZMWn3+tESck1uMl8nq4LhHs/fiyRZLIPt9xV25fVTxvQoHiPsXR8KDUv1znY8IHA6juwMZPIJd39j/D9wXvCD7gO5/u4ElE0GB5dIb16svQJFXaXkgS8LEcSOUPJbjQs6o+H9fcLp78FR5JCr7TFs6D7jzv+XZR/KEaz2eisdBLljnDNvwVsKmc2H6mIaX4rVatIJOXgZrB422LDEcYhLcJbit4F9m/nnjyFIGiE0uQn8tLZkCxdeCMYISxWq2Zen3ZQyXnr6SzHHEK2dKXXXkDc3Xv9/PtcpRNA3kVNLk8QqPg==";
+        
+        /// Id: 521983367
+        /// Owner: Acme Corp
+        /// Features: Imageflow
+        /// Product: Enterprise-wide license
+        /// Kind: site-wide
+        /// Issued: 2017-04-21T00:00:00+00:00
+        /// IsPublic: true
+        /// Valid: false
+        /// Message: Please contact support; the license was shared with an unauthorized party and has been revoked.
+        public const string HardRevocationImageflowRemote = "License 521983367 for Acme Corp (Enterprise-wide license) :SWQ6IDUyMTk4MzM2NwpPd25lcjogQWNtZSBDb3JwCkZlYXR1cmVzOiBJbWFnZWZsb3cKUHJvZHVjdDogRW50ZXJwcmlzZS13aWRlIGxpY2Vuc2UKS2luZDogc2l0ZS13aWRlCklzc3VlZDogMjAxNy0wNC0yMVQwMDowMDowMCswMDowMApJc1B1YmxpYzogdHJ1ZQpWYWxpZDogZmFsc2UKTWVzc2FnZTogUGxlYXNlIGNvbnRhY3Qgc3VwcG9ydDsgdGhlIGxpY2Vuc2Ugd2FzIHNoYXJlZCB3aXRoIGFuIHVuYXV0aG9yaXplZCBwYXJ0eSBhbmQgaGFzIGJlZW4gcmV2b2tlZC4=:bBgqz2NIdeczVcwFLFBA5rRbuMfUBSQNVUu5AqJSVZYv4vDPyY4+fVfkA0HsIW7Rl25LfY8SRfVB6FHfKDa2MfqdoZF4QroyXH85K49OpGJpQjb4VQNXiSfq1rUAR29MnzIaNy9smYlbs0o0DjKPpKm6VxvWEPHLQbw02L6lh3MVb18n/RQCuFifklRTXnIDBxBN4D2g1QtCB9BYXfCfMjZsnU2gZgROwCEOZMTPS7knPiVaBJeypDN9sEdrW7bwYal/agldkA3H7CIbXMl7pDgBkX2vWl0kCf0KgX0b4OKQrTkfPTT/+mK+E47DFdPJ+MXLafjqIVvAHDO83oIoUQ==";
+        
+        /// Kind: id
         /// Id: 2037987837
         /// Secret: testfd397979e7652bd334a729947c3b651d0ef079535b7100dc866085ed93c7c766
         /// Owner: Acme Corp
@@ -105,6 +135,29 @@
         /// Message: This license has been compromised; please contact Vendor Gamma for an updated license
         /// Restrictions: Only for use within Vendor Gamma Prduct
         public const string SoftRevocationRemote = "License 2037987837 for Acme Corp (OEM redistribtuion license) :SWQ6IDIwMzc5ODc4MzcKT3duZXI6IEFjbWUgQ29ycApGZWF0dXJlczogUl9FbGl0ZSBSX0NyZWF0aXZlIFJfUGVyZm9ybWFuY2UKUHJvZHVjdDogT0VNIHJlZGlzdHJpYnR1aW9uIGxpY2Vuc2UKS2luZDogb2VtCklzc3VlZDogMjAxNy0wNC0yMVQwMDowMDowMCswMDowMApFeHBpcmVzOiAyMDE3LTA2LTA1VDAwOjAwOjAwKzAwOjAwCklzUHVibGljOiB0cnVlCk11c3RCZUZldGNoZWQ6IHRydWUKU3Vic2NyaXB0aW9uRXhwaXJhdGlvbkRhdGU6IDIwMTctMDQtMjFUMDA6MDA6MDArMDA6MDAKTWVzc2FnZTogVGhpcyBsaWNlbnNlIGhhcyBiZWVuIGNvbXByb21pc2VkOyBwbGVhc2UgY29udGFjdCBWZW5kb3IgR2FtbWEgZm9yIGFuIHVwZGF0ZWQgbGljZW5zZQpSZXN0cmljdGlvbnM6IE9ubHkgZm9yIHVzZSB3aXRoaW4gVmVuZG9yIEdhbW1hIFByZHVjdA==:i/OYk3IhtPc23zMrBU/J793bfmc9bhEXwHRwq7uV9Ec3EO0fAIPtwlCa0ovn7rx1O1hKo941hkY4CiJCIMEzPhbGYXszdUXrOScpxXZjs22iFLt2pL8I8YriZrveAqlwTa+Q/dU+hOyNEPyI0fTtO+Bw2vctyzS/HlprsEPM/vAF9k3DZCW8HETysVmO1itrKGKBiUZsT0r4a0TFlEO6EzZcidRKWmuR1+sengAKUV30driF0D4uhhPqt+Cyc4K4rb00uVDRdfq1cVZq07pVmbtM6RntHvtOYUAM+fIQBnnaWseofNBv2SV/4O0SkwEoKGAHgET51dLaIuFT5F3Fsg==";
+        
+        /// Kind: id
+        /// Id: 1345679125
+        /// Secret: test156f35507c7eee8f2c20024cf5161db4c7e1c699a0a8734d5ff74571fdb5e6ee
+        /// Owner: Acme Corp
+        /// Issued: 2017-04-21T00:00:00+00:00
+        /// NetworkGraceMinutes: 480
+        /// IsPublic: false
+        public const string SoftRevocationImageflowPlaceholder = "License 1345679125 for Acme Corp :S2luZDogaWQKSWQ6IDEzNDU2NzkxMjUKU2VjcmV0OiB0ZXN0MTU2ZjM1NTA3YzdlZWU4ZjJjMjAwMjRjZjUxNjFkYjRjN2UxYzY5OWEwYTg3MzRkNWZmNzQ1NzFmZGI1ZTZlZQpPd25lcjogQWNtZSBDb3JwCklzc3VlZDogMjAxNy0wNC0yMVQwMDowMDowMCswMDowMApOZXR3b3JrR3JhY2VNaW51dGVzOiA0ODAKSXNQdWJsaWM6IGZhbHNl:RAHTztjjNY9+C2Rd0mi1cTN2uHKbUViOjhz/30TKz2a7BpQrPu0zQbfE7QfaWFS2BJo70leA3H6PsSA4pFMb6fn8Z+Lvha88QwUlbV6gUpYOdvlgs7eGlEnO1H1wudskwp/BM8i+i15l0S5byj+bCl+k/LNvJo3bEAnM9kUBVtNbazEfZxAlkZUX75vZ3uHgFt+5GhYn7TjmpMgSiI8I9uSV0Czlw0SbuK9s76FaatgWa8uDi5LziB7OuFG2KweNoA+NjsCgao0Ql+HnR+9Ldj+yWG/sabKWFTDTbOltUBAt2oyjBjadbCwxDpoEu2ITgycwHLycm3P0V+wqrmgJKA==";
+        
+        /// Id: 1345679125
+        /// Owner: Acme Corp
+        /// Features: Imageflow
+        /// Product: OEM redistribtuion license
+        /// Kind: oem
+        /// Issued: 2017-04-21T00:00:00+00:00
+        /// Expires: 2017-06-05T00:00:00+00:00
+        /// IsPublic: true
+        /// MustBeFetched: true
+        /// SubscriptionExpirationDate: 2017-04-21T00:00:00+00:00
+        /// Message: This license has been compromised; please contact Vendor Gamma for an updated license
+        /// Restrictions: Only for use within Vendor Gamma Prduct
+        public const string SoftRevocationImageflowRemote = "License 1345679125 for Acme Corp (OEM redistribtuion license) :SWQ6IDEzNDU2NzkxMjUKT3duZXI6IEFjbWUgQ29ycApGZWF0dXJlczogSW1hZ2VmbG93ClByb2R1Y3Q6IE9FTSByZWRpc3RyaWJ0dWlvbiBsaWNlbnNlCktpbmQ6IG9lbQpJc3N1ZWQ6IDIwMTctMDQtMjFUMDA6MDA6MDArMDA6MDAKRXhwaXJlczogMjAxNy0wNi0wNVQwMDowMDowMCswMDowMApJc1B1YmxpYzogdHJ1ZQpNdXN0QmVGZXRjaGVkOiB0cnVlClN1YnNjcmlwdGlvbkV4cGlyYXRpb25EYXRlOiAyMDE3LTA0LTIxVDAwOjAwOjAwKzAwOjAwCk1lc3NhZ2U6IFRoaXMgbGljZW5zZSBoYXMgYmVlbiBjb21wcm9taXNlZDsgcGxlYXNlIGNvbnRhY3QgVmVuZG9yIEdhbW1hIGZvciBhbiB1cGRhdGVkIGxpY2Vuc2UKUmVzdHJpY3Rpb25zOiBPbmx5IGZvciB1c2Ugd2l0aGluIFZlbmRvciBHYW1tYSBQcmR1Y3Q=:Ch9Idr+mTE1oKcyUHO15gt/Cn+3qWZqjJNLyGhvZMzBhZdJfZlIz2bWCLgMSVkkDsAzogTsiBfrKlyARazSDbwOXakeOiBhVdie57hksSGLOBRlJpJ0H4WqgA+fv3MKMV/8mewhh84c2n6234Oi0A9KXKclsl44AvDpDal60WBZ4M/1+3Evmih9+4BwihjeQ4DAOzrpye/PE83xVJr8XmkwEYiKEuRArI7ogDMyBTCtlqSwy9UVp2k27WSuVkbouP9zxmiXojYtPAmAbdhjCdT73TwwD+Sv+dJzktgNTQ68gbGt/OwiphKujaLr6oEGorrfmGcLFfrPqRHRV9Ab/xw==";
         
         /// Kind: id
         /// Id: 590782408
@@ -149,6 +202,27 @@
         public const string CancelledRemote = "License 1577338763 for Acme Corp (site-wide) :SWQ6IDE1NzczMzg3NjMKT3duZXI6IEFjbWUgQ29ycApGZWF0dXJlczogUl9FbGl0ZSBSX0NyZWF0aXZlIFJfUGVyZm9ybWFuY2UKUHJvZHVjdDogc2l0ZS13aWRlCktpbmQ6IHNpdGUtd2lkZQpJc3N1ZWQ6IDIwMTctMDQtMjFUMDA6MDA6MDArMDA6MDAKSXNQdWJsaWM6IHRydWUKTXVzdEJlRmV0Y2hlZDogdHJ1ZQpWYWxpZDogZmFsc2UKTWVzc2FnZTogWW91ciBzdWJzY3JpcHRpb24gaGFzIGxhcHNlZDsgcGxlYXNlIHJlbmV3IHRvIGNvbnRpbnVlIHVzaW5nIHByb2R1Y3Qu:eRwku3vZCLCe2YtOtmS/hHgW8UnUvRPD7VAwJfqvG5gDxZ49RD/hLbpKiKDI9Dw/L5qEaUSqkpHdMrLsXr6MdYmg6uiKX1c+zq6ywaUotkQibgyMKBZgHfqkn6zjB/62tRWjHkqQVl+E2fhQFgDVjp6Yep94RV7h8G7QOg/WRjKFcR9dSeLRbz4EpJJ1uWWrKZEU93161u+GqLpgd85e/rHEbTTpvUXpRKRzaDMuQ6DWqlZmwsWpkOpf10Kn+cVyBNg8uYAU7W5zIKNLioGo4E15daVXb48zhX5UYNQByjqe81Lu73p9ggOoZJwRuSbzQb9daarMAClJldBGlTHtcg==";
         
         /// Kind: id
+        /// Id: 3546789197
+        /// Secret: test4db567d31f7b54612b66f8572ac9d24ead869b3dd8b555d4e506d27c498c510c
+        /// Owner: Acme Corp
+        /// Issued: 2017-04-21T00:00:00+00:00
+        /// NetworkGraceMinutes: 480
+        /// IsPublic: false
+        public const string CancelledImageflowPlaceholder = "License 3546789197 for Acme Corp :S2luZDogaWQKSWQ6IDM1NDY3ODkxOTcKU2VjcmV0OiB0ZXN0NGRiNTY3ZDMxZjdiNTQ2MTJiNjZmODU3MmFjOWQyNGVhZDg2OWIzZGQ4YjU1NWQ0ZTUwNmQyN2M0OThjNTEwYwpPd25lcjogQWNtZSBDb3JwCklzc3VlZDogMjAxNy0wNC0yMVQwMDowMDowMCswMDowMApOZXR3b3JrR3JhY2VNaW51dGVzOiA0ODAKSXNQdWJsaWM6IGZhbHNl:H9Hmlw62Hwu+QLFAuPAkqPvTKkpdVDbshLG3XH5jDzSVisz8XHKok+MGWUtgKCNKvGyE1CKy7y4nV+eO7vKx9Gts9KYln+WQLosrcNXwOMPrPP/rRbb4ySR2e0srfQuVL4WWUXPDIzIrIzOJGvalTx+xqyjaTxVE6rMZwaDdnOWYYVjzupqD6+I+pNs6rCiZzbejqpzAB0vL+7hLVL9gGUSanJWcAKu/3KSuhiE2Z6xuPmVZ0AxWQ7EK/80qdTPh+k8A8eGYAA1DkU8+ydt8ZgofSC6PLPaI7ZCo3o96Zyyxx4KVHYJ5at3KhStsAg8mrNVqj+cnzwfdCgZS+FnLnQ==";
+        
+        /// Id: 3546789197
+        /// Owner: Acme Corp
+        /// Features: Imageflow
+        /// Product: site-wide
+        /// Kind: site-wide
+        /// Issued: 2017-04-21T00:00:00+00:00
+        /// IsPublic: true
+        /// MustBeFetched: true
+        /// Valid: false
+        /// Message: Your subscription has lapsed; please renew to continue using product.
+        public const string CancelledImageflowRemote = "License 3546789197 for Acme Corp (site-wide) :SWQ6IDM1NDY3ODkxOTcKT3duZXI6IEFjbWUgQ29ycApGZWF0dXJlczogSW1hZ2VmbG93ClByb2R1Y3Q6IHNpdGUtd2lkZQpLaW5kOiBzaXRlLXdpZGUKSXNzdWVkOiAyMDE3LTA0LTIxVDAwOjAwOjAwKzAwOjAwCklzUHVibGljOiB0cnVlCk11c3RCZUZldGNoZWQ6IHRydWUKVmFsaWQ6IGZhbHNlCk1lc3NhZ2U6IFlvdXIgc3Vic2NyaXB0aW9uIGhhcyBsYXBzZWQ7IHBsZWFzZSByZW5ldyB0byBjb250aW51ZSB1c2luZyBwcm9kdWN0Lg==:Tp09+TwVkFUH9anAlDi9v14vGLXN622OseCQiVtUsCbwt9Yfka0PBUgxNoRU4GZ2j79zfmHWkAdQxZ+VPZCHtnF5aDLUs7Y6ID4Wab4jZMTBxOChWgJbi+Uu2ACODBsLMljcBTWm2IYWktnI178VZO9KwffXgAAADchC5/OUZkR8Zof85VtcMuocIto5ryCyWZrW2aHtr0SGgPaytQMK2gZp6HUwhQLm90+1G4hx6PamUJbCCgQWZ34M9rHNBczkUoevpUNVthGtqS23W8nxG24+Rb8ZOzwWo0xyWJ+8SfPHqLCJGceR8HODldKUopBtfZOwNXvri7YfxEOabQqPZA==";
+        
+        /// Kind: id
         /// Id: 2766684890
         /// Secret: testda42e8a40db14c091dea84efd572933fdfe31ba9620e5fee79edb823a448b6e8
         /// Owner: Acme Corp
@@ -169,6 +243,29 @@
         /// ManageYourSubscription: https://account.imazen.io
         /// Restrictions: No resale of usage. Only for organizations with less than 500 employees.
         public const string SiteWideRemote = "License 2766684890 for Acme Corp (Enterprise-wide license) :SWQ6IDI3NjY2ODQ4OTAKT3duZXI6IEFjbWUgQ29ycApGZWF0dXJlczogUl9FbGl0ZSBSX0NyZWF0aXZlIFJfUGVyZm9ybWFuY2UKUHJvZHVjdDogRW50ZXJwcmlzZS13aWRlIGxpY2Vuc2UKS2luZDogc2l0ZS13aWRlCklzc3VlZDogMjAxNy0wNC0yMVQwMDowMDowMCswMDowMApFeHBpcmVzOiAyMDE3LTA2LTA1VDAwOjAwOjAwKzAwOjAwCklzUHVibGljOiB0cnVlCk11c3RCZUZldGNoZWQ6IHRydWUKTWFuYWdlWW91clN1YnNjcmlwdGlvbjogaHR0cHM6Ly9hY2NvdW50LmltYXplbi5pbwpSZXN0cmljdGlvbnM6IE5vIHJlc2FsZSBvZiB1c2FnZS4gT25seSBmb3Igb3JnYW5pemF0aW9ucyB3aXRoIGxlc3MgdGhhbiA1MDAgZW1wbG95ZWVzLg==:nXfjvTFO6JOAxbdSa5/BWYzD0fRcezVURSqaCdX+EMe5Lc+KAgicmt8shwYX2r/DTZkhkiQJ+yqNMs3+OYvOmMpK5qCwlLcPq9zykLbxL4SIth7C6UPx8HAs0TbpWnInz6N/n4xCh75Cw+n80bhqG/4p55xy1ltXVeLJFngS7xS4p7rplGlwuD4Jmh+KzOzrqvhxBmXI9ecPGtG080x3tMMiCkSjm6LQM9GWcEwgxEsFd02MCNHZcERoJ024tzgSndTBnPjxSTLBq5FWKo1mHIqOnvvc+Pbe6Z1EeOkW6MxFRK4myFl7ZwusRvHj0RN8UgPDCwHAy2VJ0SwD/PKiKg==";
+        
+        /// Kind: id
+        /// Id: 980532268
+        /// Secret: test2cbc713a6d9853002503d33a67324dcf49bde227d711967ec6314eb12543c6bd
+        /// Owner: Acme Corp
+        /// Issued: 2017-04-21T00:00:00+00:00
+        /// NetworkGraceMinutes: 480
+        /// IsPublic: false
+        public const string SiteWideImageflowPlaceholder = "License 980532268 for Acme Corp :S2luZDogaWQKSWQ6IDk4MDUzMjI2OApTZWNyZXQ6IHRlc3QyY2JjNzEzYTZkOTg1MzAwMjUwM2QzM2E2NzMyNGRjZjQ5YmRlMjI3ZDcxMTk2N2VjNjMxNGViMTI1NDNjNmJkCk93bmVyOiBBY21lIENvcnAKSXNzdWVkOiAyMDE3LTA0LTIxVDAwOjAwOjAwKzAwOjAwCk5ldHdvcmtHcmFjZU1pbnV0ZXM6IDQ4MApJc1B1YmxpYzogZmFsc2U=:jzOv3T77/rNUHOZJw+dUHfoy4Y43pSWbwUj2J35CrADKalqpJ8yJ/G3cMaVRrAYA93czbrfxh7lK0ZnBel+kvtiSub9LKtXewsDCElKXuVuX5tHI3M8IJAINwFVzVKK2KHHT31yd8G/r8a1ksR+nMJomFwplatbigB99diIYuyJXh4X+Ksmb6EqyHXW5c0uNqF9Byd4ecTRc3HRNhttZHQoeG20iTFhh99GHbTGleafLJmRnULRc3y2d4GID6iA8QJg5cZ4uhJa0zjnHyz49ofz7OugAfoRjtCRdUjuuIATkm2ct6D3ouKgdvKoT5xsgL/5WHlXgJSRJ/Kgc6UuaXQ==";
+        
+        /// Id: 980532268
+        /// Owner: Acme Corp
+        /// Features: Imageflow
+        /// Product: Enterprise-wide Imageflow license
+        /// Kind: site-wide
+        /// Issued: 2017-04-21T00:00:00+00:00
+        /// Expires: 2017-06-05T00:00:00+00:00
+        /// ImageflowExpires: 2017-06-05T00:00:00+00:00
+        /// IsPublic: true
+        /// MustBeFetched: true
+        /// ManageYourSubscription: https://account.imazen.io
+        /// Restrictions: No resale of usage. Only for organizations with less than 500 employees.
+        public const string SiteWideImageflowRemote = "License 980532268 for Acme Corp (Enterprise-wide Imageflow license) :SWQ6IDk4MDUzMjI2OApPd25lcjogQWNtZSBDb3JwCkZlYXR1cmVzOiBJbWFnZWZsb3cKUHJvZHVjdDogRW50ZXJwcmlzZS13aWRlIEltYWdlZmxvdyBsaWNlbnNlCktpbmQ6IHNpdGUtd2lkZQpJc3N1ZWQ6IDIwMTctMDQtMjFUMDA6MDA6MDArMDA6MDAKRXhwaXJlczogMjAxNy0wNi0wNVQwMDowMDowMCswMDowMApJbWFnZWZsb3dFeHBpcmVzOiAyMDE3LTA2LTA1VDAwOjAwOjAwKzAwOjAwCklzUHVibGljOiB0cnVlCk11c3RCZUZldGNoZWQ6IHRydWUKTWFuYWdlWW91clN1YnNjcmlwdGlvbjogaHR0cHM6Ly9hY2NvdW50LmltYXplbi5pbwpSZXN0cmljdGlvbnM6IE5vIHJlc2FsZSBvZiB1c2FnZS4gT25seSBmb3Igb3JnYW5pemF0aW9ucyB3aXRoIGxlc3MgdGhhbiA1MDAgZW1wbG95ZWVzLg==:gcKm1d3UpN26cU0ufQplQMA0t38g/IdtDDApibS/lFO/QkGx35vp66eB1BDQOL2gq9ybDKkF+u1lmrSw8lkWKbgdn7G4UbDx74Naaei0391bPCb0T+czqSsl+OaKnYbPUckoGv4tbogR3DcMvF/MIWST4R6INoVOeWeXEVOYdu/tEbVMqB4nock30tG6CmqC276bOvF6WQyQros4ZKw7cElHCOeIiG+gbWfC/AUAOk3IFCe7acE1xdRqdyrE0zLq7SBrAxzhyLdJQJYqbUHWjoQmQBhXvtIkGS1+K8gc7fT0x2Wt/VVxDtCzUN9QDnylo3LhqJeOPFWUf4cZBL3uTQ==";
         
         /// Kind: id
         /// Id: 2613256515
@@ -238,6 +335,31 @@
         /// TotalCores: 16
         /// ManageYourSubscription: https://account.imazen.io
         public const string PerCore2DomainsRemote = "License 3140539178 for Acme Corp (Per Server | 2 Domains | Performance) :SWQ6IDMxNDA1MzkxNzgKT3duZXI6IEFjbWUgQ29ycApEb21haW5zOiBhY21lLmNvbSBhY21lc3RhZ2luZy5jb20KRmVhdHVyZXM6IFJfUGVyZm9ybWFuY2UKUHJvZHVjdDogUGVyIFNlcnZlciB8IDIgRG9tYWlucyB8IFBlcmZvcm1hbmNlCktpbmQ6IHBlci1jb3JlLWRvbWFpbgpJc3N1ZWQ6IDIwMTctMDQtMjFUMDA6MDA6MDArMDA6MDAKRXhwaXJlczogMjAxNy0wNi0xMFQwMDowMDowMCswMDowMApJc1B1YmxpYzogdHJ1ZQpNdXN0QmVGZXRjaGVkOiB0cnVlCk1heFNlcnZlcnM6IDQKVG90YWxDb3JlczogMTYKTWFuYWdlWW91clN1YnNjcmlwdGlvbjogaHR0cHM6Ly9hY2NvdW50LmltYXplbi5pbw==:bkPk/CKi++X1Nq8+px7wRpIdPkuUVe0s6o3sLoAtclcBmSt4loCpEku/6zix+EqAtlY98bD+WHWzD3rxTP5kPjtWURnte0aSoYzPuD6gf2aOJdWMgxPy3xLlWyQr+dVT7Ip85PdxBYCDIV7hfjXAeAH+cniNK8PFVYhukapl8prEuuAXnQJhYjU38zKDgwUfrWkwkkUPHbpFgsdqs0vyhV+YUpPSUObL7NdGky9RZABmVfVQhacPkh3nOkm3p5m1b29ehgyr8rIR2JvOBC9DLtzRTgzXb7bXq0msLzrLvZuH7DsZ1oziz9of7p+c9msji19PcOZqUbVhujbvyt36vQ==";
+        
+        /// Kind: id
+        /// Id: 2974946287
+        /// Secret: testef1352b184d3fe7db4ceec458d70aaa48be97fdcb625848f6338e5594cc9bd35
+        /// Owner: Acme Corp
+        /// Issued: 2017-04-21T00:00:00+00:00
+        /// NetworkGraceMinutes: 480
+        /// IsPublic: false
+        public const string PerCore2DomainsImageflowPlaceholder = "License 2974946287 for Acme Corp :S2luZDogaWQKSWQ6IDI5NzQ5NDYyODcKU2VjcmV0OiB0ZXN0ZWYxMzUyYjE4NGQzZmU3ZGI0Y2VlYzQ1OGQ3MGFhYTQ4YmU5N2ZkY2I2MjU4NDhmNjMzOGU1NTk0Y2M5YmQzNQpPd25lcjogQWNtZSBDb3JwCklzc3VlZDogMjAxNy0wNC0yMVQwMDowMDowMCswMDowMApOZXR3b3JrR3JhY2VNaW51dGVzOiA0ODAKSXNQdWJsaWM6IGZhbHNl:T0wCHKePh86jLYz512+qHk+CG41ogh3OoNrAb7TDBALqFXsmka7UVpV1p97H3MaTYtZdxCcUia+InJDrdTXz6EVoi5J8/65bcMXzeuUz9rXEjboX71Um3HlqWpK5//WKoh8iQ/dNLZ73ABDeX4HEhO33I/Qf5v9lpSFow9ct3F4tUa7V/Ybu6oR9pem8XiLQyYB9+b2OhSirklor65PBPXQyAekq/ZHdZvQC4bSJ3zgonX14+bhP3HSKvCCvTDT9by5aqJBrEBtO4OGF8HwEK3d3lycAaIU+GFzIhNrZx34gg+C7osWLdVv+/3y5bfgwUZdeXDsZXIbJysiDgbNuOA==";
+        
+        /// Id: 2974946287
+        /// Owner: Acme Corp
+        /// Domains: acme.com acmestaging.com
+        /// Features: Imageflow
+        /// Product: Per Server | 2 Domains | Performance
+        /// Kind: per-core-domain
+        /// Issued: 2017-04-21T00:00:00+00:00
+        /// Expires: 2017-06-10T00:00:00+00:00
+        /// ImageflowExpires: 2017-06-10T00:00:00+00:00
+        /// IsPublic: true
+        /// MustBeFetched: true
+        /// MaxServers: 4
+        /// TotalCores: 16
+        /// ManageYourSubscription: https://account.imazen.io
+        public const string PerCore2DomainsImageflowRemote = "License 2974946287 for Acme Corp (Per Server | 2 Domains | Performance) :SWQ6IDI5NzQ5NDYyODcKT3duZXI6IEFjbWUgQ29ycApEb21haW5zOiBhY21lLmNvbSBhY21lc3RhZ2luZy5jb20KRmVhdHVyZXM6IEltYWdlZmxvdwpQcm9kdWN0OiBQZXIgU2VydmVyIHwgMiBEb21haW5zIHwgUGVyZm9ybWFuY2UKS2luZDogcGVyLWNvcmUtZG9tYWluCklzc3VlZDogMjAxNy0wNC0yMVQwMDowMDowMCswMDowMApFeHBpcmVzOiAyMDE3LTA2LTEwVDAwOjAwOjAwKzAwOjAwCkltYWdlZmxvd0V4cGlyZXM6IDIwMTctMDYtMTBUMDA6MDA6MDArMDA6MDAKSXNQdWJsaWM6IHRydWUKTXVzdEJlRmV0Y2hlZDogdHJ1ZQpNYXhTZXJ2ZXJzOiA0ClRvdGFsQ29yZXM6IDE2Ck1hbmFnZVlvdXJTdWJzY3JpcHRpb246IGh0dHBzOi8vYWNjb3VudC5pbWF6ZW4uaW8=:g7QYgivoigL3gFRnmTGMDPg3jw5373nPhAwUsrx9H7dEL5jeZTWxgLuB34cCJf6+sbRv76GesOb/0IKR2r9M1hCGunhXMngSBs1yA2SUGQObORxFClnA31MR3yCDnenX72hKq0dQYUSF/GqlfjmfGer9fXRsYcaxPNDmnNBWpmpf4Mi8d44mADATCpAA0+VWNDER6fR8YHx0uOYPXt9xDbdoLiwlQr+BodhtFgb1qOJBkU2/2lbJ/QVDSKuOQpktFNpQUOMrADhPh9LaiTAOzVE+AL8AGyaSc+TPVRhzXXoQU0SgbZu+kWjfp7JbKQhzECGBhzjYB3GOvwTzMr5EOg==";
         
         /// Kind: id
         /// Id: 1319146175

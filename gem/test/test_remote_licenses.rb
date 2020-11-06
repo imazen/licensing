@@ -52,6 +52,17 @@ module ImazenLicensing
         valid: false,
         message: 'Please contact support; the license was shared with an unauthorized party and has been revoked.'
       },
+      hard_revocation_imageflow: {
+          id: nil,
+          owner: 'Acme Corp',
+          features: ['Imageflow'],
+          product: "Enterprise-wide license",
+          kind: 'site-wide',
+          issued: issued,
+          is_public: true,
+          valid: false,
+          message: 'Please contact support; the license was shared with an unauthorized party and has been revoked.'
+      },
       soft_revocation: {
         id: nil,
         owner: 'Acme Corp',
@@ -65,7 +76,21 @@ module ImazenLicensing
         subscription_expiration_date: issued,
         message: 'This license has been compromised; please contact Vendor Gamma for an updated license',
         restrictions: "Only for use within Vendor Gamma Prduct"
-      }, 
+      },
+      soft_revocation_imageflow: {
+          id: nil,
+          owner: 'Acme Corp',
+          features: ['Imageflow'],
+          product: "OEM redistribtuion license",
+          kind: 'oem',
+          issued: issued,
+          expires: issued +  45, # add 45 days
+          is_public: true,
+          must_be_fetched: true,
+          subscription_expiration_date: issued,
+          message: 'This license has been compromised; please contact Vendor Gamma for an updated license',
+          restrictions: "Only for use within Vendor Gamma Prduct"
+      },
       perpetual: {
         id: nil,
         owner: 'Acme Corp',
@@ -89,7 +114,19 @@ module ImazenLicensing
         must_be_fetched: true,
         valid: false,
         message: 'Your subscription has lapsed; please renew to continue using product.'
-      }, 
+      },
+      cancelled_imageflow: {
+          id: nil,
+          owner: 'Acme Corp',
+          features: ['Imageflow'],
+          product: "site-wide",
+          kind: 'site-wide',
+          issued: issued,
+          is_public: true,
+          must_be_fetched: true,
+          valid: false,
+          message: 'Your subscription has lapsed; please renew to continue using product.'
+      },
       site_wide: {
         id: nil,
         owner: 'Acme Corp',
@@ -102,7 +139,21 @@ module ImazenLicensing
         must_be_fetched: true,
         manage_your_subscription: 'https://account.imazen.io',
         restrictions: "No resale of usage. Only for organizations with less than 500 employees."
-      }, 
+      },
+      site_wide_imageflow: {
+          id: nil,
+          owner: 'Acme Corp',
+          features: ['Imageflow'],
+          product: "Enterprise-wide Imageflow license",
+          kind: 'site-wide',
+          issued: issued,
+          expires: issued +  45, # add 45 days
+          imageflow_expires: issued + 45,
+          is_public: true,
+          must_be_fetched: true,
+          manage_your_subscription: 'https://account.imazen.io',
+          restrictions: "No resale of usage. Only for organizations with less than 500 employees."
+      },
       oem: {
         id: nil,
         owner: 'Acme Corp',
@@ -144,6 +195,22 @@ module ImazenLicensing
         max_servers: 4,
         total_cores: 16,
         manage_your_subscription: 'https://account.imazen.io',
+      },
+      per_core_2_domains_imageflow: {
+          id: nil,
+          owner: 'Acme Corp',
+          domains: ['acme.com', 'acmestaging.com'],
+          features: ['Imageflow'],
+          product: "Per Server | 2 Domains | Performance",
+          kind: 'per-core-domain',
+          issued: issued,
+          expires: issued +  50, # add 50 days
+          imageflow_expires: issued +  50, # add 50 days
+          is_public: true,
+          must_be_fetched: true,
+          max_servers: 4,
+          total_cores: 16,
+          manage_your_subscription: 'https://account.imazen.io',
       },
       xml: {
         id: nil,

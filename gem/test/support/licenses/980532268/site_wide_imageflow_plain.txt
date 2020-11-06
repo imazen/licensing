@@ -1,0 +1,12 @@
+Id: 980532268
+Owner: Acme Corp
+Features: Imageflow
+Product: Enterprise-wide Imageflow license
+Kind: site-wide
+Issued: 2017-04-21T00:00:00+00:00
+Expires: 2017-06-05T00:00:00+00:00
+ImageflowExpires: 2017-06-05T00:00:00+00:00
+IsPublic: true
+MustBeFetched: true
+ManageYourSubscription: https://account.imazen.io
+Restrictions: No resale of usage. Only for organizations with less than 500 employees.

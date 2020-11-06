@@ -1,0 +1,9 @@
+Id: 521983367
+Owner: Acme Corp
+Features: Imageflow
+Product: Enterprise-wide license
+Kind: site-wide
+Issued: 2017-04-21T00:00:00+00:00
+IsPublic: true
+Valid: false
+Message: Please contact support; the license was shared with an unauthorized party and has been revoked.
