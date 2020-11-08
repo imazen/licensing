@@ -4,7 +4,7 @@ Ignore this e-mail if you have already installed your key; you do not need to up
 
 For Imageflow.NET Server:
 
-Please install this license into your Startup.cs file, then visit /imageflow.license (public) or /imageflow.debug (localhost-only) in your application to confirm license status. If your license is invalid, you may see red dots appear in the corner of processed images.
+Please install this license into your Startup.cs file, then visit /imageflow.license in your application to confirm license status. If your license is invalid, you may see red dots appear in the corner of processed images.
 You can alternately use EnforceLicenseWith.Http422Error to have image requests fail instead of watermarking them.
 ====================================
 app.UseImageflow(new ImageflowMiddlewareOptions()
@@ -13,7 +13,7 @@ app.UseImageflow(new ImageflowMiddlewareOptions()
     );
 ====================================
 
-For ImagerResizer:
+For ImageResizer:
 
 You will need ImageResizer v4.1.9 or later to use this license key, otherwise the license will be listed as invalid.
 
