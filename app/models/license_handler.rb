@@ -115,7 +115,7 @@ class LicenseHandler
 
 
   def license_hash
-    @license_hash ||= Digest::SHA256.hexdigest(license_summary[:id_license][:encoded] + EMAIL_VERSION)
+    @license_hash ||= Digest::SHA256.hexdigest(license_summary[:id_license][:encoded] + "|" +  EMAIL_VERSION + "|" + cb.customer_email.to_s)
   end
 
   def license_restrictions

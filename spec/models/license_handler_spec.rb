@@ -32,7 +32,7 @@ RSpec.describe LicenseHandler do
     end
 
     context 'subscription cf_license_hash matches encoded license' do
-      let(:cf_license_hash) { Digest::SHA256.hexdigest(license[:encoded] + LicenseHandler::EMAIL_VERSION) }
+      let(:cf_license_hash) { Digest::SHA256.hexdigest(license[:encoded] + "|" + LicenseHandler::EMAIL_VERSION + "|" + nil.to_s) }
 
       it 'does not send new license email' do
         expect(LicenseMailer).to_not have_received(:id_license_email)
@@ -86,7 +86,7 @@ RSpec.describe LicenseHandler do
       context 'generated license matches the fetched subscription' do
         let(:subscription)  {
           { 'cf_license_id' => '18652613',
-            'cf_license_hash' => Digest::SHA256.hexdigest(license[:encoded] + LicenseHandler::EMAIL_VERSION) }
+            'cf_license_hash' => Digest::SHA256.hexdigest(license[:encoded] + "|" + LicenseHandler::EMAIL_VERSION + "|" + nil.to_s) }
         }
 
         it 'does not post to the api' do
