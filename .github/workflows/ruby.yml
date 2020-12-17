@@ -15,8 +15,17 @@ on:
 
 jobs:
   test:
-    environment:
-      name: imazen-licensing
+    environment: imazen-licensing
+    env: # Or as an environment variable
+      TEST_LICENSE_SIGNING_KEY_PASSPHRASE: ${{ secrets.TEST_LICENSE_SIGNING_KEY_PASSPHRASE }}
+      TEST_LICENSE_SIGNING_KEY_BLOB: ${{ secrets.TEST_LICENSE_SIGNING_KEY_BLOB }}
+      LICENSE_S3_ID: ${{ secrets.LICENSE_S3_ID }}
+      LICENSE_S3_SECRET: ${{ secrets.LICENSE_S3_SECRET }}
+      CHARGEBEE_SITE: ${{ secrets.CHARGEBEE_SITE }}
+      CHARGEBEE_API_KEY: ${{ secrets.CHARGEBEE_API_KEY }}
+      CHARGEBEE_WEBHOOK_TOKEN: ${{ secrets.CHARGEBEE_WEBHOOK_TOKEN }}
+      LICENSE_SECRET_SEED: ${{ secrets.LICENSE_SECRET_SEED }}
+    
     
     runs-on: ubuntu-latest
 
