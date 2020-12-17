@@ -20,6 +20,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Check for CHARGEBEE_SITE
+      run: if [[ -z "${CHARGEBEE_SITE}" ]]; then exit 1; fi
     - uses: actions/checkout@v2
     - name: Set up Ruby
     # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
