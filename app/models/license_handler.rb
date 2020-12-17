@@ -168,6 +168,12 @@ class LicenseHandler
         subscription_expiration_date: cb.subscription['cancelled_at'],
         message: 'Your subscription has lapsed; please renew to continue using product.'
       }
+    elsif cb.subscription['status'] == 'paused'
+      {
+        valid: false,
+        subscription_expiration_date: cb.subscription['pause_date'],
+        message: 'Your subscription has been paused due to non-payment; please pay at https://account.imazen.io then contact support@imazen.io to resolve the issue.'
+      }
     else
       {}
     end.merge(license_type_params)

@@ -2,7 +2,7 @@ class ChargebeeParse
   TIMESTAMP_FIELDS = [
     'started_at', 'activated_at', 'next_billing_at',
     'created_at', 'updated_at', 'current_term_start',
-    'current_term_end', 'cancelled_at', 'trial_start', 'trial_end'
+    'current_term_end', 'cancelled_at', 'trial_start', 'trial_end', 'pause_date'
   ]
   attr_accessor :subscription, :customer, :plan, :event_type, :message
 
