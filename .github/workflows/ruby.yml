@@ -15,7 +15,8 @@ on:
 
 jobs:
   test:
-    environment: imazen-licensing
+    environment:
+      name: imazen-licensing
     
     runs-on: ubuntu-latest
 
