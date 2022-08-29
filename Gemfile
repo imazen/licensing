@@ -13,6 +13,7 @@ gem 'chargebee', '2.8.5'
 gem 'imazen_licensing', path: './gem'
 gem 'httparty'
 gem 'rest-client','= 2.0.2'
+gem 'net-smtp'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
