@@ -20,4 +20,5 @@ module Digest
       self.calculate(input, length).to_s(16)
     end
   end
+  Fnv = FNV
 end
