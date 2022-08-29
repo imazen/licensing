@@ -23,9 +23,9 @@ module ImazenLicensing
 
 
       return "(#{domain}) is not a valid domain (per publicsuffix.org)"  unless PublicSuffix.valid?(domain, ignore_private: false)
-      rescue PublicSuffix::DomainInvalid
+    rescue PublicSuffix::DomainInvalid
         return "(#{domain}) is an invalid domain"
-      rescue PublicSuffix::DomainNotAllowed
+     rescue PublicSuffix::DomainNotAllowed
         return "(#{domain}) is a top-level domain. You may only register licenses for domains you control."
     end
   end
