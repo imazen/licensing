@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "fog-aws", "~> 1.3"
   spec.add_dependency "mime-types", "~> 3.1"
-  spec.add_dependency "public_suffix", "~> 2"
+  spec.add_dependency "public_suffix", "~> 5"
   spec.add_dependency "chargebee", "~> 2"
 
   spec.add_development_dependency "bundler", "~> 2"
