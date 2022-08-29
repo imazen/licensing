@@ -44,7 +44,6 @@ http_interactions:
       encoding: ASCII-8BIT
       string: !binary |-
         H4sIAAAAAAAAAKVXTXPbNhC951d4eOw0HpKiSLGnTp20TtwmtRs3aS4YCFhKcEiQBkBbjMf/vQuQlkiK8kfLg0bUPiwWu/veQnevjvDxdL3UTInKiFJ6Px3duV+dRXB8907N17e3Z/+cn6zOvl7ri+DE+3EHYbU2ZQGKPANb5VR2OFHQFWR5eftaCwOvc8FAatgDX9dUGmEaXBKMbbUUhlQKV6I1jFLfHyNoUdbSTFiXIs+FXJEKlCj5yPnQ6LaxERelNOu9ADMF0I+yv4s21NTarqXMiJvB6YwSNCeIUNZ5EC0WUTgP03QPApK3gDSe4Uc6SL1SIA0xoIqdq3k8C6MkPozsPM7jeRrG/gAnYWPIw/mpOQRjCqgB3iGmYnfRPIpwKRl42T8gzTKRCwQRU34D25vebNH8LTfn4Vl6ebL5/MeF36is+sj4+nT95TJ5n8y8iTgzVRZEVHZ9EhyHweI4To6DyO9j64r3osEkpkESpP1yrqkmmq2B1zni2JrKFdjqZjTX0MMp0GWtGJAbULql1M5fmvRbjUMOuOmEk3J5Bcz13YCdezVlDWEltwzwLv9607fzGoiQNyXyQyOmJUL/PIVSE9SATXsyojAdNvTjAXGoBvLUziwjHZ87sge+n4RRlAbxARimdm2BcZpFPIJgEbEsyChbZD4kS3+G7TNLWZb6M2yjOI2oH/tLWESLiFIGwTxLEhayYFDQAgwlWFM6kDRn6qKaB2EYBlEQRvazt9aBDGiXf7pk3Nua7t23+xa7Fb8Xq2YmlDZE0sLl7wM1mHMKeR+S0x7ifSmx1/plKqjIrUX+LPlVcszKom+mtSmxPHmOTdS2oDfsHgmdGnDa6FFj0Bx1mXChcDHhsHT6N27QpzXgJewzdENRd1oNbd9yeISeEYpcEkf97SohCMuBKsenCcmd5OWDozBIXsjLbe0nRgflHHfT+533dN2frn2LEBICJ4hz/+hXPFchcjg6obIp5dEbNYazLrO/lHXOYc9sJxVs6XzycdLuTGVeKsrLPf9WX1TTisHY+L0t/sKf+eHYdkNzgZXFcpDduJSlIZ0BizBasavAONs7kva7kCrecw2bSqiBUw+vEAVVDaloU9gh2XVJy+KqIKFe/366/PLn+btPsb72N5+uB6u7VSg3a3eVuDsU7gg5lpumchm28Y5tCjKwivsQFE5D8u63uWp0ZuVFNd8v3u710AqTd0tdSVDR1QqWAAcwhDJXwM796rbnPQz59fnnq6mOGGZ0MvsVcr+01cWbDOoBF2YsNni2WnJL9wMAHEhY3IfqjK21tF3QzmPVzuPBNdClTln71NAairnN/EDIH22bJ/L733L7/weDEE7to8A+42WRm3sjg2PIQ/vdCE0H8WBxLMe27elqNJhENjUNaa/HKKnhvq1BVbZXDT9YTIjlIe14xogZToUphKh6Ynx4/kzNhq07f3BB6k2AIVW9gupvGIysi6W7Eng/9J69rL/kf9Pzlant6Ff3/wKqtgTA2w0AAA==
-    http_version: 
   recorded_at: Wed, 24 Jul 2019 20:15:04 GMT
 - request:
     method: get
@@ -90,7 +89,6 @@ http_interactions:
       encoding: ASCII-8BIT
       string: !binary |-
         H4sIAAAAAAAAAKVWTXPTMBC991dkcmSYjO06H+XEkBZaygD9GqAXjWJtErWy5EhyErfT/44ku4nsOLSAD5mJ39Nq9d5q148HHfN0k1xpkYLsvus8ujfuLSXmf/dU356szn9djGfntwt1GY67b7eUKZVKI45TsNSvWM8xx8B8CsMe47PgoHwUUkyZRfh7Tu6GvUSkPoxzLVAiGINEU8Et0fx6BA4aaZApIrhQBg78xYyJFSJUmsWIwIRqQ5hipsAjJRKwBoKwBcN4NIqjfnR01MKYSpEimtkchmEvCke9wbAXxoGfjsZrPKGM6sLS3D8GPiHPiLddPx4cRsNB7G+XUYoSBliCkx+bgy9rISQokcsE0BKkKkXZBorCoUclwEC7OM1ji8mdUcVusPHeQ80RGOUzhAkxu6laWbzS95e9LxmUQ2jRw37Q+WjOlVIGnTHmheCdY9mkJ5WyH0TOCOzAShtxTb0Qt+H4WyvuIMGExETsxBc519JtcXPVBB9K80fBYRA1sSVm1Dhr7EB2k1y5mhYaVYAxobFi60BT7Q3vya9CLIkXGtYZlbWg3UzSFMsCZbhIgWtUVUl5i7MURWr+5XTy8/vF2fVALYL19aK2ulqVgp4Lsuv4Nt0Gs3EsXWROYZtvE5MwBQl8k5QW9+jsU18WamrbiyweLk92amhmxFthZ0kyx3IGE4A9HIQTZ2AVfrbyokcRWVz8uGuriLqirepn5u4L6y5myPQDQnWz2Ziz5ZzY676HAOvEmPvsThPNua0C0xjKMzbhzEknLZ5LK2GxqfKbq+My5yrfUvlaI/9j2byg779p+/+DgVLX7ePQPs1lsYWagLshz+W3pArX8jHm2Du2KU/nUW0SWWkKlAqu57alRrtYYbqygaIgHLU0y3294xUjpj4V2hg085rx/vnTNhs24YLALylvAtSvajfF6t4kw/N04j4Jum+8Z0f1anygV3wt/EVnKiv64Ok3+qDH1qEIAAA=
-    http_version: 
   recorded_at: Wed, 24 Jul 2019 20:15:04 GMT
 - request:
     method: get
@@ -168,7 +166,6 @@ http_interactions:
                 "subscription_grace_minutes": 28800
             }
         }}
-    http_version: 
   recorded_at: Wed, 24 Jul 2019 20:15:04 GMT
 - request:
     method: get
@@ -317,7 +314,6 @@ http_interactions:
                 "payment_source_id": "pm_2shLHbXPQIT6sq0xTq"
             }
         }
-    http_version: 
   recorded_at: Wed, 24 Jul 2019 20:15:05 GMT
 - request:
     method: post
@@ -465,7 +461,6 @@ http_interactions:
             },
             "credit_notes": []
         }
-    http_version: 
   recorded_at: Wed, 24 Jul 2019 20:15:06 GMT
 - request:
     method: put
@@ -512,6 +507,51 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: ''
-    http_version: 
   recorded_at: Wed, 24 Jul 2019 20:15:06 GMT
-recorded_with: VCR 5.0.0
+- request:
+    method: put
+    uri: https://s3.us-west-2.amazonaws.com/licenses.imazen.net/v1/licenses/latest/e6e51797015f85e9b99fabaf5a00536f00e21ed31629551732d3f2108d55b0cd.txt
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - fog-core/2.3.0
+      Content-Type:
+      - text/plain; charset=utf-8
+      X-Amz-Acl:
+      - public-read
+      X-Amz-Date:
+      - 20220829T232738Z
+      X-Amz-Content-Sha256:
+      - STREAMING-AWS4-HMAC-SHA256-PAYLOAD
+      X-Amz-Decoded-Content-Length:
+      - '910'
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=AKIAICS7RGGEDL62367A/20220829/us-west-2/s3/aws4_request,
+        SignedHeaders=content-type;host;x-amz-acl;x-amz-content-sha256;x-amz-date;x-amz-decoded-content-length,
+        Signature=c2b5cb8b6499cc3011f611dd1553b61cf12ae96d9db9840c324faec097c05fb5
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amz-Id-2:
+      - SkjaT5QwlHbPEgRuVZ0pBm6Nxn3eZVUy/poz19UUv8ZLiJMHm22OlH5f3CaQXVwI8HVJCe8y9KQ=
+      X-Amz-Request-Id:
+      - GVY6FV1XVB8TQYAK
+      Date:
+      - Mon, 29 Aug 2022 23:27:40 GMT
+      X-Amz-Version-Id:
+      - iXFDRUHRJLaSzabV9eM6306svgzEnl9e
+      Etag:
+      - '"7757a515e4d3bcc4c27313bca826d64c"'
+      Server:
+      - AmazonS3
+      Content-Length:
+      - '0'
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+  recorded_at: Mon, 29 Aug 2022 23:27:39 GMT
+recorded_with: VCR 6.1.0

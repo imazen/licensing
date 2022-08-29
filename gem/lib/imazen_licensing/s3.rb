@@ -7,7 +7,8 @@ module ImazenLicensing
       attr_accessor :connection
 
       def initialize(aws_id: nil, aws_secret: nil)
-        @connection = Fog::Storage::AWS.new({
+        @connection = Fog::Storage.new({
+          provider: 'AWS',
           aws_access_key_id: aws_id,
           region: 'us-west-2',
           aws_secret_access_key: aws_secret}.select{|k,v| v})

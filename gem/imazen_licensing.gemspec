@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "fog-aws", "~> 1.3"
+  spec.add_dependency "fog-aws", "~> 3"
   spec.add_dependency "mime-types", "~> 3.1"
   spec.add_dependency "public_suffix", "~> 5"
   spec.add_dependency "chargebee", "~> 2"
@@ -26,5 +26,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 2"
   spec.add_development_dependency "rake", "> 10.4.0"
   spec.add_development_dependency "minitest", "~> 5.8.4"
-  spec.add_development_dependency "dotenv", "~> 2.7.4"
+  spec.add_development_dependency "dotenv", "~> 2"
 end
