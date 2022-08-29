@@ -254,7 +254,7 @@ DEPENDENCIES
   pry-rails
   puma (~> 5)
   rails (~> 7)
-  rest-client (= 2.0.2)
+  rest-client (>= 2.0.2)
   rspec-rails
   vcr
   webmock

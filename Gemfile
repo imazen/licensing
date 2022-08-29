@@ -12,7 +12,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'chargebee', '2.18.0'
 gem 'imazen_licensing', path: './gem'
 gem 'httparty'
-gem 'rest-client','= 2.0.2'
+gem 'rest-client','>= 2.0.2'
 gem 'net-smtp'
 
 group :development, :test do
