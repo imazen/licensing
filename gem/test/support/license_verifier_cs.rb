@@ -4,12 +4,14 @@ module ImazenLicensing
   class LicenseVerifierCs
     def initialize
       @path = nil
+      @dll = nil
     end 
     def ensure_compiled
       if @path.nil?
-        @path = File.expand_path(File.join(File.dirname(__FILE__),"license_verifier"))
+        @path = File.expand_path(File.join(File.dirname(__FILE__),"csharp"))
+        @dll = File.join(@path,"bin", "LicenseVerifier.dll")
 
-        output = `mcs #{@path}.cs #{@path}_interfaces.cs -g -out:#{@path}.exe  -r:System.Numerics.dll`
+        output = `dotnet build #{@path} --no-restore`
 
         abort "Failed to compile #{@path}: #{output}" unless $?.success?
       end
@@ -19,7 +21,7 @@ module ImazenLicensing
 
       ensure_compiled
 
-      cmd = "mono --debug #{@path}.exe #{modulus} #{exponent}" + (debug ? " -d" : "")
+      cmd = "dotnet #{@dll} #{modulus} #{exponent}" + (debug ? " -d" : "")
       output, ps = Open3.capture2e(cmd, :stdin_data=>data)
 
       valid = ps.success? 

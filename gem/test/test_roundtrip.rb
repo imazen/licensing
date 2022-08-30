@@ -33,9 +33,9 @@ module ImazenLicensing
       'testpass'
     end
 
-    def mono_works
+    def dotnet_works
       begin 
-        `bash -c 'command -v mono'`
+        `bash -c 'command -v dotnet'`
       rescue
       end
       $?.success?
@@ -60,8 +60,8 @@ module ImazenLicensing
     end
 
     def test_roundtrip
-      skip if ENV['TRAVIS']
-      assert mono_works
+      skip if ENV['CI']
+      assert(dotnet_works, "dotnet not installed")
       #skip("Mono not installed, skipping licenses roundtrip test") unless $?.success?
       cs = ImazenLicensing::LicenseVerifierCs.new
       10.times do

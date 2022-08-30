@@ -178,7 +178,7 @@ namespace ImageResizer.Plugins.LicenseVerifier
             return trustedKeys.Any(p =>
             {
                 var signature = b.Signature();
-                var hash = new SHA512Managed().ComputeHash(b.Data());
+                var hash = SHA512.Create().ComputeHash(b.Data());
                 var decrypted_bytes = p.DecryptPublic(signature);
                 var valid = hash.SequenceEqual(decrypted_bytes);
 
@@ -269,7 +269,7 @@ namespace ImageResizer.Plugins.LicenseVerifier
             var blob = LicenseBlob.Deserialize(license_str);
             log?.AppendLine("---------------------------------------------");
             log?.AppendLine("Parsed info: " + blob.Fields().ToString());
-            log?.AppendLine("Plaintext hash: " + BitConverter.ToString(new SHA512Managed().ComputeHash(blob.Data())).ToLower().Replace("-", ""));
+            log?.AppendLine("Plaintext hash: " + BitConverter.ToString(SHA512.Create().ComputeHash(blob.Data())).ToLower().Replace("-", ""));
             return blob.VerifySignature(new[] { new RSADecryptPublic(mod, exp) }, log);
         }
 
