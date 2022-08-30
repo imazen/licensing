@@ -17,6 +17,9 @@
 *.env
 *.env.*
 
+obj/
+bin/
+
 # Gem-specific ignore settings
 gem/Gemfile.lock
 gem/tmp/
