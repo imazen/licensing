@@ -2,9 +2,7 @@
 
 Gem and endpoint for asymmetric license key pair generation with S3 hosted license files. 
 
-
-[![Build Status](https://travis-ci.com/imazen/licensing.svg?branch=heroku)](https://travis-ci.com/github/imazen/licensing)
-
+[![Ruby](https://github.com/imazen/licensing/actions/workflows/ruby.yml/badge.svg)](https://github.com/imazen/licensing/actions/workflows/ruby.yml)
 
 ## Secrets used by rails app
 
