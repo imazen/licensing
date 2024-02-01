@@ -9,7 +9,7 @@ gem 'rails', '~> 7'
 gem 'puma', '~> 6'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
-gem 'chargebee', '2.18.0'
+gem 'chargebee', '2.35.0'
 gem 'imazen_licensing', path: './gem'
 gem 'httparty'
 gem 'rest-client','>= 2.0.2'
