@@ -160,7 +160,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2022.0105)
     mini_mime (1.1.5)
-    minitest (5.20.0)
+    minitest (5.22.0)
     msgpack (1.6.0)
     multi_json (1.15.0)
     multi_xml (0.6.0)
